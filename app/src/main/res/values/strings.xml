@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Passive Warning Alarm</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="compose_message">Compose your message</string>
+    <string name="save_message">Save</string>
+
+    <string name="title_activity_mail_sender">Mail Sender</string>
+    <!--
+    <string name="mail_settings_button">Email Settings</string>
+    -->
+    <string name="pref_mail_settings_title">Server Settings</string>
+    <string name="pref_mail_settings_summary">Email Server Settings</string>
+    <string name="pref_mail_protocol_title">Mail server protocol</string>
+    <string name="pref_mail_username_title">Username</string>
+    <string name="pref_mail_password_title">Password</string>
+    <string name="pref_mail_host_title">Mail Host</string>
+    <string name="pref_mail_port_title">Mail Port</string>
+    <string name="pref_mail_auth_title">Mail Authentication</string>
+    <string name="pref_mail_sslport_title">SSL Port</string>
+    <string name="pref_mail_fallback_title">Fallback</string>
+    <string name="pref_mail_quitwait_title">Quit/Wait</string>
+
+    <string name="pref_settings_timers">Timer Settings</string>
+    <string name="pref_notification_time_text">Enable Cancellation at</string>
+    <string name="pref_alert_time_text">Send Alert at</string>
+
+    <string name="pref_message_category_title">Message</string>
+    <string name="pref_message_title">Message</string>
+
+    <string name="contact_selected">Contact Selected</string>
+
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+    <string name="title_activity_contact_editor">ContactEditorActivity</string>
+    <string name="press_to_cancel_alarm">Press to Cancel Alarm</string>
+    <string name="big_description_text">Placeholder</string>
+    <string name="no_contact_found">No Contact</string>
+
+</resources>
