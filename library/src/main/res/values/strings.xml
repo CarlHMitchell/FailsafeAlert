@@ -27,7 +27,7 @@
 <resources>
     <string name="app_name">Contact Picker Sample</string>
     <string name="label_search">Search</string>
-    <string name="label_multiple_numbers">Multiple numbers</string>
+    <string name="label_multiple_numbers">Multiple items</string>
     <string name="search">Search</string>
     <string name="add_contact">Add Contact</string>
     <string name="no_contacts_to_display">No contacts to display!</string>

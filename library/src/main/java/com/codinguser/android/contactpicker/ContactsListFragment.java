@@ -147,6 +147,9 @@ public class ContactsListFragment extends ListFragment implements
         String phoneNumber = viewHolder.phoneNumber.getText().toString();
         String name = viewHolder.contactName.getText().toString();
 
+        // NEW
+        String emailAddress = viewHolder.emailAddress.getText().toString();
+
         if (phoneNumber.equals(getString(R.string.label_multiple_numbers))) {
             mContactsListener.onContactNameSelected(id);
         } else {
@@ -293,6 +296,8 @@ public class ContactsListFragment extends ListFragment implements
                 viewHolder.phoneLabel = convertView.findViewById(R.id.phone_label);
                 viewHolder.phoneNumber = convertView.findViewById(R.id.phone_number);
                 viewHolder.separator = convertView.findViewById(R.id.label_separator);
+                viewHolder.emailLabel = convertView.findViewById(R.id.label_email);
+                viewHolder.emailAddress = convertView.findViewById(R.id.email);
                 convertView.setTag(viewHolder);
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
@@ -385,7 +390,7 @@ public class ContactsListFragment extends ListFragment implements
                         mPhoneNumber = emailCursor.getString(emailColumnIndex);
                         int type = emailCursor.getInt(emailCursor.getColumnIndexOrThrow(Email.TYPE));
                         mPhoneLabel = emailCursor.getString(emailCursor.getColumnIndex(Email.LABEL));
-                        mPhoneLabel = Phone.getTypeLabel(getResources(), type, mPhoneLabel).toString();
+                        mPhoneLabel = Email.getTypeLabel(getResources(), type, mPhoneLabel).toString();
                         emailCursor.close();
                     }
                 }

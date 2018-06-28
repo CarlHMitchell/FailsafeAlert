@@ -56,7 +56,7 @@ public class ContactsPickerActivity extends AppCompatActivity implements OnConta
         FragmentManager fragmentManager = this.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
-        mRequestCode = getIntent().getIntExtra(ARG_PICKER_MODE, REQUEST_CONTACT_PHONE);
+        mRequestCode = getIntent().getIntExtra(ARG_PICKER_MODE, /* default value: */REQUEST_CONTACT_PHONE);
 
         PickerMode pickerMode;
         switch (mRequestCode) {
@@ -65,7 +65,11 @@ public class ContactsPickerActivity extends AppCompatActivity implements OnConta
                 break;
 
             case REQUEST_CONTACT_PHONE:
+                pickerMode = PickerMode.PHONE;
+                break;
+
             default:
+                // TODO: add user warning
                 pickerMode = PickerMode.PHONE;
                 break;
         }
