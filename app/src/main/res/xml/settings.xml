@@ -12,36 +12,49 @@
             <EditTextPreference
                 android:key="pref_mail_password"
                 android:title="@string/pref_mail_password_title" />
-            <EditTextPreference
-                android:defaultValue="smtp.gmail.com"
-                android:key="pref_mail_host"
-                android:title="@string/pref_mail_host_title" />
             <ListPreference
-                android:defaultValue="smtp"
-                android:entries="@array/pref_mail_protocol_entries"
-                android:entryValues="@array/pref_mail_protocol_values"
-                android:key="pref_mail_protocol"
-                android:title="@string/pref_mail_protocol_title" />
-            <EditTextPreference
-                android:defaultValue="465"
-                android:key="pref_mail_port"
-                android:title="@string/pref_mail_port_title" />
-            <CheckBoxPreference
-                android:defaultValue="true"
-                android:key="pref_mail_auth"
-                android:title="@string/pref_mail_auth_title" />
-            <EditTextPreference
-                android:defaultValue="465"
-                android:key="pref_mail_sslport"
-                android:title="@string/pref_mail_sslport_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="pref_mail_fallback"
-                android:title="@string/pref_mail_fallback_title" />
-            <CheckBoxPreference
-                android:defaultValue="false"
-                android:key="pref_mail_quitwait"
-                android:title="@string/pref_mail_quitwait_title" />
+                android:defaultValue="Gmail"
+                android:entries="@array/pref_mail_servers"
+                android:entryValues="@array/pref_mail_servers_values"
+                android:key="pref_mail_preset"
+                android:title="Email Server Selection" />
+            <PreferenceCategory
+                android:key="pref_email_detail_settings"
+                android:summary="@string/custom_email_server_settings_summary"
+                android:title="@string/custom_server_settings_title">
+                <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+                    <EditTextPreference
+                        android:defaultValue="smtp.gmail.com"
+                        android:key="pref_mail_host"
+                        android:title="@string/pref_mail_host_title" />
+                    <ListPreference
+                        android:defaultValue="smtp"
+                        android:entries="@array/pref_mail_protocol_entries"
+                        android:entryValues="@array/pref_mail_protocol_values"
+                        android:key="pref_mail_protocol"
+                        android:title="@string/pref_mail_protocol_title" />
+                    <EditTextPreference
+                        android:defaultValue="465"
+                        android:key="pref_mail_port"
+                        android:title="@string/pref_mail_port_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="true"
+                        android:key="pref_mail_auth"
+                        android:title="@string/pref_mail_auth_title" />
+                    <EditTextPreference
+                        android:defaultValue="465"
+                        android:key="pref_mail_sslport"
+                        android:title="@string/pref_mail_sslport_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:key="pref_mail_fallback"
+                        android:title="@string/pref_mail_fallback_title" />
+                    <CheckBoxPreference
+                        android:defaultValue="false"
+                        android:key="pref_mail_quitwait"
+                        android:title="@string/pref_mail_quitwait_title" />
+                </PreferenceScreen>
+            </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
     <EditTextPreference

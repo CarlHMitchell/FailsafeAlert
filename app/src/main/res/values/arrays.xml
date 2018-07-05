@@ -6,4 +6,26 @@
     <string-array name="pref_mail_protocol_values">
         <item>smtp</item>
     </string-array>
+    <String-array name="pref_mail_servers">
+        <item>Gmail</item>
+        <item>Yahoo</item>
+        <item>Live Mail</item>
+        <item>Verizon</item>
+        <item>AT&amp;T</item>
+        <item>Comcast</item>
+        <item>Cox</item>
+        <item>Frontier</item>
+        <item>Custom</item>
+    </String-array>
+    <String-array name="pref_mail_servers_values">
+        <item>Gmail</item>
+        <item>Yahoo</item>
+        <item>Live</item>
+        <item>Verizon</item>
+        <item>ATT</item>
+        <item>Comcast</item>
+        <item>Cox</item>
+        <item>Frontier</item>
+        <item>Custom</item>
+    </String-array>
 </resources>

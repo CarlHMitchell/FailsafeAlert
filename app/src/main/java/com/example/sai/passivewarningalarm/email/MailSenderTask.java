@@ -42,6 +42,13 @@ public class MailSenderTask extends AsyncTask {
 
     @SuppressWarnings("SameReturnValue")
     protected Object realDoInBackground(String recipient) {
+        String mailhost;
+        boolean auth;
+        String port;
+        String sslport;
+        boolean fallback;
+        boolean quitwait;
+
         try {
             Log.d("MailSenderTask", "About to instantiate Gmail.");
             try {
@@ -49,15 +56,91 @@ public class MailSenderTask extends AsyncTask {
             } catch (Exception e) {
                 Log.e("Mail Sender", "Got exception publishing progress: " + e);
             }
+            switch (sharedPref.getString("pref_mail_preset", "Gmail")) {
+                case "Gmail":
+                    mailhost = "smtp.gmail.com";
+                    auth = true;
+                    port = "465";
+                    sslport = "465";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+                case "Yahoo":
+                    mailhost = "smtp.mail.yahoo.com";
+                    auth = true;
+                    port = "465";
+                    sslport = "465";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+                case "Live":
+                    mailhost = "smtp.live.com";
+                    auth = true;
+                    port = "25";
+                    sslport = "25";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+                case "Verizon":
+                    mailhost = "smtp.verizon.net";
+                    auth = true;
+                    port = "465";
+                    sslport = "465";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+                case "ATT":
+                    mailhost = "smtp.att.yahoo.com";
+                    auth = true;
+                    port = "465";
+                    sslport = "465";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+                case "Comcast":
+                    mailhost = "smtp.comcast.net";
+                    auth = true;
+                    port = "587";
+                    sslport = "587";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+                case "Cox":
+                    mailhost = "smtp.cox.net";
+                    auth = true;
+                    port = "587";
+                    sslport = "587";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+                case "Frontier":
+                    mailhost = "smtp.frontier.com";
+                    auth = true;
+                    port = "465";
+                    sslport = "465";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+                case "Custom":
+                    mailhost = sharedPref.getString("pref_mail_mailhost", "smtp.gmail.com");
+                    auth = sharedPref.getBoolean("pref_mail_auth", true);
+                    port = sharedPref.getString("pref_mail_port", "465");
+                    sslport = sharedPref.getString("pref_mail_sslport", "465");
+                    fallback = sharedPref.getBoolean("pref_mail_fallback", false);
+                    quitwait = sharedPref.getBoolean("pref_mail_quitwait", false);
+                    break;
+                default:
+                    mailhost = "smtp.gmail.com";
+                    auth = true;
+                    port = "465";
+                    sslport = "465";
+                    fallback = false;
+                    quitwait = false;
+                    break;
+            }
             String username = sharedPref.getString("pref_mail_username", "");
             String password = sharedPref.getString("pref_mail_password", "");
-            String mailhost = sharedPref.getString("pref_mail_mailhost", "smtp.gmail.com");
-            boolean auth = sharedPref.getBoolean("pref_mail_auth", true);
-            String port = sharedPref.getString("pref_mail_port", "465");
-            String sslport = sharedPref.getString("pref_mail_sslport", "465");
-            boolean fallback = sharedPref.getBoolean("pref_mail_fallback", false);
-            boolean quitwait = sharedPref.getBoolean("pref_mail_quitwait", false);
-            String message = sharedPref.getString("pref_message", "default message, should never be seen");
+            String message = sharedPref.getString("pref_message", "default message, this should never be seen");
             MailSender sender = new MailSender.MailSenderBuilder(username, password)
                     .mailhost(mailhost)
                     .auth(String.valueOf(auth))

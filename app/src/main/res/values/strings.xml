@@ -36,5 +36,7 @@
     <string name="press_to_cancel_alarm">Press to Cancel Alarm</string>
     <string name="big_description_text">Placeholder</string>
     <string name="no_contact_found">No Contact</string>
+    <string name="custom_email_server_settings_summary">Custom email server settings</string>
+    <string name="custom_server_settings_title">Custom server settings</string>
 
 </resources>
