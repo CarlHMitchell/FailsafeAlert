@@ -16,17 +16,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.codinguser.android.contactpicker.ContactsPickerActivity;
-import com.example.sai.passivewarningalarm.contactsStorage.AppDatabase;
-import com.example.sai.passivewarningalarm.contactsStorage.Contact;
-import com.example.sai.passivewarningalarm.contactsStorage.ContactRepository;
-import com.example.sai.passivewarningalarm.contactsStorage.utils.DatabaseInitializer;
 import com.example.sai.passivewarningalarm.settings.SettingsActivity;
 import com.example.sai.passivewarningalarm.utilities.MessageSender;
-
-import java.util.ArrayList;
+import com.github.carlhmitchell.contactablespicker.ContactsList;
 
 import static com.example.sai.passivewarningalarm.utilities.AppConstants.DBG_CHANNEL_ID;
 import static com.example.sai.passivewarningalarm.utilities.AppConstants.SWITCH_ACTIVE;
@@ -38,8 +31,6 @@ public class MainActivity extends AppCompatActivity {
     //private Toolbar toolbar;
     private SharedPreferences data;
     private SharedPreferences.Editor editor;
-    // For testing only.
-    private AppDatabase dbgDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +82,6 @@ public class MainActivity extends AppCompatActivity {
         startupIntent.putExtra("type", "startup");
         this.startService(startupIntent);
         createNotificationChannel();
-
-        // Note: dB references should not be in an activity. Use the Repository.
-        dbgDb = AppDatabase.getTestInMemoryDatabase(getApplicationContext());
-        testPopulateDb();
-    }
-
-    private void testPopulateDb() {
-        DatabaseInitializer.populateSync(dbgDb);
     }
 
     private void createNotificationChannel() {
@@ -121,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     private void testEmail() {
         Log.i("MainActivity", "Test Message button clicked");
         try {
-            new MessageSender(this).sendMessages();
+            new MessageSender(this, getApplication()).sendMessages();
         } catch (Exception e) {
             Log.e("TestMessageButton", "Error creating MessageSender: " + e);
         }
@@ -174,70 +157,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doLaunchContactEditor() {
-        startActivity(new Intent(this, ContactEditorActivity.class));
+        startActivity(new Intent(this, ContactsList.class));
     }
-
-    private void doLaunchContactPhonePicker(View view) {
-        startActivityForResult(new Intent(this, ContactsPickerActivity.class), ContactsPickerActivity.REQUEST_CONTACT_PHONE);
-        //startActivity(new Intent(this, ContactEditorActivity.class));
-    }
-
-    private void doLaunchContactEmailPicker(View view) {
-
-        startActivityForResult(new Intent(this, ContactsPickerActivity.class), ContactsPickerActivity.REQUEST_CONTACT_EMAIL);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case ContactsPickerActivity.REQUEST_CONTACT_PHONE:
-                    if (resultCode == RESULT_CANCELED) {
-                        Toast.makeText(this, "Result canceled", Toast.LENGTH_SHORT).show();
-                    } else {
-                        String phoneNumber = (String) data.getExtras().get(ContactsPickerActivity.KEY_PHONE_NUMBER);
-                        String contactName = (String) data.getExtras().get(ContactsPickerActivity.KEY_CONTACT_NAME);
-
-
-                        Log.i(DEBUG_TAG, "Phone number found: " + phoneNumber);
-                        Log.i(DEBUG_TAG, "Contact name found: " + contactName);
-
-                        ArrayList<String> phoneList = new ArrayList<String>();
-                        phoneList.add(phoneNumber);
-
-                        Contact contact = new Contact(contactName, phoneList, null);
-                        ContactRepository repository = new ContactRepository(getApplication());
-                        repository.insert(contact);
-
-                    }
-                    break;
-                case ContactsPickerActivity.REQUEST_CONTACT_EMAIL:
-                    if (resultCode == RESULT_CANCELED) {
-                        Toast.makeText(this, "Result canceled", Toast.LENGTH_SHORT).show();
-                    } else {
-                        String emailAddress = (String) data.getExtras().get(ContactsPickerActivity.KEY_CONTACT_EMAIL);
-                        String contactName = (String) data.getExtras().get(ContactsPickerActivity.KEY_CONTACT_NAME);
-
-                        Log.i(DEBUG_TAG, "Email found: " + emailAddress);
-                        Log.i(DEBUG_TAG, "Contact name found: " + contactName);
-
-                        ArrayList<String> emailList = new ArrayList<String>();
-                        emailList.add(emailAddress);
-
-                        Contact contact = new Contact(contactName, null, emailList);
-                        ContactRepository repository = new ContactRepository(getApplication());
-                        repository.insert(contact);
-                    }
-                    break;
-                default:
-                    Log.e(DEBUG_TAG, "INVALID RESULT CODE: " + resultCode);
-                    break;
-            }
-        } else {
-            Log.w(DEBUG_TAG, "Warning: activity result not ok");
-        }
-    }
-
-
 }

@@ -66,12 +66,7 @@
         <activity
             android:name="com.codinguser.android.contactpicker.ContactsPickerActivity"
             android:label="Contacts Picker" />
-        <activity android:name=".NewContactActivity" />
         <activity android:name=".contactsStorage.ContactsListActivity" />
-        <activity
-            android:name=".ContactEditorActivity"
-            android:label="@string/title_activity_contact_editor"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"></activity>
     </application>
 
 </manifest>

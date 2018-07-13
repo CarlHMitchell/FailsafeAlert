@@ -1,6 +1,4 @@
 TODO
-*Change E-mail to use SharedPreferences for server settings
-* Add timers to Settings & validate that alert is after cancel notification - 00:45
 * Split up alarm types
 * Split off alarm scheduling
 Figure out how to make exact alarms repeat, then do that.
@@ -13,7 +11,6 @@ Configure button enabling / * notification sending with timer
 * Test that button doesn't enable before its timer goes off.
 * Add ability to pick address / phone number for each contact
 add full contacts UI
-Encapsulate saving / loading contacts to SharedPreferences
 
 * Configure e-mail to send to all e-mail contacts
 * Configure SMS sender to send to all phone numbers

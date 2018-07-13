@@ -23,13 +23,19 @@ allprojects {
 
 ext {
     compileSdkVersion = 27
-    buildToolsVersion = "27.0.3"
+    buildToolsVersion = "27.1.1"
+    supportLibVersion = "27.1.1"
     minSdkVersion = 21
     targetSdkVersion = 27
     versionCode = 1
     versionName = "1.0"
+    kotlin_version = "1.2.51"
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+configurations.all() {
+    resolutionStrategy.force 'org.jetbrains.kotlin:kotlin-stdlib:1.2.50'
 }
