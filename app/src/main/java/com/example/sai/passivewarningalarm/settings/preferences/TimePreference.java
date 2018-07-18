@@ -1,4 +1,4 @@
-package com.example.sai.passivewarningalarm.settings;
+package com.example.sai.passivewarningalarm.settings.preferences;
 
 import android.content.Context;
 import android.content.res.TypedArray;
