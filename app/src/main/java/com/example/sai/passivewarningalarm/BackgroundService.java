@@ -124,7 +124,7 @@ public class BackgroundService extends WakefulIntentService {
                         long nextAlertTime = SystemClock.elapsedRealtime() + MISSED_NOTIFICATION_DELTA_MILLIS;
                         alarm.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextAlertTime, alertPendingIntent);
                     } else {
-                        MessageSender sender = new MessageSender(this, this.getApplication());
+                        MessageSender sender = new MessageSender(this);
                         Log.i("BackgroundService", "Got alert alarm. SEND ALERT HERE!");
                         //sender.sendMessages();
                         editor.putInt("state", SWITCH_INACTIVE);
