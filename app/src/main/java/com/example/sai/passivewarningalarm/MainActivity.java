@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
     private void testEmail() {
         Log.i("MainActivity", "Test Message button clicked");
         try {
-            new MessageSender(this, getApplication()).sendMessages();
+            new MessageSender(this).sendMessages();
         } catch (Exception e) {
             Log.e("TestMessageButton", "Error creating MessageSender: " + e);
         }

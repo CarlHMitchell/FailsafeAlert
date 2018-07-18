@@ -2,7 +2,6 @@ package com.example.sai.passivewarningalarm.utilities;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
@@ -29,7 +28,7 @@ public class MessageSender {
     ContactsListAdapter mAdapter;
     private List<Contact> mAllContacts;
 
-    public MessageSender(Context context, Application application) {
+    public MessageSender(Context context) {
         messageSenderContext = context;
 
 
