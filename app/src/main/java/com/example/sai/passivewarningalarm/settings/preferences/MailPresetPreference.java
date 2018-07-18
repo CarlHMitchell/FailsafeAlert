@@ -31,6 +31,7 @@ public class MailPresetPreference extends ListPreference {
         if (positiveResult) {
             // User selected a value
             String value = getValue();
+            //TODO: set all this to come from a custom XML file.
             switch (value) {
                 case "Gmail":
                     protocol = "smtp";
