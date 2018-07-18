@@ -36,12 +36,12 @@ public class MailSender extends javax.mail.Authenticator {
 
         props.setProperty("mail.transport.protocol", "smtp"); //smtp
         props.setProperty("mail.host", mailhost); //"smtp.gmail.com
-        props.put("mail.smtp.auth", auth); //true
-        props.put("mail.smtp.port", port); //465
-        props.put("mail.smtp.socketFactory.port", sslport); //465
-        props.put("mail.smtp.socketFactory.class",
+        props.setProperty("mail.smtp.auth", auth); //true
+        props.setProperty("mail.smtp.port", port); //465
+        props.setProperty("mail.smtp.socketFactory.port", sslport); //465
+        props.setProperty("mail.smtp.socketFactory.class",
                   "javax.net.ssl.SSLSocketFactory"); //javax.net.ssl.SSLSocketFactory
-        props.put("mail.smtp.socketFactory.fallback", fallback); //false
+        props.setProperty("mail.smtp.socketFactory.fallback", fallback); //false
         props.setProperty("mail.smtp.quitwait", quitwait); //false
 
         session = Session.getDefaultInstance(props, this);
@@ -65,16 +65,16 @@ public class MailSender extends javax.mail.Authenticator {
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
             }
             Transport.send(message);
-            Log.d("GmailSender", "Message Sent");
+            Log.d("MailSender", "Message Sent");
         } catch (Exception e) {
-            Log.e("GmailSender", e.getMessage(), e);
+            Log.e("MailSender", e.getMessage(), e);
         }
     }
 
     public static class MailSenderBuilder {
         private final String nestedUser;
         private final String nestedPassword;
-        private String nestedMailhost = "smtp.gmail.com";
+        private String nestedMailhost = "";
         private String nestedAuth = "true";
         private String nestedPort = "465";
         private String nestedSSLPort = "465";

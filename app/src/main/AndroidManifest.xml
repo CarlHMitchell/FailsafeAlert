@@ -63,10 +63,6 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".settings.MailSettingsActivity" />
-        <activity
-            android:name="com.codinguser.android.contactpicker.ContactsPickerActivity"
-            android:label="Contacts Picker" />
-        <activity android:name=".contactsStorage.ContactsListActivity" />
     </application>
 
 </manifest>

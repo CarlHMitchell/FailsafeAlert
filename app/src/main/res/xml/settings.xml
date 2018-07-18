@@ -1,72 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+        android:key="pref_message_settings"
+        android:title="@string/message_settings_category_title">
+        <EditTextPreference
+            android:defaultValue="Help!"
+            android:key="pref_message"
+            android:title="@string/pref_message_title" />
+        <com.example.sai.passivewarningalarm.settings.preferences.TimePreference
+            android:defaultValue="20:01"
+            android:key="pref_notification_time"
+            android:title="@string/pref_notification_time_text" />
+        <com.example.sai.passivewarningalarm.settings.preferences.TimePreference
+            android:defaultValue="22:01"
+            android:key="pref_alert_time"
+            android:title="@string/pref_alert_time_text" />
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="pref_email_settings"
         android:summary="@string/pref_mail_settings_summary"
         android:title="@string/pref_mail_settings_title">
+        <EditTextPreference
+            android:key="pref_mail_username"
+            android:title="@string/pref_mail_username_title" />
+        <EditTextPreference
+            android:key="pref_mail_password"
+            android:title="@string/pref_mail_password_title" />
         <!-- Opens a sub-screen of settings for E-mail server -->
-        <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-            <EditTextPreference
-                android:key="pref_mail_username"
-                android:title="@string/pref_mail_username_title" />
-            <EditTextPreference
-                android:key="pref_mail_password"
-                android:title="@string/pref_mail_password_title" />
-            <ListPreference
-                android:defaultValue="Gmail"
+        <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+            android:title="@string/pref_mail_settings_summary">
+            <com.example.sai.passivewarningalarm.settings.preferences.MailPresetPreference
+                android:key="pref_mail_preset_test"
                 android:entries="@array/pref_mail_servers"
                 android:entryValues="@array/pref_mail_servers_values"
-                android:key="pref_mail_preset"
-                android:title="Email Server Selection" />
-            <PreferenceCategory
-                android:key="pref_email_detail_settings"
+                android:title="Pick Email Server" />
+            <com.example.sai.passivewarningalarm.settings.preferences.MailSettingsPreference
+                android:key="pref_email_settings"
                 android:summary="@string/custom_email_server_settings_summary"
-                android:title="@string/custom_server_settings_title">
-                <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-                    <EditTextPreference
-                        android:defaultValue="smtp.gmail.com"
-                        android:key="pref_mail_host"
-                        android:title="@string/pref_mail_host_title" />
-                    <ListPreference
-                        android:defaultValue="smtp"
-                        android:entries="@array/pref_mail_protocol_entries"
-                        android:entryValues="@array/pref_mail_protocol_values"
-                        android:key="pref_mail_protocol"
-                        android:title="@string/pref_mail_protocol_title" />
-                    <EditTextPreference
-                        android:defaultValue="465"
-                        android:key="pref_mail_port"
-                        android:title="@string/pref_mail_port_title" />
-                    <CheckBoxPreference
-                        android:defaultValue="true"
-                        android:key="pref_mail_auth"
-                        android:title="@string/pref_mail_auth_title" />
-                    <EditTextPreference
-                        android:defaultValue="465"
-                        android:key="pref_mail_sslport"
-                        android:title="@string/pref_mail_sslport_title" />
-                    <CheckBoxPreference
-                        android:defaultValue="false"
-                        android:key="pref_mail_fallback"
-                        android:title="@string/pref_mail_fallback_title" />
-                    <CheckBoxPreference
-                        android:defaultValue="false"
-                        android:key="pref_mail_quitwait"
-                        android:title="@string/pref_mail_quitwait_title" />
-                </PreferenceScreen>
-            </PreferenceCategory>
+                android:title="@string/custom_server_settings_title" />
         </PreferenceScreen>
     </PreferenceCategory>
-    <EditTextPreference
-        android:defaultValue="Help!"
-        android:key="pref_message"
-        android:title="@string/pref_message_title" />
-    <com.example.sai.passivewarningalarm.settings.TimePreference
-        android:defaultValue="20:01"
-        android:key="pref_notification_time"
-        android:title="@string/pref_notification_time_text" />
-    <com.example.sai.passivewarningalarm.settings.TimePreference
-        android:defaultValue="22:01"
-        android:key="pref_alert_time"
-        android:title="@string/pref_alert_time_text" />
 </PreferenceScreen>

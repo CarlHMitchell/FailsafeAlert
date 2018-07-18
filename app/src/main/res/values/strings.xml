@@ -9,7 +9,7 @@
     <!--
     <string name="mail_settings_button">Email Settings</string>
     -->
-    <string name="pref_mail_settings_title">Server Settings</string>
+    <string name="pref_mail_settings_title">Email Settings</string>
     <string name="pref_mail_settings_summary">Email Server Settings</string>
     <string name="pref_mail_protocol_title">Mail server protocol</string>
     <string name="pref_mail_username_title">Username</string>
@@ -26,11 +26,12 @@
     <string name="pref_alert_time_text">Send Alert at</string>
 
     <string name="pref_message_category_title">Message</string>
-    <string name="pref_message_title">Message</string>
+    <string name="pref_message_title">Compose Message</string>
 
     <string name="contact_selected">Contact Selected</string>
 
     <string name="set">Set</string>
+    <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_contact_editor">ContactEditorActivity</string>
     <string name="press_to_cancel_alarm">Press to Cancel Alarm</string>
@@ -38,5 +39,6 @@
     <string name="no_contact_found">No Contact</string>
     <string name="custom_email_server_settings_summary">Custom email server settings</string>
     <string name="custom_server_settings_title">Custom server settings</string>
+    <string name="message_settings_category_title">Message Settings</string>
 
 </resources>
