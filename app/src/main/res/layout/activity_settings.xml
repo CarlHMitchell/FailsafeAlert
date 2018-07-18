@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sai.passivewarningalarm.settings.SettingsActivity">
+    tools:context="com.github.carlhmitchell.failsafealert.settings.SettingsActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
 
             <fragment
                 android:id="@+id/fragment"
-                android:name="com.example.sai.passivewarningalarm.settings.SettingsFragment"
+                android:name="com.github.carlhmitchell.failsafealert.settings.SettingsFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

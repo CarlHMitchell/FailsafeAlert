@@ -7,11 +7,11 @@
             android:defaultValue="Help!"
             android:key="pref_message"
             android:title="@string/pref_message_title" />
-        <com.example.sai.passivewarningalarm.settings.preferences.TimePreference
+        <com.github.carlhmitchell.failsafealert.settings.preferences.TimePreference
             android:defaultValue="20:01"
             android:key="pref_notification_time"
             android:title="@string/pref_notification_time_text" />
-        <com.example.sai.passivewarningalarm.settings.preferences.TimePreference
+        <com.github.carlhmitchell.failsafealert.settings.preferences.TimePreference
             android:defaultValue="22:01"
             android:key="pref_alert_time"
             android:title="@string/pref_alert_time_text" />
@@ -29,12 +29,12 @@
         <!-- Opens a sub-screen of settings for E-mail server -->
         <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
             android:title="@string/pref_mail_settings_summary">
-            <com.example.sai.passivewarningalarm.settings.preferences.MailPresetPreference
+            <com.github.carlhmitchell.failsafealert.settings.preferences.MailPresetPreference
                 android:key="pref_mail_preset_test"
                 android:entries="@array/pref_mail_servers"
                 android:entryValues="@array/pref_mail_servers_values"
                 android:title="Pick Email Server" />
-            <com.example.sai.passivewarningalarm.settings.preferences.MailSettingsPreference
+            <com.github.carlhmitchell.failsafealert.settings.preferences.MailSettingsPreference
                 android:key="pref_email_settings"
                 android:summary="@string/custom_email_server_settings_summary"
                 android:title="@string/custom_server_settings_title" />
