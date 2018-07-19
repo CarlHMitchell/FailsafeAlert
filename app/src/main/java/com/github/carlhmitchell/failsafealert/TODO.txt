@@ -1,24 +1,7 @@
 TODO
-* Split up alarm types
-* Split off alarm scheduling
 Figure out how to make exact alarms repeat, then do that.
-* Encapsulate alert message sending (SMS, Email) into a class
-* Configure e-mail to send when timer (for alert) goes off, if Button hasn't been pressed
-* Prevent accidental triggering on device wakeup
-* Test e-mail sending with timer
-* Test that e-mail doesn't get sent with button in pressed (idle) state
-Configure button enabling / * notification sending with timer
-* Test that button doesn't enable before its timer goes off.
-* Add ability to pick address / phone number for each contact
-* add full contacts UI
-
-* Configure e-mail to send to all e-mail contacts
-* Configure SMS sender to send to all phone numbers
-* Test e-mail & SMS sending
-
-Test overall app
+Configure button enabling with timer
 
 Add validation of e-mail server settings
-Add drop-down e-mail server list for common providers (Gmail, Yahoo, etc)
 Prettify code
 Publish

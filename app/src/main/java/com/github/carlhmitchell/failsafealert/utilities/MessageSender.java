@@ -27,18 +27,12 @@ public class MessageSender {
     public MessageSender(Context context) {
         messageSenderContext = context;
 
-
         // Shared Pref to get the message.
-        // TODO: Move into the database?
         ContextWrapper wrapper = new ContextWrapper(context);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
 
         ContactRepository repository = new ContactRepository(messageSenderContext);
-        // We need to instantiate the repository before using it, to ensure its static members
-        //     get initialized.
-        // TODO: change this in the library so a getter can be used.
-        //noinspection AccessStaticViaInstance
-        mAllContacts = repository.mAllContactsSimple;
+        mAllContacts = repository.getmAllContactsSimple();
 
         //Debugging below
 
@@ -71,11 +65,6 @@ public class MessageSender {
                 sendEmail(emailAddress);
             }
         }
-        /*
-        for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
-            Log.d("MessageSender", String.valueOf(ste));
-        }
-        */
 
         // Send the SMS messages to all selected numbers for each selected contacts
         for (Contact contact : contactsList) {

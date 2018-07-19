@@ -22,6 +22,12 @@ public class WakefulIntentService extends IntentService {
     private static PowerManager.WakeLock lockStatic = null;
     private PowerManager.WakeLock lockLocal = null;
 
+    @SuppressWarnings("unused") // This default constructor is needed by the Manifest to start the
+                                //  service. It's not used elsewhere, which produces a warning.
+    public WakefulIntentService() {
+        super("WakefulIntentService");
+    }
+
     public WakefulIntentService(String name) {
         super(name);
     }

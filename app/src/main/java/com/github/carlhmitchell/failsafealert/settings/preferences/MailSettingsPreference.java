@@ -46,8 +46,13 @@ public class MailSettingsPreference extends DialogPreference {
     }
 
     protected View onCreateDialogView() {
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.email_settings_dialog_preference, null, false);
+        // Suppressing Lint for null view root. According to
+        //  http://www.doubleencore.com/2013/05/layout-inflation-as-intended/
+        //  the case of inflating a dialog is one of the only ones where passing a null view root
+        //  is the correct thing to do.
+        @SuppressLint("InflateParams") View v = LayoutInflater.from(getContext()).inflate(R.layout.email_settings_dialog_preference, null, false);
 
+        //Protocol is hardcoded to SMTP at the moment.
         //protocolET = v.findViewById(R.id.mail_protocol_edit_text);
         //protocolET.setText(prefs.getString("pref_mail_protocol", "smtp"));
 

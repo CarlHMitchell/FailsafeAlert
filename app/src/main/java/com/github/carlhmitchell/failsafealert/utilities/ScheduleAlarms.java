@@ -16,11 +16,6 @@ import static android.app.PendingIntent.getBroadcast;
 
 
 public class ScheduleAlarms {
-
-    //private static SharedPreferences data;
-    //private static SharedPreferences.Editor editor;
-
-
 // --Commented out by Inspection START (2018-07-18 17:17):
 //    public ScheduleAlarms() {
 //    }
@@ -36,9 +31,8 @@ public class ScheduleAlarms {
     public static void run(Context context) {
         ContextWrapper wrapper = new ContextWrapper(context);
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
-        //editor = data.edit();
-        // Construct an Intent that will execute the AlarmReceiver
 
+        // Construct an Intent that will execute the AlarmReceiver
         Intent notificationIntent = new Intent(context, AlarmReceiver.class);
         notificationIntent.putExtra("type", "notification");
         // Create a PendingIntent to be triggered when the alarm goes off
@@ -78,8 +72,6 @@ public class ScheduleAlarms {
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
-        //alarm.setExact(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(), notificationPendingIntent);
-        //alarm.setExact(AlarmManager.RTC_WAKEUP, alertCalendar.getTimeInMillis(), alertPendingIntent);
         Objects.requireNonNull(alarm).setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, notificationPendingIntent);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, alertCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alertPendingIntent);
         Log.i("ScheduleAlarms", "run got called: " + notificationTime + " - " + alertTime);

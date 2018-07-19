@@ -35,7 +35,7 @@ public class MailSender extends javax.mail.Authenticator {
         Properties props = new Properties();
 
         props.setProperty("mail.transport.protocol", "smtp"); //smtp
-        props.setProperty("mail.host", mailhost); //"smtp.gmail.com
+        props.setProperty("mail.host", mailhost); //"smtp.gmail.com"
         props.setProperty("mail.smtp.auth", auth); //true
         props.setProperty("mail.smtp.port", port); //465
         props.setProperty("mail.smtp.socketFactory.port", sslport); //465
@@ -45,7 +45,6 @@ public class MailSender extends javax.mail.Authenticator {
         props.setProperty("mail.smtp.quitwait", quitwait); //false
 
         session = Session.getDefaultInstance(props, this);
-        //Log.d("GmailSender", "Constructor completed with username " + user + " and password " + password);
     }
 
     protected PasswordAuthentication getPasswordAuthentication() {

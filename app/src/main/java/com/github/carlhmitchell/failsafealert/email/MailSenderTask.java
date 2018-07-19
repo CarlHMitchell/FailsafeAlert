@@ -8,23 +8,13 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class MailSenderTask extends AsyncTask<String, Void, Void> {
-    //private final Activity sendMailActivity;
     private final SharedPreferences sharedPref;
-    // --Commented out by Inspection (2018-07-18 17:21):private ProgressDialog statusDialog;
 
 
     public MailSenderTask(Context context) {
-        //sendMailActivity = activity;
-        //ContextWrapper wrapper = new ContextWrapper(sendMailActivity);
         ContextWrapper wrapper = new ContextWrapper(context);
-        //sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
     }
-
-    /*
-    protected void onPreExecute() {
-    }
-    */
 
 
     @Override
@@ -39,13 +29,6 @@ public class MailSenderTask extends AsyncTask<String, Void, Void> {
 
         try {
             Log.d("MailSenderTask", "About to instantiate email sender.");
-            /*
-            try {
-                publishProgress("Processing input");
-            } catch (Exception e) {
-                Log.e("Mail Sender", "Got exception publishing progress: " + e);
-            }
-            */
 
             mailhost = sharedPref.getString("pref_mail_mailhost", "");
             auth = sharedPref.getBoolean("pref_mail_auth", true);
