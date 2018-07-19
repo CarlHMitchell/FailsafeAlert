@@ -1,6 +1,11 @@
 TODO
-Figure out how to make exact alarms repeat, then do that.
 Configure button enabling with timer
+OR
+Add toast for cancel button being pressed when not enabled?
+
+Fix crash bug when message fails to send (no connection?)
+Fix mail settings preset list & to select Custom if "Ok" is pressed in Mail Settings Preference
+Add toasts for message test
 
 Add validation of e-mail server settings
 Prettify code
