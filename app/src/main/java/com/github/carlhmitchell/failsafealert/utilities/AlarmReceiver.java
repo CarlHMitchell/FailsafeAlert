@@ -11,7 +11,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     //public static final int REQUEST_CODE = 12345;
     public static final int ALERT = 0;
     public static final int NOTIFICATION = 1;
-    //public static final String ACTION = "com.example.sai.passivewarningalarm.alarm";
+    //public static final String ACTION = "com.github.carlhmitchell.failsafealert.alarm";
 
     // Triggered by the Alarm periodically. Starts the Background Service to run its task.
     @Override

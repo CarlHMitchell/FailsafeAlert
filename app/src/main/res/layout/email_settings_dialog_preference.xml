@@ -5,7 +5,6 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/mail_host_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pref_mail_host_title" />
@@ -13,7 +12,9 @@
     <EditText
         android:id="@+id/mail_host_edit_text"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:hint="@string/mail_host_hint"
+        android:inputType="textUri"/>
 
     <!-- Hardcoded to SMTP at the moment. May add IMAP support later.
     <TextView
@@ -29,7 +30,6 @@
         -->
 
     <TextView
-        android:id="@+id/mail_port_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pref_mail_port_title" />
@@ -38,7 +38,8 @@
         android:id="@+id/mail_port_edit_number"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="number" />
+        android:inputType="number"
+        android:hint="@string/mail_port_hint"/>
 
     <Switch
         android:id="@+id/mail_auth_switch"
@@ -47,7 +48,6 @@
         android:text="@string/pref_mail_auth_title" />
 
     <TextView
-        android:id="@+id/mail_sslport_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pref_mail_sslport_title" />
@@ -56,7 +56,8 @@
         android:id="@+id/mail_sslport_edit_number"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:inputType="number" />
+        android:inputType="number"
+        android:hint="@string/ssl_port_hint"/>
 
     <Switch
         android:id="@+id/mail_fallback_switch"

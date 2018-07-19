@@ -1,5 +1,6 @@
 package com.github.carlhmitchell.failsafealert.settings.preferences;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.DialogPreference;
@@ -27,10 +28,11 @@ public class MailSettingsPreference extends DialogPreference {
     private EditText portET;
     private int sslport;
     private EditText sslportET;
-    private SharedPreferences prefs;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences prefs;
+    private final SharedPreferences.Editor editor;
 
 
+    @SuppressLint("CommitPrefEdits")
     public MailSettingsPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
@@ -44,7 +46,7 @@ public class MailSettingsPreference extends DialogPreference {
     }
 
     protected View onCreateDialogView() {
-        View v = LayoutInflater.from(getContext()).inflate(R.layout.email_settings_dialog_preference, null);
+        View v = LayoutInflater.from(getContext()).inflate(R.layout.email_settings_dialog_preference, null, false);
 
         //protocolET = v.findViewById(R.id.mail_protocol_edit_text);
         //protocolET.setText(prefs.getString("pref_mail_protocol", "smtp"));

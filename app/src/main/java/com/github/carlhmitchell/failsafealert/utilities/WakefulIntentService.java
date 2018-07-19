@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.PowerManager;
 import android.util.Log;
 
+import java.util.Objects;
+
 
 /**
  * An {@link IntentService} that acquires a partial WakeLock, to allow the BackgroundService
@@ -15,8 +17,8 @@ import android.util.Log;
  * by calling onHandleIntent(Intent).
  */
 public class WakefulIntentService extends IntentService {
-    private static final String LOCK_NAME_STATIC = "com.example.sai.passivewarningalarm.BackgroundService.Static";
-    private static final String LOCK_NAME_LOCAL = "com.example.sai.passivewarningalarm.BackgroundService.Local";
+    private static final String LOCK_NAME_STATIC = "com.github.carlhmitchell.failsafealert.BackgroundService.Static";
+    private static final String LOCK_NAME_LOCAL = "com.github.carlhmitchell.failsafealert.BackgroundService.Local";
     private static PowerManager.WakeLock lockStatic = null;
     private PowerManager.WakeLock lockLocal = null;
 
@@ -35,14 +37,14 @@ public class WakefulIntentService extends IntentService {
      * @param context context to acquire lock for.
      */
     public static void acquireStaticLock(Context context) {
-        getLock(context).acquire();
+        getLock(context).acquire(24*60*60*1000L /*1 day*/);
         Log.d("WakefulIntentService", "Static Lock acquired");
     }
 
     synchronized private static PowerManager.WakeLock getLock(Context context) {
         if (lockStatic == null) {
             PowerManager mgr = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            lockStatic = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOCK_NAME_STATIC);
+            lockStatic = Objects.requireNonNull(mgr).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOCK_NAME_STATIC);
             lockStatic.setReferenceCounted(true);
         }
         return (lockStatic);
@@ -52,13 +54,13 @@ public class WakefulIntentService extends IntentService {
     public void onCreate() {
         super.onCreate();
         PowerManager mgr = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        lockLocal = mgr.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOCK_NAME_LOCAL);
+        lockLocal = Objects.requireNonNull(mgr).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, LOCK_NAME_LOCAL);
         lockLocal.setReferenceCounted(true);
     }
 
     @Override
     public void onStart(Intent intent, final int startID) {
-        lockLocal.acquire();
+        lockLocal.acquire(24*60*60*1000L /*1 day*/);
         super.onStart(intent, startID);
         try {
             if (lockLocal.isHeld()) {

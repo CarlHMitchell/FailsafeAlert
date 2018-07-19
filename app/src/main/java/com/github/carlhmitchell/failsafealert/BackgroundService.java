@@ -18,6 +18,7 @@ import com.github.carlhmitchell.failsafealert.utilities.ScheduleAlarms;
 import com.github.carlhmitchell.failsafealert.utilities.WakefulIntentService;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import static android.app.PendingIntent.getBroadcast;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.DBG_CHANNEL_ID;
@@ -35,6 +36,7 @@ public class BackgroundService extends WakefulIntentService {
     public BackgroundService() {
         super("BackgroundService");
         Log.i("BackgroundService", "Service running");
+        //noinspection PointlessArithmeticExpression
         TIME_DELTA_MILLIS = MINUTE_MILLIS * 1; // 1 minutes in milliseconds.
         MISSED_NOTIFICATION_DELTA_MILLIS = MINUTE_MILLIS * 15; // 15 minutes in milliseconds.
     }
@@ -46,7 +48,7 @@ public class BackgroundService extends WakefulIntentService {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, DBG_CHANNEL_ID)
-                .setSmallIcon(R.drawable.example_picture)
+                .setSmallIcon(R.drawable.ic_announcement_black_24dp)
                 .setContentTitle("Cancel the alert!")
                 .setContentText("The Cancel button is active!")
                 .setPriority(NotificationCompat.PRIORITY_MAX)
@@ -56,13 +58,13 @@ public class BackgroundService extends WakefulIntentService {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         // Notifications can be updated, instead of just replaced. They need an ID for this.
-        mNotificationManager.notify(1, mBuilder.build());
+        Objects.requireNonNull(mNotificationManager).notify(1, mBuilder.build());
 
     }
 
     private void cancelNotification() {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancelAll();
+        Objects.requireNonNull(mNotificationManager).cancelAll();
     }
 
 
@@ -93,7 +95,10 @@ public class BackgroundService extends WakefulIntentService {
                 } else if (state == SWITCH_ACTIVE) {
                     editor.putInt("state", SWITCH_ACTIVE);
                     editor.apply();
-                    Log.e("BackgroundService", "Got notification alarm while button active.\nThis should never happen.");
+                    Log.e("BackgroundService", "Got notification alarm while button active.\n" +
+                                               "This should never happen.\n" +
+                                               "Sending notification again.");
+                    sendNotification();
                 }
                 break;
             case "alert":
@@ -122,11 +127,11 @@ public class BackgroundService extends WakefulIntentService {
                         PendingIntent alertPendingIntent = getBroadcast(this, AlarmReceiver.ALERT, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                         AlarmManager alarm = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
                         long nextAlertTime = SystemClock.elapsedRealtime() + MISSED_NOTIFICATION_DELTA_MILLIS;
-                        alarm.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextAlertTime, alertPendingIntent);
+                        Objects.requireNonNull(alarm).setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextAlertTime, alertPendingIntent);
                     } else {
                         MessageSender sender = new MessageSender(this);
                         Log.i("BackgroundService", "Got alert alarm. SEND ALERT HERE!");
-                        //sender.sendMessages();
+                        sender.sendMessages();
                         editor.putInt("state", SWITCH_INACTIVE);
                         editor.apply();
                     }

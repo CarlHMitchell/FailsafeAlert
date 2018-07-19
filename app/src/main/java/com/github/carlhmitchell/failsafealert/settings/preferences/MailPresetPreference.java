@@ -8,21 +8,14 @@ import android.util.AttributeSet;
 
 public class MailPresetPreference extends ListPreference {
 
-    private String protocol;
-    private String mailhost;
-    private boolean auth;
-    private boolean fallback;
-    private boolean quitwait;
-    private int port;
-    private int sslport;
-
-    private SharedPreferences prefs;
-    private SharedPreferences.Editor editor;
+    private final SharedPreferences prefs;
+    private final SharedPreferences.Editor editor;
 
     public MailPresetPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         prefs = PreferenceManager.getDefaultSharedPreferences(getContext());
         editor = prefs.edit();
+        editor.apply();
     }
 
     @Override
@@ -32,6 +25,13 @@ public class MailPresetPreference extends ListPreference {
             // User selected a value
             String value = getValue();
             //TODO: set all this to come from a custom XML file.
+            String protocol;
+            int sslport;
+            int port;
+            boolean quitwait;
+            boolean fallback;
+            boolean auth;
+            String mailhost;
             switch (value) {
                 case "Gmail":
                     protocol = "smtp";

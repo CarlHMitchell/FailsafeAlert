@@ -1,6 +1,5 @@
 package com.github.carlhmitchell.failsafealert.email;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
@@ -8,10 +7,10 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class MailSenderTask extends AsyncTask {
+public class MailSenderTask extends AsyncTask<String, Void, Void> {
     //private final Activity sendMailActivity;
     private final SharedPreferences sharedPref;
-    private ProgressDialog statusDialog;
+    // --Commented out by Inspection (2018-07-18 17:21):private ProgressDialog statusDialog;
 
 
     public MailSenderTask(Context context) {
@@ -21,27 +20,16 @@ public class MailSenderTask extends AsyncTask {
         //sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
     }
+
     /*
-    public MailSenderTask() {
-        final Activity sendMailActivity = new Activity();
-        ContextWrapper wrapper = new ContextWrapper(sendMailActivity);
-        sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
+    protected void onPreExecute() {
     }
     */
 
-    protected void onPreExecute() {
-        /*
-        statusDialog = new ProgressDialog(sendMailActivity);
-        statusDialog.setMessage("Pre-executing");
-        statusDialog.setIndeterminate(false);
-        statusDialog.setCancelable(false);
-        statusDialog.show();
-        */
-    }
 
-
-    @SuppressWarnings("SameReturnValue")
-    protected Object realDoInBackground(String recipient) {
+    @Override
+    protected Void doInBackground(String... params) {
+        String recipient = params[0];
         String mailhost;
         boolean auth;
         int port;
@@ -51,11 +39,13 @@ public class MailSenderTask extends AsyncTask {
 
         try {
             Log.d("MailSenderTask", "About to instantiate email sender.");
+            /*
             try {
                 publishProgress("Processing input");
             } catch (Exception e) {
                 Log.e("Mail Sender", "Got exception publishing progress: " + e);
             }
+            */
 
             mailhost = sharedPref.getString("pref_mail_mailhost", "");
             auth = sharedPref.getBoolean("pref_mail_auth", true);
@@ -84,21 +74,5 @@ public class MailSenderTask extends AsyncTask {
             Log.e("MailSender", e.getMessage(), e);
         }
         return null;
-    }
-
-
-    @Override
-    protected Object doInBackground(Object... recipient) {
-        return realDoInBackground(recipient[0].toString());
-    }
-
-    @Override
-    public void onProgressUpdate(Object... values) {
-        //statusDialog.setMessage(values[0].toString());
-    }
-
-    @Override
-    public void onPostExecute(Object result) {
-        //statusDialog.dismiss();
     }
 }

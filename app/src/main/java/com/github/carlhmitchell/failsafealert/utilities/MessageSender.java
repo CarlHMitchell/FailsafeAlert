@@ -1,32 +1,28 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.carlhmitchell.contactablespicker.Storage.Contact;
 import com.github.carlhmitchell.contactablespicker.Storage.ContactRepository;
-import com.github.carlhmitchell.contactablespicker.listViewHelpers.ContactsListAdapter;
 import com.github.carlhmitchell.failsafealert.email.MailSenderTask;
+import com.intentfilter.androidpermissions.PermissionManager;
 
 import java.util.List;
 
-import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.PERMISSIONS_REQUEST_SEND_SMS;
+import static java.util.Collections.singleton;
 
 
 public class MessageSender {
     private final Context messageSenderContext;
     private final SharedPreferences sharedPref;
-    ContactsListAdapter mAdapter;
-    private List<Contact> mAllContacts;
+    private final List<Contact> mAllContacts;
 
     public MessageSender(Context context) {
         messageSenderContext = context;
@@ -38,6 +34,10 @@ public class MessageSender {
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
 
         ContactRepository repository = new ContactRepository(messageSenderContext);
+        // We need to instantiate the repository before using it, to ensure its static members
+        //     get initialized.
+        // TODO: change this in the library so a getter can be used.
+        //noinspection AccessStaticViaInstance
         mAllContacts = repository.mAllContactsSimple;
 
         //Debugging below
@@ -71,37 +71,47 @@ public class MessageSender {
                 sendEmail(emailAddress);
             }
         }
+        /*
         for (StackTraceElement ste : Thread.currentThread().getStackTrace()) {
             Log.d("MessageSender", String.valueOf(ste));
         }
+        */
 
         // Send the SMS messages to all selected numbers for each selected contacts
         for (Contact contact : contactsList) {
             for (String phoneNumber : contact.getPhoneNumbers()) {
-                Log.d("MessageSender", "Sending SMS to " + phoneNumber);
-                sendSMS(phoneNumber);
+                if (!phoneNumber.equals("")) {
+                    Log.d("MessageSender", "Sending SMS to " + phoneNumber);
+                    sendSMS(phoneNumber);
+                }
             }
         }
     }
 
     private void sendEmail(String address) {
         try {
-            new MailSenderTask(messageSenderContext).execute(address);
+            MailSenderTask task = new MailSenderTask(messageSenderContext);
+            task.execute(address);
         } catch (Exception e) {
             Log.e("Message Sender", "Got exception: " + e);
         }
     }
 
-    private void sendSMS(String phoneNumber) {
-        String message = sharedPref.getString("pref_message", null);
-        SmsManager sms = SmsManager.getDefault();
-        if (ContextCompat.checkSelfPermission(messageSenderContext, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-            sms.sendTextMessage(phoneNumber, null, message, null, null);
+    private void sendSMS(final String phoneNumber) {
+        final String message = sharedPref.getString("pref_message", null);
+        final SmsManager sms = SmsManager.getDefault();
+        PermissionManager permissionManager = PermissionManager.getInstance(messageSenderContext);
+        permissionManager.checkPermissions(singleton(Manifest.permission.SEND_SMS), new PermissionManager.PermissionRequestListener() {
+            @Override
+            public void onPermissionGranted() {
+                Toast.makeText(messageSenderContext, "Permissions Granted", Toast.LENGTH_SHORT).show();
+                sms.sendTextMessage(phoneNumber, null, message, null, null);
+            }
 
-        } else {
-            ActivityCompat.requestPermissions((Activity) messageSenderContext.getApplicationContext(),
-                                              new String[]{Manifest.permission.SEND_SMS},
-                                              PERMISSIONS_REQUEST_SEND_SMS);
-        }
+            @Override
+            public void onPermissionDenied() {
+                Toast.makeText(messageSenderContext, "Permissions Denied", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

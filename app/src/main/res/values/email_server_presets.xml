@@ -1,9 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <array name="gmail">
-        <item>
-            <string name="mailhost">smtp.gmail.com</string>
-        </item>
-
-    </array>
-</resources>
+<!--suppress CheckTagEmptyBody -->
+<resources></resources>

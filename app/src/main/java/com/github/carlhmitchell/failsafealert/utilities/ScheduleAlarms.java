@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import static android.app.PendingIntent.getBroadcast;
 
@@ -20,12 +21,16 @@ public class ScheduleAlarms {
     //private static SharedPreferences.Editor editor;
 
 
-    public ScheduleAlarms() {
-    }
+// --Commented out by Inspection START (2018-07-18 17:17):
+//    public ScheduleAlarms() {
+//    }
+// --Commented out by Inspection STOP (2018-07-18 17:17)
 
-    public ScheduleAlarms(Context context) {
-        run(context);
-    }
+// --Commented out by Inspection START (2018-07-18 17:17):
+//    public ScheduleAlarms(Context context) {
+//        run(context);
+//    }
+// --Commented out by Inspection STOP (2018-07-18 17:17)
 
     // Set up a recurring alarm ever day (or sooner for testing, 1 minute here)
     public static void run(Context context) {
@@ -75,7 +80,7 @@ public class ScheduleAlarms {
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
         //alarm.setExact(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(), notificationPendingIntent);
         //alarm.setExact(AlarmManager.RTC_WAKEUP, alertCalendar.getTimeInMillis(), alertPendingIntent);
-        alarm.setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, notificationPendingIntent);
+        Objects.requireNonNull(alarm).setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, notificationPendingIntent);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, alertCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alertPendingIntent);
         Log.i("ScheduleAlarms", "run got called: " + notificationTime + " - " + alertTime);
     }

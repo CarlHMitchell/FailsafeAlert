@@ -21,6 +21,8 @@ import com.github.carlhmitchell.contactablespicker.ContactsList;
 import com.github.carlhmitchell.failsafealert.settings.SettingsActivity;
 import com.github.carlhmitchell.failsafealert.utilities.MessageSender;
 
+import java.util.Objects;
+
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.DBG_CHANNEL_ID;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_ACTIVE;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_INACTIVE;
@@ -96,13 +98,13 @@ public class MainActivity extends AppCompatActivity {
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(channel);
         }
 
     }
 
     private void testEmail() {
-        Log.i("MainActivity", "Test Message button clicked");
+        Log.i(DEBUG_TAG, "Test Message button clicked");
         try {
             new MessageSender(this).sendMessages();
         } catch (Exception e) {
@@ -144,15 +146,15 @@ public class MainActivity extends AppCompatActivity {
     private void cancelAlert() {
         int state = data.getInt("state", 0);
         if (state == SWITCH_ACTIVE) {
-            Log.i("MainActivity", "Cancel Button clicked while switch is active");
+            Log.i(DEBUG_TAG, "Cancel Button clicked while switch is active");
             editor.putInt("state", SWITCH_INACTIVE);
             editor.apply();
             Intent cancelNotificationIntent = new Intent(this, BackgroundService.class);
             cancelNotificationIntent.putExtra("type", "cancelNotification");
             this.startService(cancelNotificationIntent);
         } else if (state == SWITCH_INACTIVE) {
-            Log.i("MainActivity", "Cancel button clicked while switch inactive.");
-            Log.i("MainActivity", "State is " + state);
+            Log.i(DEBUG_TAG, "Cancel button clicked while switch inactive.");
+            Log.i(DEBUG_TAG, "State is " + state);
         }
     }
 

@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="pref_mail_protocol_entries">
-        <item>smtp</item>
-    </string-array>
-    <string-array name="pref_mail_protocol_values">
-        <item>smtp</item>
-    </string-array>
     <string-array name="pref_mail_servers">
         <item>Gmail</item>
         <item>Yahoo</item>

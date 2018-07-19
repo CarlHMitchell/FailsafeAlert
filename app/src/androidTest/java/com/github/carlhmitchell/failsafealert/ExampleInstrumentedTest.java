@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.sai.dualtimerprototype", appContext.getPackageName());
+        assertEquals("com.github.carlhmitchell.failsafealert", appContext.getPackageName());
     }
 }

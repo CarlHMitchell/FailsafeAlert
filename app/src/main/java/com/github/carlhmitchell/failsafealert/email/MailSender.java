@@ -55,7 +55,7 @@ public class MailSender extends javax.mail.Authenticator {
     public synchronized void sendMail(String subject, String body, String sender, String recipients) {
         try {
             MimeMessage message = new MimeMessage(session);
-            DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));
+            DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes()));
             message.setSender(new InternetAddress(sender));
             message.setSubject(subject);
             message.setDataHandler(handler);
@@ -125,22 +125,26 @@ public class MailSender extends javax.mail.Authenticator {
 
     class ByteArrayDataSource implements DataSource {
         private final byte[] data;
-        private String type;
+        private final String type;
 
-        ByteArrayDataSource(byte[] data, String type) {
+        ByteArrayDataSource(byte[] data) {
             super();
             this.data = data;
-            this.type = type;
+            this.type = "text/plain";
         }
 
-        public ByteArrayDataSource(byte[] data) {
-            super();
-            this.data = data;
-        }
+// --Commented out by Inspection START (2018-07-18 17:23):
+//        public ByteArrayDataSource(byte[] data) {
+//            super();
+//            this.data = data;
+//        }
+// --Commented out by Inspection STOP (2018-07-18 17:23)
 
-        public void setType(String type) {
-            this.type = type;
-        }
+// --Commented out by Inspection START (2018-07-18 17:23):
+//        public void setType(String type) {
+//            this.type = type;
+//        }
+// --Commented out by Inspection STOP (2018-07-18 17:23)
 
         public String getContentType() {
             if (type == null) {
