@@ -22,10 +22,6 @@ public class WakefulIntentService extends IntentService {
     private static PowerManager.WakeLock lockStatic = null;
     private PowerManager.WakeLock lockLocal = null;
 
-    public WakefulIntentService() {
-        super("WakefulIntentService");
-    }
-
     public WakefulIntentService(String name) {
         super(name);
     }

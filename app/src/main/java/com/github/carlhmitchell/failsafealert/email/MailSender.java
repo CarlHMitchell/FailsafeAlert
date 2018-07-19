@@ -81,7 +81,7 @@ public class MailSender extends javax.mail.Authenticator {
         private String nestedFallback = "false";
         private String nestedQuitwait = "false";
 
-        public MailSenderBuilder(final String newUser, final String newPassword) {
+        MailSenderBuilder(final String newUser, final String newPassword) {
             this.nestedUser = newUser;
             this.nestedPassword = newPassword;
         }
