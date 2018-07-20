@@ -11,8 +11,6 @@ import android.widget.Toast;
 
 public class ToastService {
 
-    public ToastService() {}
-
     /**
      * Send a Toast from any Context, even a Service or Application!
      * @param context Context from which to send the Toast.

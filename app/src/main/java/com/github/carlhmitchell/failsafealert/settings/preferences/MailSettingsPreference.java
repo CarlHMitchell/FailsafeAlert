@@ -18,7 +18,7 @@ import com.github.carlhmitchell.failsafealert.utilities.ToastService;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class MailSettingsPreference extends DialogPreference {
+class MailSettingsPreference extends DialogPreference {
     private final String DEBUG_TAG = MailSettingsPreference.class.getSimpleName();
     //private String protocol;
     //private EditText protocolET;
@@ -38,6 +38,7 @@ public class MailSettingsPreference extends DialogPreference {
     private final SharedPreferences.Editor editor;
 
 
+    @SuppressWarnings({"WeakerAccess", "unused"})
     @SuppressLint("CommitPrefEdits")
     public MailSettingsPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -93,6 +94,8 @@ public class MailSettingsPreference extends DialogPreference {
             mailhost = mailhostET.getText().toString();
             try {
                 URI mailhostURI = new URI(mailhost);
+                Log.d(DEBUG_TAG, mailhostURI.toString()); // This should really just be an annotation
+                                                          // to suppress the warning.
                 editor.putString("pref_mail_mailhost", mailhost);
             } catch (URISyntaxException e) {
                 ToastService.toast(this.getContext(), "Error, invalid mailhost URL", 0);

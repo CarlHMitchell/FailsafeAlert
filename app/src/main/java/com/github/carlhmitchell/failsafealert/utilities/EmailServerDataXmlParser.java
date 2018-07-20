@@ -1,39 +1,34 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.util.Log;
-
-import com.github.carlhmitchell.failsafealert.R;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class EmailServerDataXmlParser {
-
-    public static String lastErrorMessage = "";
     private static final String DEBUG_TAG = EmailServerDataXmlParser.class.getSimpleName();
 
     /**
      * Static method to parse XML data into an ArrayList of EmailServerData objects
+     *
      * @param context is the calling context
      * @param xmlResourceId is the resource id of the XML resource to be parsed
      * @return null if parse error, or ArrayList of objects if successful
-     * @throws XmlPullParserException
-     * @throws IOException
      */
     public static ArrayList<EmailServerData> parse(Context context, int xmlResourceId) {
-        Resources res = context.getApplicationContext().getResources();
-        XmlResourceParser parser = res.getXml(xmlResourceId);
-        String text = "";
-
         ArrayList<EmailServerData> serverDataArrayList = new ArrayList<>();
         try {
+            Resources res = context.getApplicationContext().getResources();
+            XmlResourceParser parser = res.getXml(xmlResourceId);
+            String text = "";
+
             EmailServerData currentServer = null;
             parser.next();
             int eventType = parser.getEventType();
@@ -56,21 +51,21 @@ public class EmailServerDataXmlParser {
                             // Add the server to the list
                             serverDataArrayList.add(currentServer);
                         } else if (tagname.equalsIgnoreCase("serverName")) {
-                            currentServer.setServerName(text);
+                            Objects.requireNonNull(currentServer).setServerName(text);
                         } else if (tagname.equalsIgnoreCase("protocol")) {
-                            currentServer.setProtocol(text);
+                            Objects.requireNonNull(currentServer).setProtocol(text);
                         } else if (tagname.equalsIgnoreCase("mailhost")) {
-                            currentServer.setMailhost(text);
+                            Objects.requireNonNull(currentServer).setMailhost(text);
                         } else if (tagname.equalsIgnoreCase("port")) {
-                            currentServer.setPort(Integer.parseInt(text));
+                            Objects.requireNonNull(currentServer).setPort(Integer.parseInt(text));
                         } else if (tagname.equalsIgnoreCase("auth")) {
-                            currentServer.setAuth(Boolean.parseBoolean(text));
+                            Objects.requireNonNull(currentServer).setAuth(Boolean.parseBoolean(text));
                         } else if (tagname.equalsIgnoreCase("sslport")) {
-                            currentServer.setSslport(Integer.parseInt(text));
+                            Objects.requireNonNull(currentServer).setSslport(Integer.parseInt(text));
                         } else if (tagname.equalsIgnoreCase("fallback")) {
-                            currentServer.setFallback(Boolean.parseBoolean(text));
+                            Objects.requireNonNull(currentServer).setFallback(Boolean.parseBoolean(text));
                         } else if (tagname.equalsIgnoreCase("quitwait")) {
-                            currentServer.setQuitwait(Boolean.parseBoolean(text));
+                            Objects.requireNonNull(currentServer).setQuitwait(Boolean.parseBoolean(text));
                         } else {
                             Log.e(DEBUG_TAG, "Error, invalid XML!");
                         }
@@ -86,6 +81,9 @@ public class EmailServerDataXmlParser {
             e.printStackTrace();
         } catch (IOException e) {
             Log.e(DEBUG_TAG, "IO Error");
+            e.printStackTrace();
+        } catch (NullPointerException e) {
+            Log.e(DEBUG_TAG, "Null pointer exception");
             e.printStackTrace();
         }
         return serverDataArrayList;

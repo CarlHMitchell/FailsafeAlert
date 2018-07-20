@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences data;
     private SharedPreferences.Editor editor;
     private Button cancelButton;
-    private static boolean buttonState = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -6,10 +6,8 @@ import android.os.Parcelable;
 import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.github.carlhmitchell.failsafealert.R;
-import com.github.carlhmitchell.failsafealert.settings.MailSettingsActivity;
 import com.github.carlhmitchell.failsafealert.utilities.EmailServerData;
 import com.github.carlhmitchell.failsafealert.utilities.EmailServerDataXmlParser;
 
@@ -21,10 +19,6 @@ public class MailPresetPreference extends ListPreference {
     private final SharedPreferences.Editor editor;
     private final ArrayList<EmailServerData> servers;
     private static String server = "Custom";
-
-    public static String getServer() {
-        return server;
-    }
 
     public static void setServer(final String newServer) {
         server = newServer;
