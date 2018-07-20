@@ -16,10 +16,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.carlhmitchell.contactablespicker.ContactsList;
 import com.github.carlhmitchell.failsafealert.settings.SettingsActivity;
 import com.github.carlhmitchell.failsafealert.utilities.MessageSender;
+import com.github.carlhmitchell.failsafealert.utilities.ToastService;
 
 import java.util.Objects;
 
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     //private Toolbar toolbar;
     private SharedPreferences data;
     private SharedPreferences.Editor editor;
+    private Button cancelButton;
+    private static boolean buttonState = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,19 +54,19 @@ public class MainActivity extends AppCompatActivity {
         editor = data.edit();
         editor.apply();
 
-        Button cancelButton = findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelAlert();
-            }
-        });
+        cancelButton = findViewById(R.id.cancelButton);
+        int state = data.getInt("state", 0);
+        if (state == SWITCH_ACTIVE) {
+            enableCancelButton();
+        } else if (state == SWITCH_INACTIVE) {
+            disableCancelButton();
+        }
 
         Button emailTestButton = findViewById(R.id.emailTestButton);
         emailTestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                testEmail();
+                testMessage();
             }
         });
 
@@ -103,12 +107,35 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void testEmail() {
+    private void enableCancelButton() {
+        cancelButton.setText(R.string.cancel_button_enabled);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelAlert();
+                ToastService.toast(getBaseContext(), getString(R.string.alert_canceled), Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    private void disableCancelButton() {
+        cancelButton.setText(R.string.cancel_button_disabled);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ToastService.toast(getBaseContext(), getString(R.string.cancel_button_disabled_message), Toast.LENGTH_SHORT);
+            }
+        });
+    }
+
+    private void testMessage() {
         Log.i(DEBUG_TAG, "Test Message button clicked");
         try {
             new MessageSender(this).sendMessages();
+            ToastService.toast(this, "Alert sent to selected contacts", Toast.LENGTH_SHORT);
         } catch (Exception e) {
             Log.e("TestMessageButton", "Error creating MessageSender: " + e);
+            ToastService.toast(this, "Error, could not send alert!", Toast.LENGTH_SHORT);
         }
     }
 
@@ -149,6 +176,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(DEBUG_TAG, "Cancel Button clicked while switch is active");
             editor.putInt("state", SWITCH_INACTIVE);
             editor.apply();
+            disableCancelButton();
             Intent cancelNotificationIntent = new Intent(this, BackgroundService.class);
             cancelNotificationIntent.putExtra("type", "cancelNotification");
             this.startService(cancelNotificationIntent);
@@ -156,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i(DEBUG_TAG, "Cancel button clicked while switch inactive.");
             Log.i(DEBUG_TAG, "State is " + state);
         }
+
     }
 
     private void doLaunchContactEditor() {

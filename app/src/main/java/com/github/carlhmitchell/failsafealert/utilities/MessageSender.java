@@ -93,13 +93,13 @@ public class MessageSender {
         permissionManager.checkPermissions(singleton(Manifest.permission.SEND_SMS), new PermissionManager.PermissionRequestListener() {
             @Override
             public void onPermissionGranted() {
-                Toast.makeText(messageSenderContext, "Permissions Granted", Toast.LENGTH_SHORT).show();
+                ToastService.toast(messageSenderContext, "Permissions Granted", Toast.LENGTH_SHORT);
                 sms.sendTextMessage(phoneNumber, null, message, null, null);
             }
 
             @Override
             public void onPermissionDenied() {
-                Toast.makeText(messageSenderContext, "Permissions Denied", Toast.LENGTH_SHORT).show();
+                ToastService.toast(messageSenderContext, "Permissions Denied", Toast.LENGTH_SHORT);
             }
         });
     }

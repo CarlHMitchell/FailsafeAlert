@@ -3,9 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
 
-    <!--
-    <string name="mail_settings_button">Email Settings</string>
-    -->
     <string name="pref_mail_settings_title">Email Settings</string>
     <string name="pref_mail_settings_summary">Email Server Settings</string>
     <string name="pref_mail_username_title">Username</string>
@@ -22,7 +19,9 @@
 
     <string name="pref_message_title">Compose Message</string>
 
-    <string name="press_to_cancel_alarm">Press to Cancel Alarm</string>
+    <string name="cancel_button_enabled">Cancel Alarm</string>
+    <string name="cancel_button_disabled">Disabled, please wait</string>
+    <string name="cancel_button_disabled_message">Wait for the notification!</string>
     <string name="custom_email_server_settings_summary">Custom email server settings</string>
     <string name="custom_server_settings_title">Custom server settings</string>
     <string name="message_settings_category_title">Message Settings</string>
@@ -31,5 +30,6 @@
     <string name="mail_port_hint">Mail Port</string>
     <string name="ssl_port_hint">SSL Port</string>
     <string name="notification_text">Failsafe Alert is active! Cancel it now, or the alert will be sent.</string>
+    <string name="alert_canceled">Alert canceled</string>
 
 </resources>
