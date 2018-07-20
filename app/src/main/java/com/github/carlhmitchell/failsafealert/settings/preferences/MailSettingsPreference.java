@@ -6,14 +6,20 @@ import android.content.SharedPreferences;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 
 import com.github.carlhmitchell.failsafealert.R;
+import com.github.carlhmitchell.failsafealert.utilities.ToastService;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class MailSettingsPreference extends DialogPreference {
+    private final String DEBUG_TAG = MailSettingsPreference.class.getSimpleName();
     //private String protocol;
     //private EditText protocolET;
     private String mailhost;
@@ -85,7 +91,14 @@ public class MailSettingsPreference extends DialogPreference {
             //editor.putString("pref_mail_protocol", protocol);
 
             mailhost = mailhostET.getText().toString();
-            editor.putString("pref_mail_mailhost", mailhost);
+            try {
+                URI mailhostURI = new URI(mailhost);
+                editor.putString("pref_mail_mailhost", mailhost);
+            } catch (URISyntaxException e) {
+                ToastService.toast(this.getContext(), "Error, invalid mailhost URL", 0);
+                Log.e(DEBUG_TAG, "Caught exception:\n" + e);
+                Log.e(DEBUG_TAG, "URL :" + mailhost);
+            }
 
             auth = authS.isChecked();
             editor.putBoolean("pref_mail_auth", auth);
@@ -103,6 +116,7 @@ public class MailSettingsPreference extends DialogPreference {
             editor.putInt("pref_mail_sslport", sslport);
 
             editor.apply();
+            MailPresetPreference.setServer("Custom");
         }
     }
 
