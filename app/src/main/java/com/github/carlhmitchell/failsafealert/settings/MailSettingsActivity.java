@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.settings;
 
+//View
+
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 

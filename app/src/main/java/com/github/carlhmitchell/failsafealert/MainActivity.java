@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert;
 
+//View
+
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.ContextWrapper;

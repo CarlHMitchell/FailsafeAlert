@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert;
 
+//Model?
+
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -27,7 +29,8 @@ import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWIT
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_INACTIVE;
 
 /**
- *
+ * Service to handle notifying the user when a notification alert is recieved, send the alerts when
+ *  the alarm alert is recieved, and maintain a state machine to track what action is needed.
  */
 public class BackgroundService extends WakefulIntentService {
     private final long TIME_DELTA_MILLIS;
@@ -42,6 +45,9 @@ public class BackgroundService extends WakefulIntentService {
     }
 
 
+    /**
+     * Sends a notification to the user so they can cancel the alert from being sent.
+     */
     private void sendNotification() {
         // Get an instance of NotificationManager
         Intent intent = new Intent(this, MainActivity.class);
@@ -49,8 +55,8 @@ public class BackgroundService extends WakefulIntentService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, DBG_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_announcement_black_24dp)
-                .setContentTitle("Cancel the alert!")
-                .setContentText("The Cancel button is active!")
+                .setContentTitle(getString(R.string.cancel_notification_title))
+                .setContentText(getString(R.string.cancel_notification_text))
                 .setPriority(NotificationCompat.PRIORITY_MAX)
                 .setContentIntent(pendingIntent);
 
@@ -62,6 +68,9 @@ public class BackgroundService extends WakefulIntentService {
 
     }
 
+    /**
+     * Clear the notification. Called when the user presses the "cancel alert" button.
+     */
     private void cancelNotification() {
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         Objects.requireNonNull(mNotificationManager).cancelAll();

@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
+//Model
+
 public class EmailServerData {
     private String serverName;
     private String protocol;

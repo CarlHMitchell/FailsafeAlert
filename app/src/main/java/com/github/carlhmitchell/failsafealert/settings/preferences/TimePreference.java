@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.settings.preferences;
 
+//ViewModel
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.preference.DialogPreference;

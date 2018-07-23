@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
+//ViewModel?
+
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;

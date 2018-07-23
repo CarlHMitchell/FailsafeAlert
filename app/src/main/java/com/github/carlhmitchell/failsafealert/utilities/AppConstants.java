@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
+//N/A
+
 public class AppConstants {
     public static final int SWITCH_INACTIVE = 0;
     public static final int SWITCH_ACTIVE = 1;

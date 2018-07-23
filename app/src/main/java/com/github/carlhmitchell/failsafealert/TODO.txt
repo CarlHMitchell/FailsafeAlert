@@ -1,6 +1,6 @@
 TODO
 
-Fix mail settings preset list & to select Custom if "Ok" is pressed in Mail Settings Preference
-
+Add Help/Tutorial
+Document
 Prettify code
 Publish

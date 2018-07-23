@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.settings.preferences;
 
+//ViewModel
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -52,6 +54,12 @@ class MailSettingsPreference extends DialogPreference {
         setDialogIcon(null);
     }
 
+    /**
+     * Inflates the dialog, binds the EditTexts to their Views, and sets their text to the current
+     * values stored in the SharedPreferences
+     * @return the created View.
+     */
+    @Override
     protected View onCreateDialogView() {
         // Suppressing Lint for null view root. According to
         //  http://www.doubleencore.com/2013/05/layout-inflation-as-intended/
@@ -84,6 +92,10 @@ class MailSettingsPreference extends DialogPreference {
         return v;
     }
 
+    /**
+     * Persist new values to the SharedPreferences if the user pressed OK.
+     * @param positiveResult true if the user pressed OK.
+     */
     @Override
     protected void onDialogClosed(boolean positiveResult) {
         if (positiveResult) {
@@ -119,10 +131,15 @@ class MailSettingsPreference extends DialogPreference {
             editor.putInt("pref_mail_sslport", sslport);
 
             editor.apply();
-            MailPresetPreference.setServer("Custom");
+            //MailPresetPreference.setServer("Custom");
         }
     }
 
+    /**
+     * Show the correct default values when opened.
+     * @param restorePersistedValue true if the SharedPreferences should be read to find the current value.
+     * @param defaultValue used if the SharedPreferences doesn't have a value stored.
+     */
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
         //protocol = prefs.getString("pref_mail_protocol", "smtp");

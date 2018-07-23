@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.settings.preferences;
 
+//ViewModel
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Parcelable;
@@ -18,11 +20,13 @@ public class MailPresetPreference extends ListPreference {
     private final SharedPreferences prefs;
     private final SharedPreferences.Editor editor;
     private final ArrayList<EmailServerData> servers;
+    /*
     private static String server = "Custom";
 
     public static void setServer(final String newServer) {
         server = newServer;
     }
+    */
 
     public MailPresetPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -32,6 +36,7 @@ public class MailPresetPreference extends ListPreference {
         servers = EmailServerDataXmlParser.parse(context, R.xml.email_server_presets);
     }
 
+    /*
     @Override
     protected void onRestoreInstanceState(Parcelable state) {
         super.onRestoreInstanceState(state);
@@ -43,6 +48,7 @@ public class MailPresetPreference extends ListPreference {
         super.onSetInitialValue(restoreValue, defaultValue);
         setValue(server);
     }
+    */
 
     @Override
     protected void onDialogClosed(boolean positiveResult) {
@@ -50,7 +56,7 @@ public class MailPresetPreference extends ListPreference {
         if (positiveResult) {
             // User selected a value
             String value = getValue();
-            setServer(value);
+            //setServer(value);
             boolean presetFound = false;
             for (EmailServerData serverData : servers) {
                 if (serverData.getServerName().equalsIgnoreCase(value)) {

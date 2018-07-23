@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
+//Model
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

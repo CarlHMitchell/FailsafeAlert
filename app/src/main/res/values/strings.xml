@@ -31,5 +31,7 @@
     <string name="ssl_port_hint">SSL Port</string>
     <string name="notification_text">Failsafe Alert is active! Cancel it now, or the alert will be sent.</string>
     <string name="alert_canceled">Alert canceled</string>
+    <string name="cancel_notification_title">Cancel the alert!</string>
+    <string name="cancel_notification_text">The Cancel button is active!</string>
 
 </resources>

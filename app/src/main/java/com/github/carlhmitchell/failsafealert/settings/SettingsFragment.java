@@ -1,5 +1,6 @@
 package com.github.carlhmitchell.failsafealert.settings;
 
+//View
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;

@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert;
 
+//View
+
 import android.app.Activity;
 import android.os.Bundle;
 

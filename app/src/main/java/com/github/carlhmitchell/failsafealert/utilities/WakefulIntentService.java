@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
+//Model?
+
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;

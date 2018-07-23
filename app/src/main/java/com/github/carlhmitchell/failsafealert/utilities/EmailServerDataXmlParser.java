@@ -1,5 +1,7 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
+//Model
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
