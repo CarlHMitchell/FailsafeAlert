@@ -4,7 +4,6 @@ package com.github.carlhmitchell.failsafealert.settings.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Parcelable;
 import android.preference.ListPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;

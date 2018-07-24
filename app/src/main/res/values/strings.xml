@@ -50,7 +50,7 @@
     <string name="settings_help_text">
         \tEdit the message you want to have sent in the \"Compose Message\" screen.\n\n
         Set the time each day you want the cancel button to activate by picking a time in the \"Enable Cancellation at\" screen.\n\n
-        Set the time each day you want the message to be sent if the cancel button isn't pressed in the \"Send Alert at\" screen.
+        Set the time each day you want the message to be sent if the cancel button isn\'t pressed in the \"Send Alert at\" screen.
     </string>
     <string name="help_text">
         \tThis app sends a message to all selected contacts if the main screen cancel button is NOT pressed during a set time period each day.\n\n
