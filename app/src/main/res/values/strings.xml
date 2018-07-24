@@ -25,7 +25,7 @@
     <string name="custom_email_server_settings_summary">Custom email server settings</string>
     <string name="custom_server_settings_title">Custom server settings</string>
     <string name="message_settings_category_title">Message Settings</string>
-    <string name="message_test">Message Test</string>
+    <string name="message_test">Send Message NOW!</string>
     <string name="mail_host_hint">Mail Host</string>
     <string name="mail_port_hint">Mail Port</string>
     <string name="ssl_port_hint">SSL Port</string>
