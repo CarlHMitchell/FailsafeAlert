@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.github.carlhmitchell.contactablespicker.ContactsList;
+import com.github.carlhmitchell.failsafealert.help.HelpActivity;
 import com.github.carlhmitchell.failsafealert.settings.SettingsActivity;
 import com.github.carlhmitchell.failsafealert.utilities.MessageSender;
 import com.github.carlhmitchell.failsafealert.utilities.ToastService;
@@ -34,7 +35,6 @@ import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWIT
 public class MainActivity extends AppCompatActivity {
 
     private final String DEBUG_TAG = "MainActivity";
-    //private Toolbar toolbar;
     private SharedPreferences data;
     private SharedPreferences.Editor editor;
     private Button cancelButton;
@@ -91,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
     }
 
+    /**
+     * Makes a notification channel for android 8 (API 26) and above.
+     */
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -108,6 +111,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Enables the cancel button and sets its text appropriately.
+     * Called when the notification alarm is recieved.
+     */
     private void enableCancelButton() {
         cancelButton.setText(R.string.cancel_button_enabled);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Disables the cancel button. Called when the alert has been set or canceled.
+     * Changes the cancel button's text & makes the on-click listener notify the user to wait until
+     *  the appropriate time.
+     */
     private void disableCancelButton() {
         cancelButton.setText(R.string.cancel_button_disabled);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +141,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Send the message to all selected contacts.
+     */
     private void testMessage() {
         Log.i(DEBUG_TAG, "Test Message button clicked");
         try {
@@ -140,6 +155,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Initialize the contents of the options menu
+     * @param menu the options menu in which the items will be placed
+     * @return true if the menu is to be displayed
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -147,6 +167,11 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Called when the user selects an item from the action bar menu
+     * @param item id of the selected item resource
+     * @return false to allow normal menu processing to proceed, true to onsume it here
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -156,8 +181,11 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            settingsMessage();
+            openSettings();
             return true; // Open settings activity
+        } else if (id ==R.id.action_help) {
+            openHelp();
+            return true; // Open help activity
         }
 
         return super.onOptionsItemSelected(item);
@@ -166,11 +194,22 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Called when the user taps the settings button
      */
-    private void settingsMessage() {
+    private void openSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * Called when the user taps the help button
+     */
+    private void openHelp() {
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * Cancel the alert from being sent.
+     */
     private void cancelAlert() {
         int state = data.getInt("state", 0);
         if (state == SWITCH_ACTIVE) {
@@ -188,6 +227,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Launch the contact list editor.
+     */
     private void doLaunchContactEditor() {
         startActivity(new Intent(this, ContactsList.class));
     }

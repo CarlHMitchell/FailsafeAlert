@@ -33,5 +33,6 @@
     <string name="alert_canceled">Alert canceled</string>
     <string name="cancel_notification_title">Cancel the alert!</string>
     <string name="cancel_notification_text">The Cancel button is active!</string>
+    <string name="action_help">Help</string>
 
 </resources>
