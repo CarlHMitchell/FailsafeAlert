@@ -34,5 +34,30 @@
     <string name="cancel_notification_title">Cancel the alert!</string>
     <string name="cancel_notification_text">The Cancel button is active!</string>
     <string name="action_help">Help</string>
+    <string name="contacts_help_text">
+        \tLaunch the contact picker using the contact button in the lower right corner.\n\n
+        Swipe right or left on a contact name to remove that contact.\n\n
+        Swipe right or left on a phone number or email address to remove that item.\n\n
+        Your message will be sent to all phone numbers and email addresses shown!
+    </string>
+    <string name="email_settings_help_text">
+        \tSet your email username (probably your email address) in the \"Username\" screen.\n\n
+        Set your email password in the \"Password\" screen.\n
+        Gmail users with 2-factor authentication enabled must generate an app-specific password in their Google account settings.\n\n
+        Select your email server in the \"Email Server Settings\" screen.\n
+        \t\tFirst, pick your server from the \"Pick Email Server\" screen. If you need a custom server, pick \"Custom\", then enter those settings in the \"Custom server settings\" screen.
+    </string>
+    <string name="settings_help_text">
+        \tEdit the message you want to have sent in the \"Compose Message\" screen.\n\n
+        Set the time each day you want the cancel button to activate by picking a time in the \"Enable Cancellation at\" screen.\n\n
+        Set the time each day you want the message to be sent if the cancel button isn't pressed in the \"Send Alert at\" screen.
+    </string>
+    <string name="help_text">
+        \tThis app sends a message to all selected contacts if the main screen cancel button is NOT pressed during a set time period each day.\n\n
+        Select a help topic below for more information.
+    </string>
+    <string name="contacts_help_button_text">Contacts Help</string>
+    <string name="settings_help_button_text">Settings Help</string>
+    <string name="email_settings_help_button_text">Email Settings Help</string>
 
 </resources>

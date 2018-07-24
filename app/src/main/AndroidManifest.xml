@@ -66,7 +66,10 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".settings.MailSettingsActivity" />
-        <activity android:name=".help.HelpActivity"></activity>
+        <activity android:name=".help.HelpActivity" />
+        <activity android:name=".help.SettingsHelpActivity" />
+        <activity android:name=".help.EmailSettingsHelpActivity" />
+        <activity android:name=".help.ContactsHelpActivity"></activity>
     </application>
 
 </manifest>
