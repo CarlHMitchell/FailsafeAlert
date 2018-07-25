@@ -63,27 +63,31 @@ public class MainActivity extends AppCompatActivity {
             disableCancelButton();
         }
 
-        Button emailTestButton = findViewById(R.id.emailTestButton);
-        emailTestButton.setOnClickListener(new View.OnClickListener() {
+        Button messageTestButton = findViewById(R.id.messageTestButton);
+        messageTestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 testMessage();
             }
         });
 
-        //+ button, should launch contacts? Or just put this in the Settings activity?
+        Button messageSendNowButton = findViewById(R.id.messageSendNowButton);
+        messageSendNowButton.setTextColor(getResources().getColor(R.color.sendNowText));
+        messageSendNowButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendHelpRequest();
+            }
+        });
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //doLaunchContactPhonePicker(view);
                 doLaunchContactEditor();
-                //Snackbar.make(view, R.string.contact_selected, Snackbar.LENGTH_LONG).setAction("Action", null).show();
             }
         });
 
-        //Context context; // android.content.Context
-        //context = getApplicationContext();
         BackgroundService.acquireStaticLock(this);
         Intent startupIntent = new Intent(this, BackgroundService.class);
         startupIntent.putExtra("type", "startup");
@@ -98,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "dbg_channel_name";
-            String description = "dbg_channel_description";
+            CharSequence name = "Failsafe_Alert_channel";
+            String description = "Failsafe_Alert_channel_description";
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(DBG_CHANNEL_ID, name, importance);
             channel.setDescription(description);
@@ -116,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
      * Called when the notification alarm is recieved.
      */
     private void enableCancelButton() {
+        cancelButton.setEnabled(true);
         cancelButton.setText(R.string.cancel_button_enabled);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,7 +137,9 @@ public class MainActivity extends AppCompatActivity {
      *  the appropriate time.
      */
     private void disableCancelButton() {
-        cancelButton.setText(R.string.cancel_button_disabled);
+        cancelButton.setEnabled(false);
+        String time = data.getString("pref_notification_time", "TIME NOT SET");
+        cancelButton.setText(getString(R.string.cancel_button_disabled) + " " + time);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,16 +149,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Send the message to all selected contacts.
+     * Send a test message to all selected contacts.
      */
     private void testMessage() {
         Log.i(DEBUG_TAG, "Test Message button clicked");
         try {
-            new MessageSender(this).sendMessages();
-            ToastService.toast(this, "Alert sent to selected contacts", Toast.LENGTH_SHORT);
+            new MessageSender(this).sendHelpRequest(true);
+            ToastService.toast(this, getString(R.string.test_sent_toast), Toast.LENGTH_SHORT);
         } catch (Exception e) {
             Log.e("TestMessageButton", "Error creating MessageSender: " + e);
-            ToastService.toast(this, "Error, could not send alert!", Toast.LENGTH_SHORT);
+            ToastService.toast(this, getString(R.string.test_send_failed_toast), Toast.LENGTH_LONG);
+        }
+    }
+
+    /**
+     * Send the help request to all selected contacts.
+     */
+    private void sendHelpRequest() {
+        Log.i(DEBUG_TAG, "Send Help Request button clicked");
+        try {
+            new MessageSender(this).sendHelpRequest(false);
+            ToastService.toast(this, getString(R.string.help_request_sent_toast), Toast.LENGTH_SHORT);
+        } catch (Exception e) {
+            Log.e("TestMessageButton", "Error creating MessageSender: " + e);
+            ToastService.toast(this, getString(R.string.help_request_failed_toast), Toast.LENGTH_SHORT);
         }
     }
 

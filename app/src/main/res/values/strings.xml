@@ -17,16 +17,17 @@
     <string name="pref_notification_time_text">Enable Cancellation at</string>
     <string name="pref_alert_time_text">Send Alert at</string>
 
-    <string name="pref_message_title">Compose Message</string>
+    <string name="pref_message_title">Compose Help Request</string>
 
     <string name="cancel_button_enabled">Cancel Alarm</string>
-    <string name="cancel_button_disabled">Disabled, please wait</string>
+    <string name="cancel_button_disabled">Cancel Alarm\nDisabled, please wait until </string>
     <string name="cancel_button_disabled_message">Wait for the notification!</string>
     <string name="custom_email_server_settings_summary">Custom email server settings</string>
     <string name="custom_server_settings_title">Custom server settings</string>
     <string name="message_settings_category_title">Message Settings</string>
-    <string name="message_test_button_text">Send TEST message</string>
-    <string name="message_help_button_text">Send HELP Message NOW!</string>
+    <string name="test_message">This message is a test from the Failsafe Alert app.</string>
+    <string name="message_test_button_text">Send TEST Message</string>
+    <string name="message_help_button_text">Send HELP Request NOW!</string>
     <string name="mail_host_hint">Mail Host</string>
     <string name="mail_port_hint">Mail Port</string>
     <string name="ssl_port_hint">SSL Port</string>
@@ -49,7 +50,7 @@
         \t\tPick your server from the \"Pick Email Server\" screen. If you need a custom server, pick \"Custom\", then enter those settings in the \"Custom server settings\" screen.
     </string>
     <string name="settings_help_text">
-        \tEdit the message you want to have sent in the \"Compose Message\" screen.\n\n
+        \tEdit the message you want to have sent in the \"Compose Help Request\" screen.\n\n
         Set the time each day you want the cancel button to activate by picking a time in the \"Enable Cancellation at\" screen.\n\n
         Set the time each day you want the message to be sent if the cancel button HAS NOT been pressed in the \"Send Alert at\" screen.
     </string>
@@ -60,5 +61,9 @@
     <string name="contacts_help_button_text">Contacts Help</string>
     <string name="settings_help_button_text">Settings Help</string>
     <string name="email_settings_help_button_text">Email Settings Help</string>
+    <string name="test_sent_toast">Test message sent to selected contacts</string>
+    <string name="test_send_failed_toast">Error, could not send test message!</string>
+    <string name="help_request_sent_toast">Help request sent to selected contacts!</string>
+    <string name="help_request_failed_toast">Error, could not send help request!</string>
 
 </resources>

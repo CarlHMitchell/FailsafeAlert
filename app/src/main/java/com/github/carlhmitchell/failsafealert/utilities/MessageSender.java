@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.github.carlhmitchell.contactablespicker.Storage.Contact;
 import com.github.carlhmitchell.contactablespicker.Storage.ContactRepository;
+import com.github.carlhmitchell.failsafealert.R;
 import com.github.carlhmitchell.failsafealert.email.MailSenderTask;
 import com.intentfilter.androidpermissions.PermissionManager;
 
@@ -50,7 +51,7 @@ public class MessageSender {
         }
     }
 
-    public void sendMessages() {
+    public void sendHelpRequest(boolean isTest) {
         // Send the emails to the addresses in the SharedPreferences file.
         Log.i("MessageSender", "Sending emails.");
         List<Contact> contactsList = mAllContacts;
@@ -64,7 +65,7 @@ public class MessageSender {
             for (String emailAddress : contact.getEmailAddresses()) {
                 Log.d("MessageSender", emailAddress);
                 Log.d("MessageSender", "Sending mail to " + emailAddress);
-                sendEmail(emailAddress);
+                sendEmail(emailAddress, isTest);
             }
         }
 
@@ -73,23 +74,32 @@ public class MessageSender {
             for (String phoneNumber : contact.getPhoneNumbers()) {
                 if (!phoneNumber.equals("")) {
                     Log.d("MessageSender", "Sending SMS to " + phoneNumber);
-                    sendSMS(phoneNumber);
+                    sendSMS(phoneNumber, isTest);
                 }
             }
         }
     }
 
-    private void sendEmail(String address) {
+    private void sendEmail(String address, boolean isTest) {
         try {
             MailSenderTask task = new MailSenderTask(messageSenderContext);
-            task.execute(address);
+            if (isTest) {
+                task.execute(address, "true");
+            } else {
+                task.execute(address, "false");
+            }
         } catch (Exception e) {
             Log.e("Message Sender", "Got exception: " + e);
         }
     }
 
-    private void sendSMS(final String phoneNumber) {
-        final String message = sharedPref.getString("pref_message", null);
+    private void sendSMS(final String phoneNumber, boolean isTest) {
+        final String message;
+        if (isTest) {
+            message = messageSenderContext.getString(R.string.test_message);
+        } else {
+            message = sharedPref.getString("pref_message", null);
+        }
         final SmsManager sms = SmsManager.getDefault();
         PermissionManager permissionManager = PermissionManager.getInstance(messageSenderContext);
         permissionManager.checkPermissions(singleton(Manifest.permission.SEND_SMS), new PermissionManager.PermissionRequestListener() {

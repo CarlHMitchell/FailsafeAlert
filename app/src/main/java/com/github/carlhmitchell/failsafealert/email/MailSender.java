@@ -1,8 +1,9 @@
 package com.github.carlhmitchell.failsafealert.email;
 
 
-
 import android.util.Log;
+
+import com.github.carlhmitchell.failsafealert.utilities.EmailServerDataXmlParser;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -21,6 +22,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 public class MailSender extends javax.mail.Authenticator {
+    private final String DEBUG_TAG = MailSender.class.getSimpleName();
+
     static {
         Security.addProvider(new JSSEProvider());
     }
@@ -42,7 +45,7 @@ public class MailSender extends javax.mail.Authenticator {
         props.setProperty("mail.smtp.port", port); //465
         props.setProperty("mail.smtp.socketFactory.port", sslport); //465
         props.setProperty("mail.smtp.socketFactory.class",
-                  "javax.net.ssl.SSLSocketFactory"); //javax.net.ssl.SSLSocketFactory
+                          "javax.net.ssl.SSLSocketFactory"); //javax.net.ssl.SSLSocketFactory
         props.setProperty("mail.smtp.socketFactory.fallback", fallback); //false
         props.setProperty("mail.smtp.quitwait", quitwait); //false
 
@@ -54,12 +57,14 @@ public class MailSender extends javax.mail.Authenticator {
     }
 
     public synchronized void sendMail(String subject, String body, String sender, String recipients) {
+        Log.i(DEBUG_TAG, "sendMail called");
         try {
             MimeMessage message = new MimeMessage(session);
-            DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes()));
+            //DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes()));
+            //message.setDataHandler(handler);
+            message.setText(body);
             message.setSender(new InternetAddress(sender));
             message.setSubject(subject);
-            message.setDataHandler(handler);
             if (recipients.indexOf(',') > 0) {
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));
             } else {

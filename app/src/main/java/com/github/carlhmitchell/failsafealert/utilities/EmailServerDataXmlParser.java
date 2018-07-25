@@ -68,6 +68,8 @@ public class EmailServerDataXmlParser {
                             Objects.requireNonNull(currentServer).setFallback(Boolean.parseBoolean(text));
                         } else if (tagname.equalsIgnoreCase("quitwait")) {
                             Objects.requireNonNull(currentServer).setQuitwait(Boolean.parseBoolean(text));
+                        } else if (tagname.equalsIgnoreCase("server") || tagname.equalsIgnoreCase("emailServers")) {
+                            // No-op, closing the list.
                         } else {
                             Log.e(DEBUG_TAG, "Error, invalid XML!");
                         }

@@ -140,7 +140,7 @@ public class BackgroundService extends WakefulIntentService {
                     } else {
                         MessageSender sender = new MessageSender(this);
                         Log.i("BackgroundService", "Got alert alarm. SEND ALERT HERE!");
-                        sender.sendMessages();
+                        sender.sendHelpRequest(false);
                         editor.putInt("state", SWITCH_INACTIVE);
                         editor.apply();
                     }

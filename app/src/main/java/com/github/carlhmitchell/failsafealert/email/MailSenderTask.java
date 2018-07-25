@@ -9,28 +9,41 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.github.carlhmitchell.failsafealert.R;
+
 public class MailSenderTask extends AsyncTask<String, Void, Void> {
     private final SharedPreferences sharedPref;
+    private final Context mailSenderTaskContext;
 
 
     public MailSenderTask(Context context) {
         ContextWrapper wrapper = new ContextWrapper(context);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
+        mailSenderTaskContext = context;
     }
 
 
     @Override
     protected Void doInBackground(String... params) {
         String recipient = params[0];
+        boolean isTest = Boolean.parseBoolean(params[1].toString());
         String mailhost;
         boolean auth;
         int port;
         int sslport;
         boolean fallback;
         boolean quitwait;
+        String message;
+
 
         try {
             Log.d("MailSenderTask", "About to instantiate email sender.");
+
+            if (isTest) {
+                message = mailSenderTaskContext.getString(R.string.test_message);
+            } else {
+                message = sharedPref.getString("pref_message", "default message, this should never be seen");
+            }
 
             mailhost = sharedPref.getString("pref_mail_mailhost", "");
             auth = sharedPref.getBoolean("pref_mail_auth", true);
@@ -40,7 +53,7 @@ public class MailSenderTask extends AsyncTask<String, Void, Void> {
             quitwait = sharedPref.getBoolean("pref_mail_quitwait", false);
             String username = sharedPref.getString("pref_mail_username", "");
             String password = sharedPref.getString("pref_mail_password", "");
-            String message = sharedPref.getString("pref_message", "default message, this should never be seen");
+            //String message = sharedPref.getString("pref_message", "default message, this should never be seen");
             MailSender sender = new MailSender.MailSenderBuilder(username, password)
                     .mailhost(mailhost)
                     .auth(String.valueOf(auth))
@@ -49,7 +62,7 @@ public class MailSenderTask extends AsyncTask<String, Void, Void> {
                     .fallback(String.valueOf(fallback))
                     .quitwait(String.valueOf(quitwait))
                     .build();
-            sender.sendMail("test subject", //Subject
+            sender.sendMail("Failsafe Alert!", //Subject
                             message, // Body
                             username, //From
                             recipient // To
