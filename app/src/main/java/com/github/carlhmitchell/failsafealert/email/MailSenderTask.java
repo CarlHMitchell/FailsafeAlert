@@ -13,35 +13,32 @@ import com.github.carlhmitchell.failsafealert.R;
 
 public class MailSenderTask extends AsyncTask<String, Void, Void> {
     private final SharedPreferences sharedPref;
-    private final Context mailSenderTaskContext;
+    private String message;
 
 
     public MailSenderTask(Context context) {
         ContextWrapper wrapper = new ContextWrapper(context);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
-        mailSenderTaskContext = context;
+        message = wrapper.getString(R.string.test_message);
     }
 
 
     @Override
     protected Void doInBackground(String... params) {
         String recipient = params[0];
-        boolean isTest = Boolean.parseBoolean(params[1].toString());
+        boolean isTest = Boolean.parseBoolean(params[1]);
         String mailhost;
         boolean auth;
         int port;
         int sslport;
         boolean fallback;
         boolean quitwait;
-        String message;
 
 
         try {
             Log.d("MailSenderTask", "About to instantiate email sender.");
 
-            if (isTest) {
-                message = mailSenderTaskContext.getString(R.string.test_message);
-            } else {
+            if (!isTest) {
                 message = sharedPref.getString("pref_message", "default message, this should never be seen");
             }
 

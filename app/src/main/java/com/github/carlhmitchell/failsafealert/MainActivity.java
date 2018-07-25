@@ -139,7 +139,8 @@ public class MainActivity extends AppCompatActivity {
     private void disableCancelButton() {
         cancelButton.setEnabled(false);
         String time = data.getString("pref_notification_time", "TIME NOT SET");
-        cancelButton.setText(getString(R.string.cancel_button_disabled) + " " + time);
+        String temp = getString(R.string.cancel_button_disabled) + " " + time;
+        cancelButton.setText(temp);
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

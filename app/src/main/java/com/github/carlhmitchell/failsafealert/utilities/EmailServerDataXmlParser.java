@@ -70,6 +70,7 @@ public class EmailServerDataXmlParser {
                             Objects.requireNonNull(currentServer).setQuitwait(Boolean.parseBoolean(text));
                         } else if (tagname.equalsIgnoreCase("server") || tagname.equalsIgnoreCase("emailServers")) {
                             // No-op, closing the list.
+                            Log.v(DEBUG_TAG, "Got an ending tag");
                         } else {
                             Log.e(DEBUG_TAG, "Error, invalid XML!");
                         }
