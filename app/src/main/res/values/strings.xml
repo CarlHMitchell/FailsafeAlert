@@ -40,6 +40,7 @@
         \tTo select or edit contacts, use the contact button in the lower right corner of the main screen.\n\n
         To remove a contact, swipe left or right on the contact name.\n\n
         To remove a phone number or email address, swipe left or right on that item.\n\n
+        Contacts are saved automatically.\n\n
         Your message will be sent to all phone numbers and email addresses shown!
     </string>
     <string name="email_settings_help_text">
