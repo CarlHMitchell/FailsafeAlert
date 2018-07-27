@@ -7,4 +7,5 @@ public class AppConstants {
     public static final int SWITCH_ACTIVE = 1;
     public static final String DBG_CHANNEL_ID = "Debug Channel";
     public static final long MINUTE_MILLIS = 1000 * 60;
+    static final long WAKELOCK_TIMEOUT = MINUTE_MILLIS * 10;
 }

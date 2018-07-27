@@ -10,6 +10,8 @@ import android.util.Log;
 
 import java.util.Objects;
 
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.WAKELOCK_TIMEOUT;
+
 
 /**
  * An {@link IntentService} that acquires a partial WakeLock, to allow the BackgroundService
@@ -41,7 +43,7 @@ public class WakefulIntentService extends IntentService {
      * @param context context to acquire lock for.
      */
     public static void acquireStaticLock(Context context) {
-        getLock(context).acquire(24*60*60*1000L /*1 day*/);
+        getLock(context).acquire(WAKELOCK_TIMEOUT /*10 minutes*/);
         Log.d("WakefulIntentService", "Static Lock acquired");
     }
 
