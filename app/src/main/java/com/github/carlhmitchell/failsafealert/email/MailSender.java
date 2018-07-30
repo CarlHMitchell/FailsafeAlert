@@ -48,7 +48,7 @@ public class MailSender extends javax.mail.Authenticator {
         return new PasswordAuthentication(user, password);
     }
 
-    public synchronized void sendMail(String subject, String body, String sender, String recipients) {
+    public synchronized boolean sendMail(String subject, String body, String sender, String recipients) {
         Log.i(DEBUG_TAG, "sendMail called");
         try {
             MimeMessage message = new MimeMessage(session);
@@ -64,8 +64,10 @@ public class MailSender extends javax.mail.Authenticator {
             }
             Transport.send(message);
             Log.d("MailSender", "Message Sent");
+            return true;
         } catch (Exception e) {
             Log.e("MailSender", e.getMessage(), e);
+            return false;
         }
     }
 

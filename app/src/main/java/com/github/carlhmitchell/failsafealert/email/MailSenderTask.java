@@ -10,21 +10,22 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.github.carlhmitchell.failsafealert.R;
+import com.github.carlhmitchell.failsafealert.utilities.NotificationHelper;
 
-public class MailSenderTask extends AsyncTask<String, Void, Void> {
+public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
     private final SharedPreferences sharedPref;
     private String message;
-
+    private ContextWrapper wrapper;
 
     public MailSenderTask(Context context) {
-        ContextWrapper wrapper = new ContextWrapper(context);
+        wrapper = new ContextWrapper(context);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
         message = wrapper.getString(R.string.test_message);
     }
 
 
     @Override
-    protected Void doInBackground(String... params) {
+    protected Boolean doInBackground(String... params) {
         String recipient = params[0];
         boolean isTest = Boolean.parseBoolean(params[1]);
         String mailhost;
@@ -59,15 +60,27 @@ public class MailSenderTask extends AsyncTask<String, Void, Void> {
                     .fallback(String.valueOf(fallback))
                     .quitwait(String.valueOf(quitwait))
                     .build();
-            sender.sendMail("Failsafe Alert!", //Subject
+            boolean sendSuccess = sender.sendMail("Failsafe Alert!", //Subject
                             message, // Body
                             username, //From
                             recipient // To
             );
             Log.d("MailSender", "Mail sent");
+            return sendSuccess;
         } catch (Exception e) {
             Log.e("MailSender", e.getMessage(), e);
+            return false;
         }
-        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Boolean result) {
+        if (!result) {
+            //Failure!
+            NotificationHelper helper = new NotificationHelper(wrapper);
+            helper.sendNotification(wrapper.getString(R.string.email_send_error_notification_title),
+                                    wrapper.getString(R.string.email_send_error_notification_text));
+        }
+        wrapper = null;
     }
 }

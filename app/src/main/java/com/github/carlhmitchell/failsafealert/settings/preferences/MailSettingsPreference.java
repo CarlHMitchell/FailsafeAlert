@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import com.github.carlhmitchell.failsafealert.R;
-import com.github.carlhmitchell.failsafealert.utilities.ToastService;
+import com.github.carlhmitchell.failsafealert.utilities.ToastHelper;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -110,7 +110,7 @@ class MailSettingsPreference extends DialogPreference {
                                                           // to suppress the warning.
                 editor.putString("pref_mail_mailhost", mailhost);
             } catch (URISyntaxException e) {
-                ToastService.toast(this.getContext(), "Error, invalid mailhost URL", 0);
+                ToastHelper.toast(this.getContext(), "Error, invalid mailhost URL", 0);
                 Log.e(DEBUG_TAG, "Caught exception:\n" + e);
                 Log.e(DEBUG_TAG, "URL :" + mailhost);
             }

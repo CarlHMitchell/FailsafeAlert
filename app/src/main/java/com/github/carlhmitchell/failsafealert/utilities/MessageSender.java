@@ -3,22 +3,31 @@ package com.github.carlhmitchell.failsafealert.utilities;
 //Model?
 
 import android.Manifest;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.github.carlhmitchell.contactablespicker.Storage.Contact;
 import com.github.carlhmitchell.contactablespicker.Storage.ContactRepository;
+import com.github.carlhmitchell.failsafealert.MainActivity;
 import com.github.carlhmitchell.failsafealert.R;
 import com.github.carlhmitchell.failsafealert.email.MailSenderTask;
 import com.intentfilter.androidpermissions.PermissionManager;
 
 import java.util.List;
+import java.util.Objects;
 
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.NOTIFICATION_CHANNEL_ID;
 import static java.util.Collections.singleton;
 
 
@@ -88,10 +97,13 @@ public class MessageSender {
             } else {
                 task.execute(address, "false");
             }
-            ToastService.toast(messageSenderContext, "Email sent", Toast.LENGTH_SHORT);
+            ToastHelper.toast(messageSenderContext, "Email sent", Toast.LENGTH_SHORT);
         } catch (Exception e) {
             Log.e("Message Sender", "Got exception: " + e);
-            ToastService.toast(messageSenderContext, "Email failed to send", Toast.LENGTH_LONG);
+            ToastHelper.toast(messageSenderContext, "Email failed to send", Toast.LENGTH_LONG);
+            NotificationHelper helper = new NotificationHelper(messageSenderContext);
+            helper.sendNotification(messageSenderContext.getString(R.string.email_send_error_notification_title),
+                                    messageSenderContext.getString(R.string.email_send_error_notification_text));
         }
     }
 
@@ -107,13 +119,13 @@ public class MessageSender {
         permissionManager.checkPermissions(singleton(Manifest.permission.SEND_SMS), new PermissionManager.PermissionRequestListener() {
             @Override
             public void onPermissionGranted() {
-                ToastService.toast(messageSenderContext, "Permissions Granted", Toast.LENGTH_SHORT);
+                ToastHelper.toast(messageSenderContext, "Permissions Granted", Toast.LENGTH_SHORT);
                 sms.sendTextMessage(phoneNumber, null, message, null, null);
             }
 
             @Override
             public void onPermissionDenied() {
-                ToastService.toast(messageSenderContext, "Permissions Denied", Toast.LENGTH_SHORT);
+                ToastHelper.toast(messageSenderContext, "Permissions Denied", Toast.LENGTH_SHORT);
             }
         });
     }

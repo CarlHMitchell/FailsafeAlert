@@ -71,6 +71,7 @@
         <activity android:name=".help.SettingsHelpActivity" />
         <activity android:name=".help.EmailSettingsHelpActivity" />
         <activity android:name=".help.ContactsHelpActivity" />
+
     </application>
 
 </manifest>

@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.github.carlhmitchell.failsafealert.utilities.ScheduleAlarms;
 import com.github.carlhmitchell.failsafealert.utilities.TimeFormatter;
 import com.github.carlhmitchell.failsafealert.utilities.TimeUtilities;
-import com.github.carlhmitchell.failsafealert.utilities.ToastService;
+import com.github.carlhmitchell.failsafealert.utilities.ToastHelper;
 
 public class TimePreference extends DialogPreference {
     private final Context context;
@@ -57,7 +57,7 @@ public class TimePreference extends DialogPreference {
 
             String time = TimeFormatter.formatTime(lastHour, lastMinute);
             Log.d("TimePreference", "Time set to: " + time);
-            ToastService.toast(context, "Time set to: " + time, Toast.LENGTH_SHORT);
+            ToastHelper.toast(context, "Time set to: " + time, Toast.LENGTH_SHORT);
 
             if (callChangeListener(time)) {
                 persistString(time);

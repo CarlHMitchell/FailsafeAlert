@@ -7,7 +7,6 @@ import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioAttributes;
-import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
@@ -27,7 +26,7 @@ import com.github.carlhmitchell.contactablespicker.ContactsList;
 import com.github.carlhmitchell.failsafealert.help.HelpActivity;
 import com.github.carlhmitchell.failsafealert.settings.SettingsActivity;
 import com.github.carlhmitchell.failsafealert.utilities.MessageSender;
-import com.github.carlhmitchell.failsafealert.utilities.ToastService;
+import com.github.carlhmitchell.failsafealert.utilities.ToastHelper;
 
 import java.util.Objects;
 
@@ -107,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cancelAlert();
-                ToastService.toast(getBaseContext(), getString(R.string.alert_canceled), Toast.LENGTH_SHORT);
+                ToastHelper.toast(getBaseContext(), getString(R.string.alert_canceled), Toast.LENGTH_SHORT);
             }
         });
     }
@@ -125,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastService.toast(getBaseContext(), getString(R.string.cancel_button_disabled_message), Toast.LENGTH_SHORT);
+                ToastHelper.toast(getBaseContext(), getString(R.string.cancel_button_disabled_message), Toast.LENGTH_SHORT);
             }
         });
     }
@@ -188,10 +187,10 @@ public class MainActivity extends AppCompatActivity {
         Log.i(DEBUG_TAG, "Test Message button clicked");
         try {
             new MessageSender(this).sendHelpRequest(true);
-            ToastService.toast(this, getString(R.string.test_sent_toast), Toast.LENGTH_SHORT);
+            ToastHelper.toast(this, getString(R.string.test_sent_toast), Toast.LENGTH_SHORT);
         } catch (Exception e) {
             Log.e("TestMessageButton", "Error creating MessageSender: " + e);
-            ToastService.toast(this, getString(R.string.test_send_failed_toast), Toast.LENGTH_LONG);
+            ToastHelper.toast(this, getString(R.string.test_send_failed_toast), Toast.LENGTH_LONG);
         }
     }
 
@@ -202,10 +201,10 @@ public class MainActivity extends AppCompatActivity {
         Log.i(DEBUG_TAG, "Send Help Request button clicked");
         try {
             new MessageSender(this).sendHelpRequest(false);
-            ToastService.toast(this, getString(R.string.help_request_sent_toast), Toast.LENGTH_SHORT);
+            ToastHelper.toast(this, getString(R.string.help_request_sent_toast), Toast.LENGTH_SHORT);
         } catch (Exception e) {
             Log.e("TestMessageButton", "Error creating MessageSender: " + e);
-            ToastService.toast(this, getString(R.string.help_request_failed_toast), Toast.LENGTH_SHORT);
+            ToastHelper.toast(this, getString(R.string.help_request_failed_toast), Toast.LENGTH_SHORT);
         }
     }
 
