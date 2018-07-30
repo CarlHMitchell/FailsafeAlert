@@ -5,8 +5,8 @@
 
     <string name="pref_mail_settings_title">Email Settings</string>
     <string name="pref_mail_settings_summary">Email Server Settings</string>
-    <string name="pref_mail_username_title">Username</string>
-    <string name="pref_mail_password_title">Password</string>
+    <string name="pref_mail_username_title">Email Account Username</string>
+    <string name="pref_mail_password_title">Email Account Password</string>
     <string name="pref_mail_host_title">Mail Host</string>
     <string name="pref_mail_port_title">Mail Port</string>
     <string name="pref_mail_auth_title">Mail Authentication</string>
@@ -44,8 +44,8 @@
         Your message will be sent to all phone numbers and email addresses shown!
     </string>
     <string name="email_settings_help_text">
-        \tSet your email username (probably your email address) in the \"Username\" screen.\n\n
-        Set your email password in the \"Password\" screen.\n
+        \tSet your email account username (probably your email address) in the \"Email Account Username\" screen.\n\n
+        Set your email account password in the \"Email Account Password\" screen.\n
         Gmail users with 2-factor authentication enabled must generate an app-specific password in their Google account settings.\n\n
         Select your email server in the \"Email Server Settings\" screen.\n
         \t\tPick your server from the \"Pick Email Server\" screen. If you need a custom server, pick \"Custom\", then enter those settings in the \"Custom server settings\" screen.
@@ -66,5 +66,6 @@
     <string name="test_send_failed_toast">Error, could not send test message!</string>
     <string name="help_request_sent_toast">Help request sent to selected contacts!</string>
     <string name="help_request_failed_toast">Error, could not send help request!</string>
+    <string name="email_server_list_title">Pick Email Server — do this first</string>
 
 </resources>

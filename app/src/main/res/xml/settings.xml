@@ -33,7 +33,7 @@
                 android:key="pref_mail_preset_test"
                 android:entries="@array/pref_mail_servers"
                 android:entryValues="@array/pref_mail_servers_values"
-                android:title="Pick Email Server" />
+                android:title="@string/email_server_list_title" />
             <com.github.carlhmitchell.failsafealert.settings.preferences.MailSettingsPreference
                 android:key="pref_email_settings"
                 android:summary="@string/custom_email_server_settings_summary"
