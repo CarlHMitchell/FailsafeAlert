@@ -53,7 +53,7 @@ public class MessageSender {
 
     public void sendHelpRequest(boolean isTest) {
         // Send the emails to the addresses in the SharedPreferences file.
-        Log.i("MessageSender", "Sending emails.");
+        Log.i("MessageSender", "Sending messages.");
         List<Contact> contactsList = mAllContacts;
         // Send the emails all selected addresses for each selected contact
         Log.d("MessageSender", "Contacts list size: " + contactsList.size());
@@ -88,8 +88,10 @@ public class MessageSender {
             } else {
                 task.execute(address, "false");
             }
+            ToastService.toast(messageSenderContext, "Email sent", Toast.LENGTH_SHORT);
         } catch (Exception e) {
             Log.e("Message Sender", "Got exception: " + e);
+            ToastService.toast(messageSenderContext, "Email failed to send", Toast.LENGTH_LONG);
         }
     }
 
