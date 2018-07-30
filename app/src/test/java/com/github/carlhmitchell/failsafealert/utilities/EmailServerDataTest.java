@@ -6,7 +6,7 @@ import org.junit.Test;
 
 
 public class EmailServerDataTest {
-    private EmailServerData data;
+    private final EmailServerData data;
 
     public EmailServerDataTest() {
         data = new EmailServerData();

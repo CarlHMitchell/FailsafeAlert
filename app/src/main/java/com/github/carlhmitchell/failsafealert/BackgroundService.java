@@ -9,6 +9,8 @@ import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
@@ -23,7 +25,7 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import static android.app.PendingIntent.getBroadcast;
-import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.DBG_CHANNEL_ID;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.NOTIFICATION_CHANNEL_ID;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.MINUTE_MILLIS;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_ACTIVE;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_INACTIVE;
@@ -35,13 +37,15 @@ import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWIT
 public class BackgroundService extends WakefulIntentService {
     private final long TIME_DELTA_MILLIS;
     private final long MISSED_NOTIFICATION_DELTA_MILLIS;
+    private final String DEBUG_TAG = BackgroundService.class.getSimpleName();
 
     public BackgroundService() {
         super("BackgroundService");
-        Log.i("BackgroundService", "Service running");
+        Log.i(DEBUG_TAG, "Service running");
         //noinspection PointlessArithmeticExpression
         TIME_DELTA_MILLIS = MINUTE_MILLIS * 1; // 1 minutes in milliseconds.
         MISSED_NOTIFICATION_DELTA_MILLIS = MINUTE_MILLIS * 15; // 15 minutes in milliseconds.
+        //SDLog.printLog(this);
     }
 
 
@@ -53,12 +57,29 @@ public class BackgroundService extends WakefulIntentService {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, DBG_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_announcement_black_24dp)
-                .setContentTitle(getString(R.string.cancel_notification_title))
-                .setContentText(getString(R.string.cancel_notification_text))
-                .setPriority(NotificationCompat.PRIORITY_MAX)
-                .setContentIntent(pendingIntent);
+        NotificationCompat.Builder mBuilder = null;
+        Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_announcement_black_24dp)
+                    .setContentTitle(getString(R.string.cancel_notification_title))
+                    .setContentText(getString(R.string.cancel_notification_text))
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .setSound(uri)
+                    .setLights(getColor(R.color.notificationLight), 250, 250);
+        } else {
+
+            mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                    .setSmallIcon(R.drawable.ic_announcement_black_24dp)
+                    .setContentTitle(getString(R.string.cancel_notification_title))
+                    .setContentText(getString(R.string.cancel_notification_text))
+                    .setPriority(NotificationCompat.PRIORITY_MAX)
+                    .setContentIntent(pendingIntent)
+                    .setOngoing(true)
+                    .setSound(uri);
+        }
 
         // Get an instance of the NotificationManager service
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -83,7 +104,7 @@ public class BackgroundService extends WakefulIntentService {
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
         SharedPreferences.Editor editor = data.edit();
 
-        Log.i("BackgroundService", "Got Intent");
+        Log.i(DEBUG_TAG, "Got Intent");
 
         int state = data.getInt("state", 0);
         long lastNotificationTime = data.getLong("last_notification_time", 0);
@@ -92,35 +113,34 @@ public class BackgroundService extends WakefulIntentService {
 
         switch (intent.getStringExtra("type")) {
             case "notification":
-                Log.i("BackgroundService", "Got notification intent. State is " + state);
+                Log.i(DEBUG_TAG, "Got notification intent. State is " + state);
                 editor.putLong("last_notification_time", rightNow.getTimeInMillis());
                 editor.apply();
                 if (state == SWITCH_INACTIVE) {
                     // Switch was off & alarm received. Turn switch on & save state.
                     editor.putInt("state", SWITCH_ACTIVE);
                     editor.apply();
-                    Log.i("BackgroundService", "Got notification alarm. Button Active.");
+                    Log.i(DEBUG_TAG, "Got notification alarm. Button Active.");
                     sendNotification();
                 } else if (state == SWITCH_ACTIVE) {
-                    editor.putInt("state", SWITCH_ACTIVE);
+                    editor.putInt("state", SWITCH_INACTIVE);
                     editor.apply();
-                    Log.e("BackgroundService", "Got notification alarm while button active.\n" +
+                    Log.e(DEBUG_TAG, "Got notification alarm while button active.\n" +
                                                "This should never happen.\n" +
-                                               "Sending notification again.");
-                    sendNotification();
+                                               "Deactivating");
                 }
                 break;
             case "alert":
                 if (state == SWITCH_INACTIVE) {
                     // Switch had been pressed, so don't send any alert.
-                    Log.i("BackgroundService", "Got alert alarm. Button has been pressed. \n Doing nothing.");
+                    Log.i(DEBUG_TAG, "Got alert alarm. Button has been pressed. \n Doing nothing.");
                 } else if (state == SWITCH_ACTIVE) {
-                    Log.i("BackgroundService", "lastNotificationTime: " + lastNotificationTime);
-                    Log.i("BackgroundService", "lastNotificationTime+TIME_DELTA: " + (lastNotificationTime + TIME_DELTA_MILLIS));
-                    Log.i("BackgroundService", "rightNow.getTimeInMillis(): " + rightNow.getTimeInMillis());
+                    Log.i(DEBUG_TAG, "lastNotificationTime: " + lastNotificationTime);
+                    Log.i(DEBUG_TAG, "lastNotificationTime+TIME_DELTA: " + (lastNotificationTime + TIME_DELTA_MILLIS));
+                    Log.i(DEBUG_TAG, "rightNow.getTimeInMillis(): " + rightNow.getTimeInMillis());
 
                     long timeSinceLastNotification = (rightNow.getTimeInMillis() - lastNotificationTime);
-                    Log.i("BackgroundService", "Time since last notification: " + timeSinceLastNotification);
+                    Log.i(DEBUG_TAG, "Time since last notification: " + timeSinceLastNotification);
                     if (timeSinceLastNotification < TIME_DELTA_MILLIS) {
                         // This block is to check for the condition when the phone is rebooted and
                         //    both alarms fire in rapid succession. It also guarantees a minimum
@@ -128,7 +148,7 @@ public class BackgroundService extends WakefulIntentService {
                         // Got alert alarm within TIME_DELTA minutes of notification.
                         //     Ignore the alert, leave the switch active, and set a 1-shot alarm
                         //     for MISSED_NOTIFICATION_DELTA minutes from now.
-                        Log.i("BackgroundService", "Got alert alarm, but time too close to notification. \n Adding " + (MISSED_NOTIFICATION_DELTA_MILLIS / 1000) / 60 + " minutes.");
+                        Log.i(DEBUG_TAG, "Got alert alarm, but time too close to notification. \n Adding " + (MISSED_NOTIFICATION_DELTA_MILLIS / 1000) / 60 + " minutes.");
                         Intent alertIntent = new Intent(this, AlarmReceiver.class);
                         alertIntent.putExtra("type", "alert");
                         // Create a PendingIntent to be triggered when the alarm goes off
@@ -139,7 +159,7 @@ public class BackgroundService extends WakefulIntentService {
                         Objects.requireNonNull(alarm).setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, nextAlertTime, alertPendingIntent);
                     } else {
                         MessageSender sender = new MessageSender(this);
-                        Log.i("BackgroundService", "Got alert alarm. SEND ALERT HERE!");
+                        Log.i(DEBUG_TAG, "Got alert alarm. SEND ALERT HERE!");
                         sender.sendHelpRequest(false);
                         editor.putInt("state", SWITCH_INACTIVE);
                         editor.apply();
@@ -147,21 +167,21 @@ public class BackgroundService extends WakefulIntentService {
                 }
                 break;
             case "boot":
-                Log.i("BackgroundService", "Got Intent from BootReceiver");
+                Log.i(DEBUG_TAG, "Got Intent from BootReceiver");
                 ScheduleAlarms.run(getApplicationContext());
                 break;
             case "startup":
-                Log.i("BackgroundService", "Got Intent from app startup");
-                ScheduleAlarms.run(getApplicationContext());
+                Log.i(DEBUG_TAG, "Got Intent from app startup");
+                //ScheduleAlarms.run(getApplicationContext());
                 break;
             case "cancelNotification":
-                Log.i("BackgroundService", "Got Intent to cancel notification");
+                Log.i(DEBUG_TAG, "Got Intent to cancel notification");
                 cancelNotification();
                 break;
             default:
-                Log.e("BackgroundService", "Got unexpected Intent.");
-                Log.e("BackgroundService", intent.toString());
-                Log.e("BackgroundService", intent.getStringExtra("type"));
+                Log.e(DEBUG_TAG, "Got unexpected Intent.");
+                Log.e(DEBUG_TAG, intent.toString());
+                Log.e(DEBUG_TAG, intent.getStringExtra("type"));
                 break;
         }
         super.onHandleIntent(intent);

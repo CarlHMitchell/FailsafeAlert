@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class TimeUtilitiesTest {
-    private String time = "00:00";
+    private final String time = "00:00";
 
     @Test
     public void getHour() {

@@ -4,9 +4,12 @@ package com.github.carlhmitchell.failsafealert;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioAttributes;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -28,16 +31,16 @@ import com.github.carlhmitchell.failsafealert.utilities.ToastService;
 
 import java.util.Objects;
 
-import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.DBG_CHANNEL_ID;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.NOTIFICATION_CHANNEL_ID;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_ACTIVE;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_INACTIVE;
 
 public class MainActivity extends AppCompatActivity {
 
-    private final String DEBUG_TAG = "MainActivity";
+    private final String DEBUG_TAG = MainActivity.class.getSimpleName();
+    private Button cancelButton;
     private SharedPreferences data;
     private SharedPreferences.Editor editor;
-    private Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +52,11 @@ public class MainActivity extends AppCompatActivity {
         // Set the preferences
         PreferenceManager.setDefaultValues(this, R.xml.settings, false);
 
-
-        ContextWrapper wrapper = new ContextWrapper(this);
-        data = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
+        data = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
         editor = data.edit();
         editor.apply();
-
         cancelButton = findViewById(R.id.cancelButton);
+
         int state = data.getInt("state", 0);
         if (state == SWITCH_ACTIVE) {
             enableCancelButton();
@@ -96,30 +97,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Makes a notification channel for android 8 (API 26) and above.
-     */
-    private void createNotificationChannel() {
-        // Create the NotificationChannel, but only on API 26+ because
-        // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "Failsafe_Alert_channel";
-            String description = "Failsafe_Alert_channel_description";
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(DBG_CHANNEL_ID, name, importance);
-            channel.setDescription(description);
-            // Register the channel with the system; you can't change the importance
-            // or other notification behaviors after this
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            Objects.requireNonNull(notificationManager).createNotificationChannel(channel);
-        }
-
-    }
-
-    /**
      * Enables the cancel button and sets its text appropriately.
      * Called when the notification alarm is recieved.
      */
-    private void enableCancelButton() {
+    public void enableCancelButton() {
         cancelButton.setEnabled(true);
         cancelButton.setText(R.string.cancel_button_enabled);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
      * Changes the cancel button's text & makes the on-click listener notify the user to wait until
      *  the appropriate time.
      */
-    private void disableCancelButton() {
+    public void disableCancelButton() {
         cancelButton.setEnabled(false);
         String time = data.getString("pref_notification_time", "TIME NOT SET");
         String temp = getString(R.string.cancel_button_disabled) + " " + time;
@@ -147,6 +128,57 @@ public class MainActivity extends AppCompatActivity {
                 ToastService.toast(getBaseContext(), getString(R.string.cancel_button_disabled_message), Toast.LENGTH_SHORT);
             }
         });
+    }
+
+    /**
+     * Cancel the alert from being sent.
+     */
+    private void cancelAlert() {
+        int state = data.getInt("state", 0);
+        if (state == SWITCH_ACTIVE) {
+            Log.i(DEBUG_TAG, "Cancel Button clicked while switch is active");
+            editor.putInt("state", SWITCH_INACTIVE);
+            editor.apply();
+            disableCancelButton();
+            Intent cancelNotificationIntent = new Intent(this, BackgroundService.class);
+            cancelNotificationIntent.putExtra("type", "cancelNotification");
+            startService(cancelNotificationIntent);
+        } else if (state == SWITCH_INACTIVE) {
+            Log.i(DEBUG_TAG, "Cancel button clicked while switch inactive.");
+            Log.i(DEBUG_TAG, "State is " + state);
+        }
+
+    }
+
+    /**
+     * Makes a notification channel for android 8 (API 26) and above.
+     */
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "Failsafe_Alert_channel";
+            String description = "Failsafe_Alert_channel_description";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            Uri ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            AudioAttributes notificationSoundAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_NOTIFICATION_EVENT)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_UNKNOWN)
+                    .build();
+            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            channel.setBypassDnd(true);
+            channel.setSound(ringtoneUri, notificationSoundAttributes);
+
+
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            Objects.requireNonNull(notificationManager).createNotificationChannel(channel);
+        }
+
     }
 
     /**
@@ -230,29 +262,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Cancel the alert from being sent.
-     */
-    private void cancelAlert() {
-        int state = data.getInt("state", 0);
-        if (state == SWITCH_ACTIVE) {
-            Log.i(DEBUG_TAG, "Cancel Button clicked while switch is active");
-            editor.putInt("state", SWITCH_INACTIVE);
-            editor.apply();
-            disableCancelButton();
-            Intent cancelNotificationIntent = new Intent(this, BackgroundService.class);
-            cancelNotificationIntent.putExtra("type", "cancelNotification");
-            this.startService(cancelNotificationIntent);
-        } else if (state == SWITCH_INACTIVE) {
-            Log.i(DEBUG_TAG, "Cancel button clicked while switch inactive.");
-            Log.i(DEBUG_TAG, "State is " + state);
-        }
-
-    }
-
-    /**
      * Launch the contact list editor.
      */
     private void doLaunchContactEditor() {
         startActivity(new Intent(this, ContactsList.class));
     }
+
 }
