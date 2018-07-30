@@ -25,6 +25,7 @@
             android:title="@string/pref_mail_username_title" />
         <EditTextPreference
             android:key="pref_mail_password"
+            android:inputType="textPassword"
             android:title="@string/pref_mail_password_title" />
         <!-- Opens a sub-screen of settings for E-mail server -->
         <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
@@ -33,6 +34,7 @@
                 android:key="pref_mail_preset_test"
                 android:entries="@array/pref_mail_servers"
                 android:entryValues="@array/pref_mail_servers_values"
+                android:defaultValue="Gmail"
                 android:title="@string/email_server_list_title" />
             <com.github.carlhmitchell.failsafealert.settings.preferences.MailSettingsPreference
                 android:key="pref_email_settings"
