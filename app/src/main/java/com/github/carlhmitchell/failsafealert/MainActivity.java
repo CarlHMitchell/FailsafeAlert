@@ -15,7 +15,6 @@ import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +25,7 @@ import com.github.carlhmitchell.contactablespicker.ContactsList;
 import com.github.carlhmitchell.failsafealert.help.HelpActivity;
 import com.github.carlhmitchell.failsafealert.settings.SettingsActivity;
 import com.github.carlhmitchell.failsafealert.utilities.MessageSender;
+import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 import com.github.carlhmitchell.failsafealert.utilities.ToastHelper;
 
 import java.util.Objects;
@@ -93,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         startupIntent.putExtra("type", "startup");
         this.startService(startupIntent);
         createNotificationChannel();
+        SDLog.printLog();
     }
 
     /**
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     private void cancelAlert() {
         int state = data.getInt("state", 0);
         if (state == SWITCH_ACTIVE) {
-            Log.i(DEBUG_TAG, "Cancel Button clicked while switch is active");
+            SDLog.i(DEBUG_TAG, "Cancel Button clicked while switch is active");
             editor.putInt("state", SWITCH_INACTIVE);
             editor.apply();
             disableCancelButton();
@@ -143,8 +144,8 @@ public class MainActivity extends AppCompatActivity {
             cancelNotificationIntent.putExtra("type", "cancelNotification");
             startService(cancelNotificationIntent);
         } else if (state == SWITCH_INACTIVE) {
-            Log.i(DEBUG_TAG, "Cancel button clicked while switch inactive.");
-            Log.i(DEBUG_TAG, "State is " + state);
+            SDLog.i(DEBUG_TAG, "Cancel button clicked while switch inactive.");
+            SDLog.i(DEBUG_TAG, "State is " + state);
         }
 
     }
@@ -184,12 +185,14 @@ public class MainActivity extends AppCompatActivity {
      * Send a test message to all selected contacts.
      */
     private void testMessage() {
-        Log.i(DEBUG_TAG, "Test Message button clicked");
+        SDLog.i(DEBUG_TAG, "Test Message button clicked");
+        SDLog.i(DEBUG_TAG, "Test message button clicked.");
         try {
             new MessageSender(this).sendHelpRequest(true);
             ToastHelper.toast(this, getString(R.string.test_sent_toast), Toast.LENGTH_SHORT);
         } catch (Exception e) {
-            Log.e("TestMessageButton", "Error creating MessageSender: " + e);
+            SDLog.e("TestMessageButton", "Error creating MessageSender: " + e);
+            SDLog.e(DEBUG_TAG, "Error creating MessageSender" + e);
             ToastHelper.toast(this, getString(R.string.test_send_failed_toast), Toast.LENGTH_LONG);
         }
     }
@@ -198,12 +201,14 @@ public class MainActivity extends AppCompatActivity {
      * Send the help request to all selected contacts.
      */
     private void sendHelpRequest() {
-        Log.i(DEBUG_TAG, "Send Help Request button clicked");
+        SDLog.i(DEBUG_TAG, "Send Help Request button clicked");
+        SDLog.i(DEBUG_TAG, "Send Help Request button clicked");
         try {
             new MessageSender(this).sendHelpRequest(false);
             ToastHelper.toast(this, getString(R.string.help_request_sent_toast), Toast.LENGTH_SHORT);
         } catch (Exception e) {
-            Log.e("TestMessageButton", "Error creating MessageSender: " + e);
+            SDLog.e("TestMessageButton", "Error creating MessageSender: " + e);
+            SDLog.e(DEBUG_TAG, "e: Error creating MessageSender" + e);
             ToastHelper.toast(this, getString(R.string.help_request_failed_toast), Toast.LENGTH_SHORT);
         }
     }

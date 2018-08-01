@@ -5,7 +5,6 @@ package com.github.carlhmitchell.failsafealert.utilities;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.github.carlhmitchell.failsafealert.BackgroundService;
 
@@ -17,7 +16,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String type = intent.getStringExtra("type");
-        Log.d("AlarmReceiver", "Got alarm, type: " + type);
+        SDLog.d("AlarmReceiver", "Got alarm, type: " + type);
 
         Intent alarmIntent = new Intent(context, BackgroundService.class);
         alarmIntent.putExtra("type", type);

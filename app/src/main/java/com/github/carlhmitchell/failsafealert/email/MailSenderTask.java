@@ -7,10 +7,10 @@ import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.github.carlhmitchell.failsafealert.R;
 import com.github.carlhmitchell.failsafealert.utilities.NotificationHelper;
+import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 
 public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
     private final SharedPreferences sharedPref;
@@ -37,7 +37,7 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
 
 
         try {
-            Log.d("MailSenderTask", "About to instantiate email sender.");
+            SDLog.d("MailSenderTask", "About to instantiate email sender.");
 
             if (!isTest) {
                 message = sharedPref.getString("pref_message", "default message, this should never be seen");
@@ -65,10 +65,10 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
                             username, //From
                             recipient // To
             );
-            Log.d("MailSender", "Mail sent");
+            SDLog.d("MailSender", "Mail sent");
             return sendSuccess;
         } catch (Exception e) {
-            Log.e("MailSender", e.getMessage(), e);
+            SDLog.e("MailSender", e.getMessage() + "\n" + e);
             return false;
         }
     }

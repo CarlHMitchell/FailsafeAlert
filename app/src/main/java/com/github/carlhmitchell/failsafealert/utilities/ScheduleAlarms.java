@@ -9,7 +9,6 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -64,7 +63,7 @@ public class ScheduleAlarms {
         notificationCalendar.set(Calendar.MILLISECOND, 0);
         long dbg_endMillis = notificationCalendar.getTimeInMillis();
         long dbg_time_diff = dbg_endMillis - dbg_startMillis;
-        Log.d(DEBUG_TAG, "Start time: " + dbg_startMillis + " \nEnd time: " + dbg_endMillis + "\nDifference: " + dbg_time_diff);
+        SDLog.d(DEBUG_TAG, "Start time: " + dbg_startMillis + " \nEnd time: " + dbg_endMillis + "\nDifference: " + dbg_time_diff);
 
         Calendar alertCalendar = Calendar.getInstance();
         alertCalendar.set(Calendar.HOUR_OF_DAY, alertHour);
@@ -77,6 +76,6 @@ public class ScheduleAlarms {
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
         Objects.requireNonNull(alarm).setRepeating(AlarmManager.RTC_WAKEUP, notificationCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, notificationPendingIntent);
         alarm.setRepeating(AlarmManager.RTC_WAKEUP, alertCalendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, alertPendingIntent);
-        Log.i(DEBUG_TAG, "run got called: " + notificationTime + " - " + alertTime);
+        SDLog.i(DEBUG_TAG, "run got called: " + notificationTime + " - " + alertTime);
     }
 }

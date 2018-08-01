@@ -3,31 +3,21 @@ package com.github.carlhmitchell.failsafealert.utilities;
 //Model?
 
 import android.Manifest;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.ContextWrapper;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.github.carlhmitchell.contactablespicker.Storage.Contact;
 import com.github.carlhmitchell.contactablespicker.Storage.ContactRepository;
-import com.github.carlhmitchell.failsafealert.MainActivity;
 import com.github.carlhmitchell.failsafealert.R;
 import com.github.carlhmitchell.failsafealert.email.MailSenderTask;
 import com.intentfilter.androidpermissions.PermissionManager;
 
 import java.util.List;
-import java.util.Objects;
 
-import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.NOTIFICATION_CHANNEL_ID;
 import static java.util.Collections.singleton;
 
 
@@ -49,31 +39,31 @@ public class MessageSender {
         //Debugging below
 
         if (mAllContacts != null) {
-            Log.d("MessageSender", "mAllContacts: " + mAllContacts.toString());
-            Log.d("MessageSender", "contactsListLiveData: " + mAllContacts.toString());
+            SDLog.d("MessageSender", "mAllContacts: " + mAllContacts.toString());
+            SDLog.d("MessageSender", "contactsListLiveData: " + mAllContacts.toString());
         }
         List<Contact> contactsList = mAllContacts;
         if (contactsList != null) {
-            Log.d("MessageSender", "contactsList: " + contactsList.toString());
+            SDLog.d("MessageSender", "contactsList: " + contactsList.toString());
         } else {
-            Log.d("MessageSender", "Error, contactsList null");
+            SDLog.d("MessageSender", "Error, contactsList null");
         }
     }
 
     public void sendHelpRequest(boolean isTest) {
         // Send the emails to the addresses in the SharedPreferences file.
-        Log.i("MessageSender", "Sending messages.");
+        SDLog.i("MessageSender", "Sending messages.");
         List<Contact> contactsList = mAllContacts;
         // Send the emails all selected addresses for each selected contact
-        Log.d("MessageSender", "Contacts list size: " + contactsList.size());
+        SDLog.d("MessageSender", "Contacts list size: " + contactsList.size());
         for (Contact contact : contactsList) {
-            Log.d("MessageSender", "Contact: " + contact);
-            Log.d("MessageSender", "Contact name: " + contact.getContactName());
-            Log.d("MessageSender", "Contact Phones: " + contact.getPhoneNumbers().toString());
-            Log.d("MessageSender", "Contact Emails: " + contact.getEmailAddresses().toString());
+            SDLog.d("MessageSender", "Contact: " + contact);
+            SDLog.d("MessageSender", "Contact name: " + contact.getContactName());
+            SDLog.d("MessageSender", "Contact Phones: " + contact.getPhoneNumbers().toString());
+            SDLog.d("MessageSender", "Contact Emails: " + contact.getEmailAddresses().toString());
             for (String emailAddress : contact.getEmailAddresses()) {
-                Log.d("MessageSender", emailAddress);
-                Log.d("MessageSender", "Sending mail to " + emailAddress);
+                SDLog.d("MessageSender", emailAddress);
+                SDLog.d("MessageSender", "Sending mail to " + emailAddress);
                 sendEmail(emailAddress, isTest);
             }
         }
@@ -82,7 +72,7 @@ public class MessageSender {
         for (Contact contact : contactsList) {
             for (String phoneNumber : contact.getPhoneNumbers()) {
                 if (!phoneNumber.equals("")) {
-                    Log.d("MessageSender", "Sending SMS to " + phoneNumber);
+                    SDLog.d("MessageSender", "Sending SMS to " + phoneNumber);
                     sendSMS(phoneNumber, isTest);
                 }
             }
@@ -99,7 +89,7 @@ public class MessageSender {
             }
             ToastHelper.toast(messageSenderContext, "Email sent", Toast.LENGTH_SHORT);
         } catch (Exception e) {
-            Log.e("Message Sender", "Got exception: " + e);
+            SDLog.e("Message Sender", "Got exception: " + e);
             ToastHelper.toast(messageSenderContext, "Email failed to send", Toast.LENGTH_LONG);
             NotificationHelper helper = new NotificationHelper(messageSenderContext);
             helper.sendNotification(messageSenderContext.getString(R.string.email_send_error_notification_title),

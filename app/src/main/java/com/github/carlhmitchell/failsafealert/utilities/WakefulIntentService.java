@@ -6,7 +6,6 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
-import android.util.Log;
 
 import java.util.Objects;
 
@@ -44,7 +43,7 @@ public class WakefulIntentService extends IntentService {
      */
     public static void acquireStaticLock(Context context) {
         getLock(context).acquire(WAKELOCK_TIMEOUT /*10 minutes*/);
-        Log.d("WakefulIntentService", "Static Lock acquired");
+        SDLog.d("WakefulIntentService", "Static Lock acquired");
     }
 
     synchronized private static PowerManager.WakeLock getLock(Context context) {
@@ -73,7 +72,7 @@ public class WakefulIntentService extends IntentService {
                 lockLocal.release();
             }
         } catch (Exception e) {
-            Log.e("WakefulIntentService", "onStart got exception " + e);
+            SDLog.e("WakefulIntentService", "onStart got exception " + e);
         }
     }
 
@@ -84,7 +83,7 @@ public class WakefulIntentService extends IntentService {
                 lockLocal.release();
             }
         } catch (Exception e) {
-            Log.e("WakefulIntentService", "onHandleIntent got exception " + e);
+            SDLog.e("WakefulIntentService", "onHandleIntent got exception " + e);
         }
     }
 

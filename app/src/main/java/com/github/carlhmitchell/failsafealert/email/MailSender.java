@@ -1,7 +1,6 @@
 package com.github.carlhmitchell.failsafealert.email;
 
-
-import android.util.Log;
+import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 
 import java.security.Security;
 import java.util.Properties;
@@ -49,7 +48,7 @@ public class MailSender extends javax.mail.Authenticator {
     }
 
     public synchronized boolean sendMail(String subject, String body, String sender, String recipients) {
-        Log.i(DEBUG_TAG, "sendMail called");
+        SDLog.i(DEBUG_TAG, "sendMail called");
         try {
             MimeMessage message = new MimeMessage(session);
             //DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes()));
@@ -63,10 +62,10 @@ public class MailSender extends javax.mail.Authenticator {
                 message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));
             }
             Transport.send(message);
-            Log.d("MailSender", "Message Sent");
+            SDLog.d("MailSender", "Message Sent");
             return true;
         } catch (Exception e) {
-            Log.e("MailSender", e.getMessage(), e);
+            SDLog.e("MailSender", e.getMessage() + "\n" + e);
             return false;
         }
     }

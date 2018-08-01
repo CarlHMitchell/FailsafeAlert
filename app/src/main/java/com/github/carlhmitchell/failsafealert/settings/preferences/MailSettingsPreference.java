@@ -8,13 +8,13 @@ import android.content.SharedPreferences;
 import android.preference.DialogPreference;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Switch;
 
 import com.github.carlhmitchell.failsafealert.R;
+import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 import com.github.carlhmitchell.failsafealert.utilities.ToastHelper;
 
 import java.net.URI;
@@ -106,13 +106,13 @@ class MailSettingsPreference extends DialogPreference {
             mailhost = mailhostET.getText().toString();
             try {
                 URI mailhostURI = new URI(mailhost);
-                Log.d(DEBUG_TAG, mailhostURI.toString()); // This should really just be an annotation
+                SDLog.d(DEBUG_TAG, mailhostURI.toString()); // This should really just be an annotation
                                                           // to suppress the warning.
                 editor.putString("pref_mail_mailhost", mailhost);
             } catch (URISyntaxException e) {
                 ToastHelper.toast(this.getContext(), "Error, invalid mailhost URL", 0);
-                Log.e(DEBUG_TAG, "Caught exception:\n" + e);
-                Log.e(DEBUG_TAG, "URL :" + mailhost);
+                SDLog.e(DEBUG_TAG, "Caught exception:\n" + e);
+                SDLog.e(DEBUG_TAG, "URL :" + mailhost);
             }
 
             auth = authS.isChecked();

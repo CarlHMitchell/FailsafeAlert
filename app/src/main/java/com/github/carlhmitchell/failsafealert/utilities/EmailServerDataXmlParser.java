@@ -5,7 +5,6 @@ package com.github.carlhmitchell.failsafealert.utilities;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -70,9 +69,9 @@ public class EmailServerDataXmlParser {
                             Objects.requireNonNull(currentServer).setQuitwait(Boolean.parseBoolean(text));
                         } else if (tagname.equalsIgnoreCase("server") || tagname.equalsIgnoreCase("emailServers")) {
                             // No-op, closing the list.
-                            Log.v(DEBUG_TAG, "Got an ending tag");
+                            SDLog.v(DEBUG_TAG, "Got an ending tag");
                         } else {
-                            Log.e(DEBUG_TAG, "Error, invalid XML!");
+                            SDLog.e(DEBUG_TAG, "Error, invalid XML!");
                         }
                         break;
 
@@ -82,13 +81,13 @@ public class EmailServerDataXmlParser {
                 eventType = parser.next();
             }
         } catch (XmlPullParserException e) {
-            Log.e(DEBUG_TAG, "Parse error");
+            SDLog.e(DEBUG_TAG, "Parse error");
             e.printStackTrace();
         } catch (IOException e) {
-            Log.e(DEBUG_TAG, "IO Error");
+            SDLog.e(DEBUG_TAG, "IO Error");
             e.printStackTrace();
         } catch (NullPointerException e) {
-            Log.e(DEBUG_TAG, "Null pointer exception");
+            SDLog.e(DEBUG_TAG, "Null pointer exception");
             e.printStackTrace();
         }
         return serverDataArrayList;
