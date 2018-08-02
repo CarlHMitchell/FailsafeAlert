@@ -11,17 +11,21 @@ import android.preference.PreferenceManager;
 import com.github.carlhmitchell.failsafealert.R;
 import com.github.carlhmitchell.failsafealert.utilities.NotificationHelper;
 import com.github.carlhmitchell.failsafealert.utilities.SDLog;
+import com.github.carlhmitchell.failsafealert.utilities.TimeFormatter;
 
 public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
     private final String DEBUG_TAG = "MailSenderTask";
     private final SharedPreferences sharedPref;
     private String message;
+
     private ContextWrapper wrapper;
 
     public MailSenderTask(Context context) {
+        TimeFormatter time = new TimeFormatter();
         wrapper = new ContextWrapper(context);
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
-        message = wrapper.getString(R.string.test_message);
+        message = wrapper.getString(R.string.test_message) + "\n Sent at " + time.getFormattedTime();
+        SDLog.v(DEBUG_TAG, "MailSenderTask instantiated");
     }
 
 
@@ -35,6 +39,7 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
         int sslport;
         boolean fallback;
         boolean quitwait;
+        TimeFormatter time = new TimeFormatter();
 
 
         try {
@@ -43,6 +48,7 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
 
             if (!isTest) {
                 message = sharedPref.getString("pref_message", "default message, this should never be seen");
+                message = message + "\n Sent at " + time.getFormattedTime();
             }
 
             mailhost = sharedPref.getString("pref_mail_mailhost", "");
@@ -53,7 +59,6 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
             quitwait = sharedPref.getBoolean("pref_mail_quitwait", false);
             String username = sharedPref.getString("pref_mail_username", "");
             String password = sharedPref.getString("pref_mail_password", "");
-            //String message = sharedPref.getString("pref_message", "default message, this should never be seen");
             MailSender sender = new MailSender.MailSenderBuilder(username, password)
                     .mailhost(mailhost)
                     .auth(String.valueOf(auth))
