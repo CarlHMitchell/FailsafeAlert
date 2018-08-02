@@ -13,6 +13,7 @@ import com.github.carlhmitchell.failsafealert.utilities.NotificationHelper;
 import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 
 public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
+    private final String DEBUG_TAG = "MailSenderTask";
     private final SharedPreferences sharedPref;
     private String message;
     private ContextWrapper wrapper;
@@ -37,7 +38,8 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
 
 
         try {
-            SDLog.d("MailSenderTask", "About to instantiate email sender.");
+            SDLog.d(DEBUG_TAG, "About to instantiate email sender.");
+            SDLog.d(DEBUG_TAG, "Recipient: " + recipient);
 
             if (!isTest) {
                 message = sharedPref.getString("pref_message", "default message, this should never be seen");
@@ -65,10 +67,10 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
                             username, //From
                             recipient // To
             );
-            SDLog.d("MailSender", "Mail sent");
+            SDLog.d(DEBUG_TAG, "Mail sent");
             return sendSuccess;
         } catch (Exception e) {
-            SDLog.e("MailSender", e.getMessage() + "\n" + e);
+            SDLog.e(DEBUG_TAG, e.getMessage() + "\n" + e);
             return false;
         }
     }
