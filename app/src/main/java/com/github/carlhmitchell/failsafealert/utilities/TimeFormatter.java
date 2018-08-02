@@ -42,8 +42,8 @@ public class TimeFormatter {
     /**
      * Take an input int for a day/hour/minute/second, and output a String padded with a
      * leading zero if needed.
-     * @param time
-     * @return
+     * @param time input integer to be padded if necessary
+     * @return String padded to two digits with a leading zero
      */
     private String normalizeTwoDigitInt(int time) {
         if (time < 10) {
