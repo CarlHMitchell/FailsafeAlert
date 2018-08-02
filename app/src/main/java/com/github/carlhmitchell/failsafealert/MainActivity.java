@@ -30,6 +30,7 @@ import com.github.carlhmitchell.failsafealert.utilities.ToastHelper;
 
 import java.util.Objects;
 
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.LOG_TO_SD;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.NOTIFICATION_CHANNEL_ID;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_ACTIVE;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_INACTIVE;
@@ -93,7 +94,9 @@ public class MainActivity extends AppCompatActivity {
         startupIntent.putExtra("type", "startup");
         this.startService(startupIntent);
         createNotificationChannel();
-        SDLog.printLog();
+        if (LOG_TO_SD) {
+            SDLog.printLog();
+        }
     }
 
     /**
