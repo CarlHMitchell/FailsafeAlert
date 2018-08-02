@@ -1,4 +1,4 @@
-package com.github.carlhmitchell.failsafealert.utilities;
+package com.github.carlhmitchell.failsafealert.email;
 
 import com.github.carlhmitchell.failsafealert.email.EmailServerData;
 
@@ -9,7 +9,7 @@ import org.junit.Test;
 public class EmailServerDataTest {
     private final EmailServerData data;
 
-    public EmailServerDataTest() {
+    EmailServerDataTest() {
         data = new EmailServerData();
         data.setQuitwait(false);
         data.setFallback(false);
