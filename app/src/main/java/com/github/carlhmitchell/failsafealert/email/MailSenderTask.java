@@ -13,16 +13,18 @@ import com.github.carlhmitchell.failsafealert.utilities.NotificationHelper;
 import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 import com.github.carlhmitchell.failsafealert.utilities.TimeFormatter;
 
+import java.lang.ref.WeakReference;
+
 public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
     private final String DEBUG_TAG = "MailSenderTask";
     private final SharedPreferences sharedPref;
     private String message;
-
-    private ContextWrapper wrapper;
+    private WeakReference<Context> contextWeakReference;
 
     public MailSenderTask(Context context) {
         TimeFormatter time = new TimeFormatter();
-        wrapper = new ContextWrapper(context);
+        contextWeakReference = new WeakReference<>(context);
+        ContextWrapper wrapper = new ContextWrapper(contextWeakReference.get());
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
         message = wrapper.getString(R.string.test_message) + "\n Sent at " + time.getFormattedTime();
         SDLog.v(DEBUG_TAG, "MailSenderTask instantiated");
@@ -84,10 +86,9 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
     protected void onPostExecute(Boolean result) {
         if (!result) {
             //Failure!
-            NotificationHelper helper = new NotificationHelper(wrapper);
-            helper.sendNotification(wrapper.getString(R.string.email_send_error_notification_title),
-                                    wrapper.getString(R.string.email_send_error_notification_text));
+            NotificationHelper helper = new NotificationHelper(contextWeakReference.get());
+            helper.sendNotification(contextWeakReference.get().getString(R.string.email_send_error_notification_title),
+                                    contextWeakReference.get().getString(R.string.email_send_error_notification_text));
         }
-        wrapper = null;
     }
 }
