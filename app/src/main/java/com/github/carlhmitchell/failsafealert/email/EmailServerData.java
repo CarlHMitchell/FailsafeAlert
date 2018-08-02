@@ -1,4 +1,4 @@
-package com.github.carlhmitchell.failsafealert.utilities;
+package com.github.carlhmitchell.failsafealert.email;
 
 //Model
 

@@ -1,10 +1,12 @@
-package com.github.carlhmitchell.failsafealert.utilities;
+package com.github.carlhmitchell.failsafealert.email;
 
 //Model
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+
+import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;

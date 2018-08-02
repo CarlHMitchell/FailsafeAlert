@@ -1,4 +1,4 @@
-package com.github.carlhmitchell.failsafealert.utilities;
+package com.github.carlhmitchell.failsafealert.utilities.background;
 
 //Model?
 
@@ -6,6 +6,8 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
+
+import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 
 import java.util.Objects;
 

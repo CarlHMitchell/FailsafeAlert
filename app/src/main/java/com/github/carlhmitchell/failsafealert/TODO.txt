@@ -1,6 +1,5 @@
 TODO
 
-Add Help/Tutorial
 Document
 Prettify code
 Publish

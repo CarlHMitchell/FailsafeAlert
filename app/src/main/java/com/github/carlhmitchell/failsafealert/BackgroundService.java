@@ -14,13 +14,12 @@ import android.net.Uri;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
 
-import com.github.carlhmitchell.failsafealert.utilities.AlarmReceiver;
+import com.github.carlhmitchell.failsafealert.utilities.background.AlarmReceiver;
 import com.github.carlhmitchell.failsafealert.utilities.MessageSender;
 import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 import com.github.carlhmitchell.failsafealert.utilities.ScheduleAlarms;
-import com.github.carlhmitchell.failsafealert.utilities.WakefulIntentService;
+import com.github.carlhmitchell.failsafealert.utilities.background.WakefulIntentService;
 
 import java.util.Calendar;
 import java.util.Objects;
@@ -57,7 +56,7 @@ public class BackgroundService extends WakefulIntentService {
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-        NotificationCompat.Builder mBuilder = null;
+        NotificationCompat.Builder mBuilder;
         Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             mBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)

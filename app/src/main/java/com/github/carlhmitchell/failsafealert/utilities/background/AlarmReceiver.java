@@ -1,4 +1,4 @@
-package com.github.carlhmitchell.failsafealert.utilities;
+package com.github.carlhmitchell.failsafealert.utilities.background;
 
 //Model
 
@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.github.carlhmitchell.failsafealert.BackgroundService;
+import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 
 public class AlarmReceiver extends BroadcastReceiver {
     public static final int ALERT = 0;

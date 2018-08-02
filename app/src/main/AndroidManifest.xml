@@ -40,7 +40,7 @@
             android:stopWithTask="false" />
 
         <receiver
-            android:name=".utilities.AlarmReceiver"
+            android:name=".utilities.background.AlarmReceiver"
             android:enabled="true"
             android:exported="false"
             android:process=":remote">
@@ -51,7 +51,7 @@
             -->
         </receiver>
         <receiver
-            android:name=".utilities.BootReceiver"
+            android:name=".utilities.background.BootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -60,7 +60,7 @@
         </receiver>
 
         <service
-            android:name=".utilities.WakefulIntentService"
+            android:name=".utilities.background.WakefulIntentService"
             android:exported="false"
             android:stopWithTask="false" />
 

@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.github.carlhmitchell.failsafealert.utilities.background.AlarmReceiver;
+
 import java.util.Calendar;
 import java.util.Objects;
 

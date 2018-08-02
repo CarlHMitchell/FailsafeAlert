@@ -1,6 +1,7 @@
 package com.github.carlhmitchell.failsafealert.utilities;
 
-import org.hamcrest.MatcherAssert;
+import com.github.carlhmitchell.failsafealert.email.EmailServerData;
+
 import org.junit.Assert;
 import org.junit.Test;
 

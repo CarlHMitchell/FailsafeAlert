@@ -9,8 +9,8 @@ import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 
 import com.github.carlhmitchell.failsafealert.R;
-import com.github.carlhmitchell.failsafealert.utilities.EmailServerData;
-import com.github.carlhmitchell.failsafealert.utilities.EmailServerDataXmlParser;
+import com.github.carlhmitchell.failsafealert.email.EmailServerData;
+import com.github.carlhmitchell.failsafealert.email.EmailServerDataXmlParser;
 
 import java.util.ArrayList;
 
