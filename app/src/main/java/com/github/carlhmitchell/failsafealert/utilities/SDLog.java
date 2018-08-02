@@ -41,106 +41,59 @@ public class SDLog {
         }
     }
 
-    public static int v(String tag, String line) {
+
+    /**
+     * Log a message to disk, if LOG_TO_SD constant is true.
+     * @param tag Debug tag (name of calling class, etc)
+     * @param message Message to print
+     * @param type Type of message (V, D, I, W, E, WTF)
+     */
+    private static void logLine(String tag, String message, String type) {
+        TimeFormatter timeFormatter = new TimeFormatter();
+        String time = timeFormatter.getFormattedTime();
         if (LOG_TO_SD) {
             try {
                 String filename = Environment.getExternalStorageDirectory() + File.separator + "failsafe_alert_lines.log";
                 File file = new File(filename);
                 file.createNewFile();
                 FileWriter writer = new FileWriter(file, true);
-                writer.write("V/" + tag + ": " + line + "\n");
+                writer.write(time + ": " + type + "/" + tag + ": " + message + "\n" );
                 writer.flush();
                 writer.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static int v(String tag, String line) {
+        logLine(tag, line, "V");
         return Log.v(tag, line);
     }
 
     public static int d(String tag, String line) {
-        if (LOG_TO_SD) {
-            try {
-                String filename = Environment.getExternalStorageDirectory() + File.separator + "failsafe_alert_lines.log";
-                File file = new File(filename);
-                file.createNewFile();
-                FileWriter writer = new FileWriter(file, true);
-                writer.write("D/" + tag + ": " + line + "\n");
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        logLine(tag, line, "D");
         return Log.d(tag, line);
     }
 
     public static int i(String tag, String line) {
-        if (LOG_TO_SD) {
-            try {
-                String filename = Environment.getExternalStorageDirectory() + File.separator + "failsafe_alert_lines.log";
-                File file = new File(filename);
-                file.createNewFile();
-                FileWriter writer = new FileWriter(file, true);
-                writer.write("D/" + tag + ": " + line + "\n");
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        logLine(tag, line, "I");
         return Log.i(tag, line);
     }
 
 
     public static int w(String tag, String line) {
-        if (LOG_TO_SD) {
-            try {
-                String filename = Environment.getExternalStorageDirectory() + File.separator + "failsafe_alert_lines.log";
-                File file = new File(filename);
-                file.createNewFile();
-                FileWriter writer = new FileWriter(file, true);
-                writer.write("W/" + tag + ": " + line + "\n");
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        logLine(tag, line, "W");
         return Log.w(tag, line);
     }
 
     public static int e(String tag, String line) {
-        if (LOG_TO_SD) {
-            try {
-                String filename = Environment.getExternalStorageDirectory() + File.separator + "failsafe_alert_lines.log";
-                File file = new File(filename);
-                file.createNewFile();
-                FileWriter writer = new FileWriter(file, true);
-                writer.write("E/" + tag + ": " + line + "\n");
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        logLine(tag, line, "E");
         return Log.e(tag, line);
     }
 
     public static int wtf(String tag, String line) {
-        if (LOG_TO_SD) {
-            try {
-                String filename = Environment.getExternalStorageDirectory() + File.separator + "failsafe_alert_lines.log";
-                File file = new File(filename);
-                file.createNewFile();
-                FileWriter writer = new FileWriter(file, true);
-                writer.write("F/" + tag + ": " + line + "\n");
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        logLine(tag, line, "WTF");
         return Log.wtf(tag, line);
     }
 }
