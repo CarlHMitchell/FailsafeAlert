@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.preference.DialogPreference;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -56,7 +55,7 @@ public class TimePreference extends DialogPreference {
             lastHour = picker.getCurrentHour();
             lastMinute = picker.getCurrentMinute();
 
-            String time = TimeFormatter.formatTime(lastHour, lastMinute);
+            String time = TimeFormatter.formatTimeFromIntegers(lastHour, lastMinute);
             SDLog.d("TimePreference", "Time set to: " + time);
             ToastHelper.toast(context, "Time set to: " + time, Toast.LENGTH_SHORT);
 
