@@ -22,11 +22,11 @@ public class MessageBuilder {
         if (isTest) {
             // Build the test message.
             return wrapper.getString(R.string.test_message) +
-                   "\n Sent at " + timestamp;
+                   "\nSent at " + timestamp;
         } else {
             // Build the real message.
             return sharedPref.getString("pref_message", "default message, this should never be seen") +
-                   "\n Sent at " + timestamp;
+                   "\nSent at " + timestamp;
         }
     }
 }
