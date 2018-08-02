@@ -13,7 +13,6 @@ import android.widget.Toast;
 
 import com.github.carlhmitchell.failsafealert.utilities.SDLog;
 import com.github.carlhmitchell.failsafealert.utilities.ScheduleAlarms;
-import com.github.carlhmitchell.failsafealert.utilities.TimeFormatter;
 import com.github.carlhmitchell.failsafealert.utilities.TimeUtilities;
 import com.github.carlhmitchell.failsafealert.utilities.ToastHelper;
 
@@ -55,7 +54,7 @@ public class TimePreference extends DialogPreference {
             lastHour = picker.getCurrentHour();
             lastMinute = picker.getCurrentMinute();
 
-            String time = TimeFormatter.formatTimeFromIntegers(lastHour, lastMinute);
+            String time = TimeUtilities.formatTimeFromIntegers(lastHour, lastMinute);
             SDLog.d("TimePreference", "Time set to: " + time);
             ToastHelper.toast(context, "Time set to: " + time, Toast.LENGTH_SHORT);
 
