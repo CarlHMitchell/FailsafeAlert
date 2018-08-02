@@ -11,22 +11,18 @@ import android.preference.PreferenceManager;
 import com.github.carlhmitchell.failsafealert.R;
 import com.github.carlhmitchell.failsafealert.utilities.NotificationHelper;
 import com.github.carlhmitchell.failsafealert.utilities.SDLog;
-import com.github.carlhmitchell.failsafealert.utilities.TimeFormatter;
 
 import java.lang.ref.WeakReference;
 
 public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
     private final String DEBUG_TAG = "MailSenderTask";
     private final SharedPreferences sharedPref;
-    private String message;
     private WeakReference<Context> contextWeakReference;
 
     public MailSenderTask(Context context) {
-        TimeFormatter time = new TimeFormatter();
         contextWeakReference = new WeakReference<>(context);
         ContextWrapper wrapper = new ContextWrapper(contextWeakReference.get());
         sharedPref = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
-        message = wrapper.getString(R.string.test_message) + "\n Sent at " + time.getFormattedTime();
         SDLog.v(DEBUG_TAG, "MailSenderTask instantiated");
     }
 
@@ -34,24 +30,18 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected Boolean doInBackground(String... params) {
         String recipient = params[0];
-        boolean isTest = Boolean.parseBoolean(params[1]);
+        String message = params[1];
         String mailhost;
         boolean auth;
         int port;
         int sslport;
         boolean fallback;
         boolean quitwait;
-        TimeFormatter time = new TimeFormatter();
 
 
         try {
             SDLog.d(DEBUG_TAG, "About to instantiate email sender.");
             SDLog.d(DEBUG_TAG, "Recipient: " + recipient);
-
-            if (!isTest) {
-                message = sharedPref.getString("pref_message", "default message, this should never be seen");
-                message = message + "\n Sent at " + time.getFormattedTime();
-            }
 
             mailhost = sharedPref.getString("pref_mail_mailhost", "");
             auth = sharedPref.getBoolean("pref_mail_auth", true);
@@ -70,9 +60,9 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
                     .quitwait(String.valueOf(quitwait))
                     .build();
             boolean sendSuccess = sender.sendMail("Failsafe Alert!", //Subject
-                            message, // Body
-                            username, //From
-                            recipient // To
+                                                  message, // Body
+                                                  username, //From
+                                                  recipient // To
             );
             SDLog.d(DEBUG_TAG, "Mail sent");
             return sendSuccess;
