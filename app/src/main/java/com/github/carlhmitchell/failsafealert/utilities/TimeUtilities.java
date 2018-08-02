@@ -58,7 +58,7 @@ public class TimeUtilities {
         String hourString = normalizeTwoDigitInt(hour);
         String minuteString = normalizeTwoDigitInt(minute);
         String secondString = normalizeTwoDigitInt(second);
-        return String.valueOf(year) + "-" + monthString + "-" + dayString + "T"+
+        return String.valueOf(year) + "-" + monthString + "-" + dayString + " at "+
                hourString + ":" + minuteString + ":" + secondString;
     }
 
