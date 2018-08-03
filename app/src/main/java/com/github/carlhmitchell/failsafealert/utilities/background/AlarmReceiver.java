@@ -16,11 +16,11 @@ public class AlarmReceiver extends BroadcastReceiver {
     // Triggered by the Alarm periodically. Starts the Background Service to run its task.
     @Override
     public void onReceive(Context context, Intent intent) {
-        String type = intent.getStringExtra("type");
-        SDLog.d("AlarmReceiver", "Got alarm, type: " + type);
+        String actionType = intent.getAction();
+        SDLog.d("AlarmReceiver", "Got alarm, type: " + actionType);
 
         Intent alarmIntent = new Intent(context, BackgroundService.class);
-        alarmIntent.putExtra("type", type);
+        alarmIntent.setAction(actionType);
         context.startService(alarmIntent);
     }
 }

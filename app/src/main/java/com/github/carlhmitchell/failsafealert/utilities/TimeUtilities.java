@@ -62,6 +62,16 @@ public class TimeUtilities {
                hourString + ":" + minuteString + ":" + secondString;
     }
 
+    public static String formatCalendar(Calendar calendar) {
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+        String hourString = normalizeTwoDigitInt(hour);
+        String minuteString = normalizeTwoDigitInt(minute);
+        String secondString = normalizeTwoDigitInt(second);
+        return hourString + ":" + minuteString + ":" + secondString;
+    }
+
     /**
      * Take an input int for a day/hour/minute/second, and output a String padded with a
      * leading zero if needed.

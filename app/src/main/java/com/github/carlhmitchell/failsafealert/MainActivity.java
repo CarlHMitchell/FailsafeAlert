@@ -30,6 +30,8 @@ import com.github.carlhmitchell.failsafealert.utilities.ToastHelper;
 
 import java.util.Objects;
 
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_CANCEL_NOTIFICATION;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_STARTUP;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.LOG_TO_SD;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.NOTIFICATION_CHANNEL_ID;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_ACTIVE;
@@ -91,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
         BackgroundService.acquireStaticLock(this);
         Intent startupIntent = new Intent(this, BackgroundService.class);
-        startupIntent.putExtra("type", "startup");
+        startupIntent.setAction(ACTION_STARTUP);
         this.startService(startupIntent);
         createNotificationChannel();
         if (LOG_TO_SD) {
@@ -144,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
             disableCancelButton();
             Intent cancelNotificationIntent = new Intent(this, BackgroundService.class);
-            cancelNotificationIntent.putExtra("type", "cancelNotification");
+            cancelNotificationIntent.setAction(ACTION_CANCEL_NOTIFICATION);
             startService(cancelNotificationIntent);
         } else if (state == SWITCH_INACTIVE) {
             SDLog.i(DEBUG_TAG, "Cancel button clicked while switch inactive.");

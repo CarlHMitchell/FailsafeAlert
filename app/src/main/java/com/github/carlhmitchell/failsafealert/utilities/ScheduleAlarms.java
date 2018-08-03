@@ -10,12 +10,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.github.carlhmitchell.failsafealert.BackgroundService;
 import com.github.carlhmitchell.failsafealert.utilities.background.AlarmReceiver;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.Objects;
 
 import static android.app.PendingIntent.getBroadcast;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_ALERT;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_NOTIFICATION;
 
 
 public class ScheduleAlarms {
@@ -38,13 +42,13 @@ public class ScheduleAlarms {
 
         // Construct an Intent that will execute the AlarmReceiver
         Intent notificationIntent = new Intent(context, AlarmReceiver.class);
-        notificationIntent.putExtra("type", "notification");
+        notificationIntent.setAction(ACTION_NOTIFICATION);
         // Create a PendingIntent to be triggered when the alarm goes off
         // The PendingIntent.FLAG_UPDATE_CURRENT means that if the alarm fires quickly the events replace each other rather than stack up.
         PendingIntent notificationPendingIntent = getBroadcast(context, AlarmReceiver.NOTIFICATION, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent alertIntent = new Intent(context, AlarmReceiver.class);
-        alertIntent.putExtra("type", "alert");
+        alertIntent.setAction(ACTION_ALERT);
         // Create a PendingIntent to be triggered when the alarm goes off
         // The PendingIntent.FLAG_UPDATE_CURRENT means that if the alarm fires quickly the events replace each other rather than stack up.
         PendingIntent alertPendingIntent = getBroadcast(context, AlarmReceiver.ALERT, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -57,21 +61,36 @@ public class ScheduleAlarms {
         int alertHour = TimeUtilities.getHour(alertTime);
         int alertMinute = TimeUtilities.getMinute(alertTime);
 
+        Calendar currentTime = Calendar.getInstance();
+        int currentHour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = currentTime.get(Calendar.MINUTE);
+
+        int currentMinutes = currentHour * 60 + currentMinute;
+        int notificationMinutes = notificationHour * 60 + notificationMinute;
+        int alertMinutes = alertHour * 60 + alertMinute;
+
         Calendar notificationCalendar = Calendar.getInstance();
-        long dbg_startMillis = notificationCalendar.getTimeInMillis();
         notificationCalendar.set(Calendar.HOUR_OF_DAY, notificationHour);
         notificationCalendar.set(Calendar.MINUTE, notificationMinute);
         notificationCalendar.set(Calendar.SECOND, 0);
         notificationCalendar.set(Calendar.MILLISECOND, 0);
-        long dbg_endMillis = notificationCalendar.getTimeInMillis();
-        long dbg_time_diff = dbg_endMillis - dbg_startMillis;
-        SDLog.d(DEBUG_TAG, "Start time: " + dbg_startMillis + " \nEnd time: " + dbg_endMillis + "\nDifference: " + dbg_time_diff);
+        String dbg_notificationString = TimeUtilities.formatCalendar(notificationCalendar);
 
         Calendar alertCalendar = Calendar.getInstance();
         alertCalendar.set(Calendar.HOUR_OF_DAY, alertHour);
         alertCalendar.set(Calendar.MINUTE, alertMinute);
         alertCalendar.set(Calendar.SECOND, 0);
         alertCalendar.set(Calendar.MILLISECOND, 0);
+        String dbg_alertString = TimeUtilities.formatCalendar(alertCalendar);
+        SDLog.d(DEBUG_TAG, "Notification time: " + dbg_notificationString +
+                           "\nAlert time:" + dbg_alertString);
+        if (notificationMinutes < currentMinutes) {
+            //Turn on the alarm.
+            SDLog.w(DEBUG_TAG, "Warning, notification set for the past. Turning notification on.");
+            Intent pastNotificationIntent = new Intent(context, BackgroundService.class);
+            pastNotificationIntent.setAction(ACTION_NOTIFICATION);
+            context.startService(pastNotificationIntent);
+        }
 
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP

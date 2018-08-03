@@ -19,7 +19,7 @@ public class BootReceiver extends BroadcastReceiver {
             // Set up the timers here.
             BackgroundService.acquireStaticLock(context);
             Intent bootIntent = new Intent(context, BackgroundService.class);
-            bootIntent.putExtra("type", "boot");
+            bootIntent.setAction(Intent.ACTION_BOOT_COMPLETED);
             context.startService(bootIntent);
         }
     }

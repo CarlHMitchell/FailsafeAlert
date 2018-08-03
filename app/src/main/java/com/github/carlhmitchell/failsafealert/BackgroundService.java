@@ -25,6 +25,10 @@ import java.util.Calendar;
 import java.util.Objects;
 
 import static android.app.PendingIntent.getBroadcast;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_ALERT;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_CANCEL_NOTIFICATION;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_NOTIFICATION;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_STARTUP;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.NOTIFICATION_CHANNEL_ID;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.MINUTE_MILLIS;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_ACTIVE;
@@ -110,8 +114,8 @@ public class BackgroundService extends WakefulIntentService {
         Calendar rightNow = Calendar.getInstance();
 
 
-        switch (intent.getStringExtra("type")) {
-            case "notification":
+        switch (intent.getAction()) {
+            case ACTION_NOTIFICATION:
                 SDLog.i(DEBUG_TAG, "Got notification intent. State is " + state);
                 editor.putLong("last_notification_time", rightNow.getTimeInMillis());
                 editor.apply();
@@ -129,7 +133,7 @@ public class BackgroundService extends WakefulIntentService {
                                                "Deactivating");
                 }
                 break;
-            case "alert":
+            case ACTION_ALERT:
                 if (state == SWITCH_INACTIVE) {
                     // Switch had been pressed, so don't send any alert.
                     SDLog.i(DEBUG_TAG, "Got alert alarm. Button has been pressed. \n Doing nothing.");
@@ -149,7 +153,7 @@ public class BackgroundService extends WakefulIntentService {
                         //     for MISSED_NOTIFICATION_DELTA minutes from now.
                         SDLog.i(DEBUG_TAG, "Got alert alarm, but time too close to notification. \n Adding " + (MISSED_NOTIFICATION_DELTA_MILLIS / 1000) / 60 + " minutes.");
                         Intent alertIntent = new Intent(this, AlarmReceiver.class);
-                        alertIntent.putExtra("type", "alert");
+                        alertIntent.setAction(ACTION_ALERT);
                         // Create a PendingIntent to be triggered when the alarm goes off
                         // The PendingIntent.FLAG_UPDATE_CURRENT means that if the alarm fires quickly the events replace each other rather than stack up.
                         PendingIntent alertPendingIntent = getBroadcast(this, AlarmReceiver.ALERT, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -166,22 +170,23 @@ public class BackgroundService extends WakefulIntentService {
                     }
                 }
                 break;
-            case "boot":
+            case Intent.ACTION_BOOT_COMPLETED:
                 SDLog.i(DEBUG_TAG, "Got Intent from BootReceiver");
                 ScheduleAlarms.run(getApplicationContext());
                 break;
-            case "startup":
+            case ACTION_STARTUP:
                 SDLog.i(DEBUG_TAG, "Got Intent from app startup");
                 //ScheduleAlarms.run(getApplicationContext());
                 break;
-            case "cancelNotification":
+            case ACTION_CANCEL_NOTIFICATION:
                 SDLog.i(DEBUG_TAG, "Got Intent to cancel notification");
                 cancelNotification();
                 break;
             default:
                 SDLog.e(DEBUG_TAG, "Got unexpected Intent.");
                 SDLog.e(DEBUG_TAG, intent.toString());
-                SDLog.e(DEBUG_TAG, intent.getStringExtra("type"));
+                SDLog.e(DEBUG_TAG, intent.getAction());
+                //SDLog.e(DEBUG_TAG, intent.getStringExtra("type"));
                 break;
         }
         super.onHandleIntent(intent);
