@@ -80,7 +80,7 @@ public class MessageSender {
             ToastHelper.toast(messageSenderContext, "Email failed to send", Toast.LENGTH_LONG);
             NotificationHelper helper = new NotificationHelper(messageSenderContext);
             helper.sendNotification(messageSenderContext.getString(R.string.email_send_error_notification_title),
-                                    messageSenderContext.getString(R.string.email_send_error_notification_text));
+                                    messageSenderContext.getString(R.string.email_send_error_notification_text) + "\n" + e);
         }
     }
 
