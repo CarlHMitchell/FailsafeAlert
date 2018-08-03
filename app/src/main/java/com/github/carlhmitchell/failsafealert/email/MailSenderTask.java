@@ -17,7 +17,7 @@ import java.lang.ref.WeakReference;
 public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
     private final String DEBUG_TAG = "MailSenderTask";
     private final SharedPreferences sharedPref;
-    private WeakReference<Context> contextWeakReference;
+    private final WeakReference<Context> contextWeakReference;
 
     public MailSenderTask(Context context) {
         contextWeakReference = new WeakReference<>(context);

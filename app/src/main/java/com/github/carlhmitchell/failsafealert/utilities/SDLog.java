@@ -143,9 +143,9 @@ public class SDLog {
      */
     static class LogData {
         enum Type {V, D, I, W, E, WTF}
-        private String tag;
-        private String msg;
-        private Type logType;
+        private final String tag;
+        private final String msg;
+        private final Type logType;
 
         LogData(String tag, String msg, Type logType) {
             this.tag = tag;
