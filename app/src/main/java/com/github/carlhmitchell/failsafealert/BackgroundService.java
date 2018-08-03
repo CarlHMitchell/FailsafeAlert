@@ -114,7 +114,7 @@ public class BackgroundService extends WakefulIntentService {
         Calendar rightNow = Calendar.getInstance();
 
 
-        switch (intent.getAction()) {
+        switch (Objects.requireNonNull(intent.getAction())) {
             case ACTION_NOTIFICATION:
                 SDLog.i(DEBUG_TAG, "Got notification intent. State is " + state);
                 editor.putLong("last_notification_time", rightNow.getTimeInMillis());
