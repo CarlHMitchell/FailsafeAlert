@@ -192,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
         SDLog.i(DEBUG_TAG, "Test message button clicked.");
         try {
             new MessageSender(this).sendHelpRequest(true);
-            ToastHelper.toast(this, getString(R.string.test_sent_toast), Toast.LENGTH_SHORT);
         } catch (Exception e) {
             SDLog.e("TestMessageButton", "Error creating MessageSender: " + e);
             SDLog.e(DEBUG_TAG, "Error creating MessageSender" + e);

@@ -42,6 +42,13 @@ public class MessageSender {
     public void sendHelpRequest(boolean isTest) {
         SDLog.i("MessageSender", "Sending messages.");
         List<Contact> contactsList = mAllContacts;
+        if (isTest) {
+            if (contactsList.size() == 0) {
+                ToastHelper.toast(messageSenderContext, "Your contacts list is empty!", Toast.LENGTH_SHORT);
+            } else {
+                ToastHelper.toast(messageSenderContext, messageSenderContext.getString(R.string.test_sent_toast), Toast.LENGTH_SHORT);
+            }
+        }
 
         // Send the emails all selected addresses for each selected contact
         SDLog.d("MessageSender", "Contacts list size: " + contactsList.size());
