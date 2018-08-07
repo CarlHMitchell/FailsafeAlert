@@ -15,6 +15,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
+import com.github.carlhmitchell.failsafealert.utilities.NotificationHelper;
 import com.github.carlhmitchell.failsafealert.utilities.background.AlarmReceiver;
 import com.github.carlhmitchell.failsafealert.utilities.MessageSender;
 import com.github.carlhmitchell.failsafealert.utilities.SDLog;
@@ -56,7 +57,9 @@ public class BackgroundService extends WakefulIntentService {
      * Sends a notification to the user so they can cancel the alert from being sent.
      */
     private void sendNotification() {
-        // Get an instance of NotificationManager
+        /* Not using the NotificationHelper because it is only for non-ongoing notifications without
+         *  lights or other extra features.
+         */
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
@@ -89,7 +92,6 @@ public class BackgroundService extends WakefulIntentService {
 
         // Notifications can be updated, instead of just replaced. They need an ID for this.
         Objects.requireNonNull(mNotificationManager).notify(1, mBuilder.build());
-
     }
 
     /**
@@ -163,8 +165,13 @@ public class BackgroundService extends WakefulIntentService {
                     } else {
                         MessageSender sender = new MessageSender(this);
                         SDLog.i(DEBUG_TAG, "Got alert alarm. SEND ALERT HERE!");
-                        sender.sendHelpRequest(false);
-                        editor.putInt("state", SWITCH_INACTIVE);
+                        boolean sendSuccess = sender.sendHelpRequest(false);
+                        NotificationHelper helper = new NotificationHelper(this);
+                        helper.sendNotification(getString(R.string.alert_sent_notification_title), getString(R.string.alert_sent_notification_text));
+                        // Only deactivate if messages sent successfully.
+                        if (sendSuccess) {
+                            editor.putInt("state", SWITCH_INACTIVE);
+                        }
                         editor.apply();
                         cancelNotification();
                     }
@@ -176,7 +183,6 @@ public class BackgroundService extends WakefulIntentService {
                 break;
             case ACTION_STARTUP:
                 SDLog.i(DEBUG_TAG, "Got Intent from app startup");
-                //ScheduleAlarms.run(getApplicationContext());
                 break;
             case ACTION_CANCEL_NOTIFICATION:
                 SDLog.i(DEBUG_TAG, "Got Intent to cancel notification");
@@ -186,7 +192,6 @@ public class BackgroundService extends WakefulIntentService {
                 SDLog.e(DEBUG_TAG, "Got unexpected Intent.");
                 SDLog.e(DEBUG_TAG, intent.toString());
                 SDLog.e(DEBUG_TAG, intent.getAction());
-                //SDLog.e(DEBUG_TAG, intent.getStringExtra("type"));
                 break;
         }
         super.onHandleIntent(intent);

@@ -74,11 +74,17 @@ public class MailSenderTask extends AsyncTask<String, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean result) {
-        if (!result) {
+        if (result) {
+            //Success
+            NotificationHelper helper = new NotificationHelper(contextWeakReference.get());
+            helper.sendNotification(contextWeakReference.get().getString(R.string.email_send_success_title), contextWeakReference.get().getString(R.string.email_send_success_text));
+
+        } else {
             //Failure!
             NotificationHelper helper = new NotificationHelper(contextWeakReference.get());
             helper.sendNotification(contextWeakReference.get().getString(R.string.email_send_error_notification_title),
                                     contextWeakReference.get().getString(R.string.email_send_error_notification_text));
+
         }
     }
 }

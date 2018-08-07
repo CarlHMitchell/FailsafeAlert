@@ -71,5 +71,10 @@
     <string name="send_message_fail_text">Sending the help request failed. Check your email username, password, server settings, and internet connection.</string>
     <string name="email_send_error_notification_title">Error sending email</string>
     <string name="email_send_error_notification_text">Check your email server settings, username, password, and internet connection.</string>
+    <string name="alert_sent_notification_title">Alert sent</string>
+    <string name="alert_sent_notification_text">Failsafe alert has sent a non-test alert to your selected contacts.</string>
+    <string name="empty_contacts_list">Your contacts list is empty!</string>
+    <string name="email_send_success_title">Alert successfully sent</string>
+    <string name="email_send_success_text">Failsafe alert has sent an alert.</string>
 
 </resources>

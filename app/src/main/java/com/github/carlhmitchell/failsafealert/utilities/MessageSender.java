@@ -2,17 +2,24 @@ package com.github.carlhmitchell.failsafealert.utilities;
 
 //Model?
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import com.github.carlhmitchell.contactablespicker.Storage.Contact;
 import com.github.carlhmitchell.contactablespicker.Storage.ContactRepository;
 import com.github.carlhmitchell.failsafealert.R;
 import com.github.carlhmitchell.failsafealert.email.MailSenderTask;
+import com.github.carlhmitchell.failsafealert.utilities.background.AlarmReceiver;
 
 import java.util.List;
+import java.util.Objects;
 
+import static android.app.PendingIntent.getBroadcast;
 import static com.github.carlhmitchell.failsafealert.Messaging.SMSSender.sendSMS;
+import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_ALERT;
 
 
 public class MessageSender {
@@ -39,12 +46,12 @@ public class MessageSender {
         }
     }
 
-    public void sendHelpRequest(boolean isTest) {
+    public boolean sendHelpRequest(boolean isTest) {
         SDLog.i("MessageSender", "Sending messages.");
         List<Contact> contactsList = mAllContacts;
         if (isTest) {
             if (contactsList.size() == 0) {
-                ToastHelper.toast(messageSenderContext, "Your contacts list is empty!", Toast.LENGTH_SHORT);
+                ToastHelper.toast(messageSenderContext, messageSenderContext.getString(R.string.empty_contacts_list), Toast.LENGTH_SHORT);
             } else {
                 ToastHelper.toast(messageSenderContext, messageSenderContext.getString(R.string.test_sent_toast), Toast.LENGTH_SHORT);
             }
@@ -61,7 +68,22 @@ public class MessageSender {
                 if (!emailAddress.equals("")) {
                     SDLog.d("MessageSender", emailAddress);
                     SDLog.d("MessageSender", "Sending mail to " + emailAddress);
-                    sendEmail(emailAddress, MessageBuilder.buildMessage(messageSenderContext, isTest));
+                    if (!sendEmail(emailAddress, MessageBuilder.buildMessage(messageSenderContext, isTest))) {
+                        //Email send failed.
+                        if (!isTest) {
+                            //Sending failed, not a test.
+                            // User presumed incapacitated. Keep sending every 15 minutes until success.
+                            // This will spam other users in the contacts list, but it's better safe than sorry.
+                            Intent alertIntent = new Intent(messageSenderContext, AlarmReceiver.class);
+                            alertIntent.setAction(ACTION_ALERT);
+                            // Create a PendingIntent to be triggered when the alarm goes off
+                            // The PendingIntent.FLAG_UPDATE_CURRENT means that if the alarm fires quickly the events replace each other rather than stack up.
+                            PendingIntent alertPendingIntent = getBroadcast(messageSenderContext, AlarmReceiver.ALERT, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            AlarmManager alarm = (AlarmManager) messageSenderContext.getSystemService(Context.ALARM_SERVICE);
+                            Objects.requireNonNull(alarm).set(AlarmManager.ELAPSED_REALTIME_WAKEUP, AlarmManager.INTERVAL_FIFTEEN_MINUTES, alertPendingIntent);
+                            return false;
+                        }
+                    }
                 }
             }
         }
@@ -72,22 +94,27 @@ public class MessageSender {
                 if (!phoneNumber.equals("")) {
                     SDLog.d("MessageSender", "Sending SMS to " + phoneNumber);
                     sendSMS(messageSenderContext, phoneNumber, MessageBuilder.buildMessage(messageSenderContext, isTest));
+                    // No easy way to tell if this worked.
+                    //TODO: Figure out how to recieve broadcasts from SMS sending.
                 }
             }
         }
+        return true;
     }
 
-    private void sendEmail(String address, String message) {
+    private boolean sendEmail(String address, String message) {
         try {
             MailSenderTask task = new MailSenderTask(messageSenderContext);
                 task.execute(address, message);
             ToastHelper.toast(messageSenderContext, "Email sent", Toast.LENGTH_SHORT);
+            return true;
         } catch (Exception e) {
             SDLog.e("Message Sender", "Got exception: " + e);
             ToastHelper.toast(messageSenderContext, "Email failed to send", Toast.LENGTH_LONG);
             NotificationHelper helper = new NotificationHelper(messageSenderContext);
             helper.sendNotification(messageSenderContext.getString(R.string.email_send_error_notification_title),
                                     messageSenderContext.getString(R.string.email_send_error_notification_text) + "\n" + e);
+            return false;
         }
     }
 

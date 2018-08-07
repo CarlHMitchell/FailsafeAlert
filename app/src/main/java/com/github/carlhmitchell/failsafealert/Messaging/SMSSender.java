@@ -11,6 +11,7 @@ import com.intentfilter.androidpermissions.PermissionManager;
 import static java.util.Collections.singleton;
 
 public class SMSSender {
+
     public static void sendSMS(final Context context,  final String phoneNumber, final String message) {
         final SmsManager sms = SmsManager.getDefault();
         PermissionManager permissionManager = PermissionManager.getInstance(context);
