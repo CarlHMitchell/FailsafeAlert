@@ -19,31 +19,40 @@
         app:srcCompat="@drawable/ic_contacts_black_24dp" />
 
     <android.support.constraint.ConstraintLayout
-        android:layout_width="382dp"
-        android:layout_height="505dp">
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <android.support.constraint.Guideline
             android:id="@+id/guideline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="58dp" />
+            app:layout_constraintGuide_percent=".5" />
 
         <Button
             android:id="@+id/cancelButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/cancel_button_enabled"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/guideline"/>
 
         <Button
             android:id="@+id/messageTestButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="32dp"
             android:text="@string/message_test_button_text"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
