@@ -4,7 +4,7 @@
         android:key="pref_message_settings"
         android:title="@string/message_settings_category_title">
         <EditTextPreference
-            android:defaultValue="Help!"
+            android:defaultValue="This message is from the FailsafeAlert app Beta Test 1"
             android:key="pref_message"
             android:title="@string/pref_message_title" />
         <com.github.carlhmitchell.failsafealert.settings.preferences.TimePreference
