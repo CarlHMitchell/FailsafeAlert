@@ -25,6 +25,7 @@ import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTI
 public class MessageSender {
     private final Context messageSenderContext;
     private final List<Contact> mAllContacts;
+    private final String DEBUG_TAG = MessageSender.class.getSimpleName();
 
     public MessageSender(Context context) {
         messageSenderContext = context;
@@ -81,6 +82,7 @@ public class MessageSender {
                             PendingIntent alertPendingIntent = getBroadcast(messageSenderContext, AlarmReceiver.ALERT, alertIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                             AlarmManager alarm = (AlarmManager) messageSenderContext.getSystemService(Context.ALARM_SERVICE);
                             Objects.requireNonNull(alarm).set(AlarmManager.ELAPSED_REALTIME_WAKEUP, AlarmManager.INTERVAL_FIFTEEN_MINUTES, alertPendingIntent);
+                            SDLog.e(DEBUG_TAG, "Error sending email. Alarm scheduled for 15 minutes from now.");
                             return false;
                         }
                     }
