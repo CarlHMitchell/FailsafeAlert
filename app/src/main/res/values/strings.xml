@@ -76,5 +76,6 @@
     <string name="empty_contacts_list">Your contacts list is empty!</string>
     <string name="email_send_success_title">Alert successfully sent</string>
     <string name="email_send_success_text">Failsafe alert has sent an alert.</string>
+    <string name="pref_log_to_sd_title">Save testing logs</string>
 
 </resources>

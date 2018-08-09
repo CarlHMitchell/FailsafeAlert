@@ -10,7 +10,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.LOG_TO_SD;
 
 // File.createNewFile() is used simply to ensure that the log file exists.
 // Log() returns an int. I have had no reason to use these, but it's better to pass it through.
@@ -18,6 +17,21 @@ import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.LOG_
 public class SDLog {
     private static final String LOG_FILE_NAME = "failsafe_alert_logcat.log";
     private static final String LOG_LINES_NAME = "failsafe_alert.log";
+    private static boolean log_to_sd = false;
+
+    /**
+     * Set whether logs should be written to the SD card.
+     * @param doLogToSD true if logs should be saved to the sd card
+     */
+    public synchronized static void setLog_to_sd(boolean doLogToSD) {
+        log_to_sd = doLogToSD;
+    }
+
+    /*
+    public synchronized boolean getLog_to_sd() {
+        return log_to_sd;
+    }
+    */
 
     /**
      * Runs logcat, outputting at the Verbose level. Saves output to a file on SD card.
@@ -33,7 +47,7 @@ public class SDLog {
     private static class ContinuousLogAsyncTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
-            if (LOG_TO_SD) {
+            if (log_to_sd) {
                 try {
                     String filename = Environment.getExternalStorageDirectory() + File.separator + LOG_FILE_NAME;
                     String command = "logcat -d *:V";
@@ -120,7 +134,7 @@ public class SDLog {
             String msg = data.getMsg();
             LogData.Type type = data.getLogType();
             String time = TimeUtilities.getFormattedTime();
-            if (LOG_TO_SD) {
+            if (log_to_sd) {
                 try {
                     String filename = Environment.getExternalStorageDirectory() + File.separator + LOG_LINES_NAME;
                     File file = new File(filename);

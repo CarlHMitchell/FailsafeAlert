@@ -32,7 +32,6 @@ import java.util.Objects;
 
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_CANCEL_NOTIFICATION;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.ACTION_STARTUP;
-import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.LOG_TO_SD;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.NOTIFICATION_CHANNEL_ID;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_ACTIVE;
 import static com.github.carlhmitchell.failsafealert.utilities.AppConstants.SWITCH_INACTIVE;
@@ -98,7 +97,10 @@ public class MainActivity extends AppCompatActivity {
         startupIntent.setAction(ACTION_STARTUP);
         this.startService(startupIntent);
         createNotificationChannel();
-        if (LOG_TO_SD) {
+
+        boolean log_to_sd = data.getBoolean("pref_log_to_sd", false);
+        SDLog.setLog_to_sd(log_to_sd);
+        if (log_to_sd) {
             SDLog.printLog();
         }
     }

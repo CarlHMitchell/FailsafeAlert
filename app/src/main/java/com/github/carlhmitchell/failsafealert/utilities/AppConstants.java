@@ -13,9 +13,6 @@ public class AppConstants {
     public static final int SWITCH_INACTIVE = 0;
     public static final int SWITCH_ACTIVE = 1;
 
-    //Debugging constant. Writes logs to the SD card.
-    public static final boolean LOG_TO_SD = true;
-
     //Custom Intent actions.
     public static final String ACTION_NOTIFICATION = "com.github.carlhmitchell.failsafealert.NOTIFICATION";
     public static final String ACTION_ALERT = "com.github.carlhmitchell.failsafealert.ALERT";

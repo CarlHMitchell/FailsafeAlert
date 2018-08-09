@@ -109,6 +109,9 @@ public class BackgroundService extends WakefulIntentService {
         SharedPreferences data = PreferenceManager.getDefaultSharedPreferences(wrapper.getBaseContext());
         SharedPreferences.Editor editor = data.edit();
 
+        // Ensure logging to SD card is properly set.
+        SDLog.setLog_to_sd(data.getBoolean("pref_log_to_sd", false));
+
         SDLog.i(DEBUG_TAG, "Got Intent");
 
         int state = data.getInt("state", 0);
