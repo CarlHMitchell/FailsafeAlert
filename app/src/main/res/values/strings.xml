@@ -27,7 +27,7 @@
     <string name="message_settings_category_title">Message Settings</string>
     <string name="test_message">This message is a test from the Failsafe Alert app.</string>
     <string name="message_test_button_text">Send TEST Message</string>
-    <string name="message_help_button_text">Send HELP Request NOW!</string>
+    <!--string name="message_help_button_text">Send HELP Request NOW!</string -->
     <string name="mail_host_hint">Mail Host</string>
     <string name="mail_port_hint">Mail Port</string>
     <string name="ssl_port_hint">SSL Port</string>
@@ -64,13 +64,13 @@
     <string name="email_settings_help_button_text">Email Settings Help</string>
     <string name="test_sent_toast">Test message sent to selected contacts</string>
     <string name="test_send_failed_toast">Error, could not send test message!</string>
-    <string name="help_request_sent_toast">Help request sent to selected contacts!</string>
-    <string name="help_request_failed_toast">Error, could not send help request!</string>
+    <!--string name="help_request_sent_toast">Help request sent to selected contacts!</string-->
+    <!--string name="help_request_failed_toast">Error, could not send help request!</string-->
     <string name="email_server_list_title">Pick Email Server — do this first</string>
-    <string name="send_message_fail_title">Sending message failed.</string>
-    <string name="send_message_fail_text">Sending the help request failed. Check your email username, password, server settings, and internet connection.</string>
+    <!--string name="send_message_fail_title">Sending message failed.</string-->
+    <!--string name="send_message_fail_text">Sending the help request failed. Check your email username, password, server settings, and internet connection.</string-->
     <string name="email_send_error_notification_title">Error sending email</string>
-    <string name="email_send_error_notification_text">Check your email server settings, username, password, and internet connection.</string>
+    <string name="email_send_error_notification_text">Check your email server settings, username, password, and internet connection.\nDisable Airplane Mode if it is on.</string>
     <string name="alert_sent_notification_title">Alert sent</string>
     <string name="alert_sent_notification_text">Failsafe alert has sent a non-test alert to your selected contacts.</string>
     <string name="empty_contacts_list">Your contacts list is empty!</string>

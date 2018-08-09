@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import com.github.carlhmitchell.failsafealert.R;
 
 
-public class MessageBuilder {
+class MessageBuilder {
     private static final String DEBUG_TAG = "MessageBuilder";
 
     public static String buildMessage(Context context, boolean isTest) {

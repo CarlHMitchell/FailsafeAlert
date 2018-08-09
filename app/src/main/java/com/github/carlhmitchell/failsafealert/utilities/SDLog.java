@@ -153,15 +153,15 @@ public class SDLog {
             this.logType = logType;
         }
 
-        public String getTag() {
+        String getTag() {
             return tag;
         }
 
-        public String getMsg() {
+        String getMsg() {
             return msg;
         }
 
-        public Type getLogType() {
+        Type getLogType() {
             return logType;
         }
     }

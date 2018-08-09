@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
      * Enables the cancel button and sets its text appropriately.
      * Called when the notification alarm is recieved.
      */
-    public void enableCancelButton() {
+    private void enableCancelButton() {
         cancelButton.setEnabled(true);
         cancelButton.setText(R.string.cancel_button_enabled);
         cancelButton.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
      * Changes the cancel button's text & makes the on-click listener notify the user to wait until
      *  the appropriate time.
      */
-    public void disableCancelButton() {
+    private void disableCancelButton() {
         cancelButton.setEnabled(false);
         String time = data.getString("pref_notification_time", "TIME NOT SET");
         String temp = getString(R.string.cancel_button_disabled) + " " + time;

@@ -3,6 +3,5 @@
     <color name="colorPrimary">#4CAF50</color>
     <color name="colorPrimaryDark">#087F23</color>
     <color name="colorAccent">#80E27E</color>
-    <color name="sendNowText">#F00505</color>
     <color name="notificationLight">#FFA000</color>
 </resources>
