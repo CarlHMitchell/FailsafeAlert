@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import com.github.carlhmitchell.failsafealert.BackgroundService;
 import com.github.carlhmitchell.failsafealert.utilities.background.AlarmReceiver;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.Objects;
 
@@ -67,7 +66,6 @@ public class ScheduleAlarms {
 
         int currentMinutes = currentHour * 60 + currentMinute;
         int notificationMinutes = notificationHour * 60 + notificationMinute;
-        int alertMinutes = alertHour * 60 + alertMinute;
 
         Calendar notificationCalendar = Calendar.getInstance();
         notificationCalendar.set(Calendar.HOUR_OF_DAY, notificationHour);

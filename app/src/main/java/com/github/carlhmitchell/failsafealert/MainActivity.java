@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /**
+    /*
      * Send the help request to all selected contacts.
      */
     /*
