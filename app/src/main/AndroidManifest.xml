@@ -37,7 +37,15 @@
         <service
             android:name=".BackgroundService"
             android:exported="false"
-            android:stopWithTask="false" />
+            android:stopWithTask="false">
+            <intent-filter>
+                <action android:name="com.github.carlhmitchell.failsafealert.CANCEL_NOTIFICATION" />
+                <action android:name="com.github.carlhmitchell.failsafealert.ALERT" />
+                <action android:name="com.github.carlhmitchell.failsafealert.NOTIFICATION" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="com.github.carlhmitchell.failsafealert.STARTUP" />
+            </intent-filter>
+        </service>
 
         <receiver
             android:name=".utilities.background.AlarmReceiver"
@@ -49,6 +57,10 @@
              setting android:process=":remote" means that this will run in a separate process,
              so it will stay alive even when the app has closed.
             -->
+            <intent-filter>
+                <action android:name="com.github.carlhmitchell.failsafealert.ALERT" />
+                <action android:name="com.github.carlhmitchell.failsafealert.NOTIFICATION" />
+            </intent-filter>
         </receiver>
         <receiver
             android:name=".utilities.background.BootReceiver"
