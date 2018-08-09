@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        /*
         Button messageSendNowButton = findViewById(R.id.messageSendNowButton);
         messageSendNowButton.setTextColor(getResources().getColor(R.color.sendNowText));
         messageSendNowButton.setOnClickListener(new View.OnClickListener() {
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 sendHelpRequest();
             }
         });
+        */
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -204,6 +206,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * Send the help request to all selected contacts.
      */
+    /*
     private void sendHelpRequest() {
         SDLog.i(DEBUG_TAG, "Send Help Request button clicked");
         SDLog.i(DEBUG_TAG, "Send Help Request button clicked");
@@ -216,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
             ToastHelper.toast(this, getString(R.string.help_request_failed_toast), Toast.LENGTH_SHORT);
         }
     }
+    */
 
     /**
      * Initialize the contents of the options menu
