@@ -48,7 +48,7 @@ public class TimeUtilities {
     public static String getFormattedTime() {
         Calendar currentTime = Calendar.getInstance();
         int year = currentTime.get(Calendar.YEAR);
-        int month = currentTime.get(Calendar.MONTH);
+        int month = currentTime.get(Calendar.MONTH) + 1; //January is 0. ISO8601 has January as 1.
         int day = currentTime.get(Calendar.DAY_OF_MONTH);
         int hour = currentTime.get(Calendar.HOUR_OF_DAY);
         int minute = currentTime.get(Calendar.MINUTE);
