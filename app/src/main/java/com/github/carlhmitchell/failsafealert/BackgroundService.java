@@ -16,10 +16,10 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 
 import com.github.carlhmitchell.failsafealert.utilities.NotificationHelper;
+import com.github.carlhmitchell.failsafealert.utilities.ScheduleAlarms;
 import com.github.carlhmitchell.failsafealert.utilities.background.AlarmReceiver;
 import com.github.carlhmitchell.failsafealert.utilities.MessageSender;
 import com.github.carlhmitchell.failsafealert.utilities.SDLog;
-import com.github.carlhmitchell.failsafealert.utilities.ScheduleAlarms;
 import com.github.carlhmitchell.failsafealert.utilities.background.WakefulIntentService;
 
 import java.util.Calendar;

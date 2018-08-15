@@ -10,6 +10,7 @@ public class AppConstants {
     public static final long WAKELOCK_TIMEOUT = MINUTE_MILLIS * 10;
 
     //State tracking for the switch/alert sending.
+    // Int because more than 2 states may be needed.
     public static final int SWITCH_INACTIVE = 0;
     public static final int SWITCH_ACTIVE = 1;
 
