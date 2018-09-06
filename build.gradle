@@ -23,12 +23,12 @@ allprojects {
 
 ext {
     compileSdkVersion = 28
-    buildToolsVersion = "28.0.0-beta01"
-    supportLibVersion = "28.0.0-beta01"
+    buildToolsVersion = "28.0.0-rc01"
+    supportLibVersion = "28.0.0-rc01"
     minSdkVersion = 21
     targetSdkVersion = 28
-    versionCode = 1
-    versionName = "1.0"
+    versionCode = 2
+    versionName = "1.0.0 RC2"
     kotlin_version = "1.2.51"
 }
 
